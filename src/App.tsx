@@ -7,54 +7,31 @@
  *
  * @format
  */
-
+import "reflect-metadata";
 import React, { useEffect } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { Provider } from 'inversify-react';
+import { RootNavigator } from './navigator/RootNavigator';
+
 
 import SplashScreen from 'react-native-splash-screen'
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
+ 
   useEffect(() => {
     SplashScreen.hide();
   }, []);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+ const defineAppContainer = () => {
+    return (<RootNavigator initialScreen={initialScreen}/>)
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <Text>{`Hello World`}</Text>
-      </ScrollView>
-    </SafeAreaView>
+    <Provider container={appContainer}>
+      {defineAppContainer()}
+    </Provider>
   );
 };
-
-const styles = StyleSheet.create({
- 
-});
 
 export default App;
