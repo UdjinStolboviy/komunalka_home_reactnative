@@ -18,15 +18,4 @@ export interface IAppCoreService {
     navigationService: INavigationService;
     storage: GlobalStorage;
     logger: ILoggerService;
-    pushNotificationService: IPushNotificationService;
-    utilsService: IUtilsService;
-    notificationsService: INotificationsService;
-    contactsService: IContactsService;
-    deepLinkService: IDeepLinkService;
-    sessionService: ISessionService;
-    analyticsService: IAnalyticsService
-    asyncStorage: IAsyncStorage;
-    listenerService: IListenerService;
-    chatService: IChatService;
-    networkService: INetworkService;
 }

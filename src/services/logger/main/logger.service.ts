@@ -28,4 +28,10 @@ export class LoggerService implements ILoggerService {
 
   }
 
+  public log(message: string, additionalMessage?: any): void {
+
+    console.log('LOG: ' + message + ' ' + additionalMessage);
+
+  }
+
 }
