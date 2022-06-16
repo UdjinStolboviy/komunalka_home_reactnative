@@ -1,15 +1,17 @@
 import "reflect-metadata";
-import React, { useContext } from "react";
+import React, { ReactNode, useContext } from "react";
 import { Container } from "inversify";
-import { IAppCoreService } from "../services/core/app.core.service.interface";
+
 import { TYPES } from "./types";
-import { AppCoreService } from "../services/core/app.core.service";
+
 import { Provider as InversifyProvider } from 'inversify-react';
-import { INavigationService } from "../services/navigation/navigation.service.interface";
-import { NavigationService } from "../services/navigation/navigation.service";
 import { GlobalStorage } from "../storage/global.storage";
-import { ILoggerService } from "../services/logger/logger.service.interface";
-import { LoggerService } from "../services/logger/logger.service";
+import { IAppCoreService } from "app/services/core/app.core.service.interface";
+import { AppCoreService } from "app/services/core/app.core.service";
+import { INavigationService } from "app/services/navigation/navigation.service.interface";
+import { NavigationService } from "app/services/navigation/navigation.service";
+import { ILoggerService } from "app/services/logger/main/logger.service.interface";
+import { LoggerService } from "app/services/logger/main/logger.service";
 
 
 
@@ -23,7 +25,9 @@ appContainer.bind(TYPES.Storage).to(GlobalStorage).inSingletonScope();
 const appCoreService = appContainer.get<IAppCoreService>(TYPES.AppCoreService);
 const InversifyContext = React.createContext<{ container: Container }>({container: appContainer});
 
-export const Provider: React.FC<{ container: Container }> = props => {
+export const Provider: React.FC<{
+  children: ReactNode; container: Container 
+}> = props => {
   return (
     <InversifyContext.Provider value={{container: props.container}}>
       <InversifyProvider container={props.container}>{props.children}</InversifyProvider>

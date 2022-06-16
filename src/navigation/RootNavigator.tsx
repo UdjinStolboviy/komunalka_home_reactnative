@@ -1,8 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from "react";
-import { appCoreService } from "../ioc/inversify.config";
+
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { Screen } from "../models/navigator/navigator.screen.config";
+import { appCoreService } from 'app/data/ioc/inversify.config';
+import { Screens } from 'app/res-const/codes/Screens';
 
 
 const Stack = createStackNavigator();
@@ -13,7 +15,6 @@ export interface RootNavigatorProps {
 
 export const RootNavigator = (props: RootNavigatorProps) => {
 
-  const [transitionDirection, setTransitionDirection] = useState<"horizontal-inverted" | "horizontal" | "vertical" | "vertical-inverted" | undefined>(undefined);
 
   useEffect(() => {
 
@@ -29,7 +30,7 @@ export const RootNavigator = (props: RootNavigatorProps) => {
         <Stack.Navigator initialRouteName={props.initialScreen.getName()} headerMode='none'>
           {/*<Stack.Navigator  initialRouteName={Screens.SCREEN_PROFILE} headerMode='none'>*/}
           <Stack.Screen
-            initialParams={props.initialScreen.getNext()} name={Screens.STACK_AUTH}
+            initialParams={props.initialScreen.getNext()} name={Screens.SCREEN_MAIN}
             component={AuthStack}
             options={{gestureEnabled: false}}
           />
