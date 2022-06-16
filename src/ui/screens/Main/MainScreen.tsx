@@ -1,4 +1,4 @@
-import {Screens} from 'src/assets/constants/codes/Screens';
+import {Screens} from 'app/assets/constants/codes/Screens';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
