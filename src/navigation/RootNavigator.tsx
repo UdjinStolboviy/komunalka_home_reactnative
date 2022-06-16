@@ -10,8 +10,8 @@ import {appCoreService} from 'src/data/ioc/inversify.config';
 
 import {AuthStack} from './AuthStack';
 import {BottomTabBar} from './BottomTabBar';
-import {MainScreen} from 'src/ui/screens/Main/MainScreen';
-import {Screens} from 'src/assets/constants/codes/Screens';
+import {MainScreen} from 'app/ui/screens/Main/MainScreen';
+import {Screens} from 'app/assets/constants/codes/Screens';
 
 const Stack = createStackNavigator();
 

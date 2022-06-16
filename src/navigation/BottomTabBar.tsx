@@ -6,12 +6,12 @@ import {TouchableOpacity, View} from 'react-native';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 
 import {IAppCoreService} from '../services/core/app.core.service.interface';
-import {MainScreen} from 'src/ui/screens/Main/MainScreen';
-import {FirstScreen} from 'src/ui/screens/Main/FirstScreen';
-import {SecondScreen} from 'src/ui/screens/Main/SecondScreen';
-import {EndScreen} from 'src/ui/screens/Main/EndScreen';
-import {useAppInjection} from 'src/data/ioc/inversify.config';
-import {Screens} from 'src/assets/constants/codes/Screens';
+import {MainScreen} from 'app/ui/screens/Main/MainScreen';
+import {FirstScreen} from 'app/ui/screens/Main/FirstScreen';
+import {SecondScreen} from 'app/ui/screens/Main/SecondScreen';
+import {EndScreen} from 'app/ui/screens/Main/EndScreen';
+import {useAppInjection} from 'app/data/ioc/inversify.config';
+import {Screens} from 'app/assets/constants/codes/Screens';
 
 const Tab = createBottomTabNavigator();
 
