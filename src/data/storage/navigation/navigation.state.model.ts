@@ -1,4 +1,5 @@
-import { Screens } from "app/res-const/codes/Screens";
+
+import { Screens } from "app/assets/constants/codes/Screens";
 import { action, observable } from "mobx";
 import { RouteState } from "./route.state.model";
 
@@ -12,7 +13,7 @@ export class NavigationState {
 
   constructor(initialRoute?: string) {
     this.previousRoute = new RouteState("", undefined);
-    this.currentRoute = new RouteState(Screens.SCREEN_LOGIN, undefined);
+    this.currentRoute = new RouteState(Screens.SCREEN_END, undefined);
     this.initialRoute = null;
   }
 

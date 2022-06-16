@@ -4,7 +4,6 @@ import { IObjectDidChange, observe } from "mobx";
 import { TYPES } from "../../data/ioc/types";
 import { GlobalStorage } from "../../data/storage/global.storage";
 import { INavigationService } from "../navigation/navigation.service.interface";
-import { Screens } from "../../res-const/codes/Screens";
 import { NavigationState } from "@react-navigation/native";
 
 import { RouteState } from "app/data/storage/navigation/route.state.model";
@@ -12,8 +11,10 @@ import { RouteState } from "app/data/storage/navigation/route.state.model";
 @injectable()
 export class ListenerService implements IListenerService {
 
-  @inject(TYPES.Storage) private storage: GlobalStorage;
-  @inject(TYPES.NavigationService) private navigationService: INavigationService;
+  @inject(TYPES.Storage)
+  private storage!: GlobalStorage;
+  @inject(TYPES.NavigationService)
+  private navigationService!: INavigationService;
 
 
 
