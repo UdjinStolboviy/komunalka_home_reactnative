@@ -6,7 +6,7 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import {Screen} from '../models/navigator/navigator.screen.config';
-import {appCoreService} from 'src/data/ioc/inversify.config';
+import {appCoreService} from 'app/data/ioc/inversify.config';
 
 import {AuthStack} from './AuthStack';
 import {BottomTabBar} from './BottomTabBar';
