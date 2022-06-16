@@ -1,6 +1,7 @@
 import { INotification, Notification } from "./notification.model";
-import { Pagination } from "../pagination/pagination.model";
+
 import { action, observable } from "mobx";
+import { Pagination } from "app/models/pagination/pagination.model";
 
 export interface INotificationsState {
   notifications: INotification[];

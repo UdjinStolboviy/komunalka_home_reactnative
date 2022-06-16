@@ -6,8 +6,8 @@ import {TouchableOpacity, View} from 'react-native';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 
 import {IAppCoreService} from '../services/core/app.core.service.interface';
-import {MainScreen} from 'app/ui/screens/Main/mainScreen';
-import {FirstScreen} from 'app/ui/screens/Main/firstScreen';
+import {MainScreen} from 'app/ui/screens/Main/MainScreen';
+import {FirstScreen} from 'app/ui/screens/Main/FirstScreen';
 import {SecondScreen} from 'app/ui/screens/Main/SecondScreen';
 import {EndScreen} from 'app/ui/screens/Main/EndScreen';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
