@@ -12,9 +12,11 @@ import React, {useEffect, useState} from 'react';
 import {Provider} from 'inversify-react';
 
 import SplashScreen from 'react-native-splash-screen';
-import {Screens} from './res-const/codes/Screens';
+
 import {appContainer, appCoreService} from './data/ioc/inversify.config';
+import {Screen} from './models/navigator/navigator.screen.config';
 import {RootNavigator} from './navigation/RootNavigator';
+import {Screens} from './assets/constants/codes/Screens';
 
 const App = () => {
   const [initialScreen, setInitialScreen] = useState<any>();
