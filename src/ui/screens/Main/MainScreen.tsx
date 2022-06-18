@@ -11,7 +11,6 @@ export const MainScreen = (props: any) => {
   return (
     <View
       style={{
-        paddingTop: '10%',
         height: '100%',
         width: '100%',
       }}>

@@ -1,8 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {HeaderBackIcon} from '../../Icons/HeaderBackIcon';
+import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {HeaderBackIcon} from '../../../../assets/Icons/HeaderBackIcon';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
+import {SettingHeaderIcon} from '../../../../assets/Icons/SettingHeaderIcon';
 
 export interface ProfileHeader {
   title?: string;
@@ -52,7 +53,7 @@ export const AppHeader = (props: ProfileHeader) => {
           activeOpacity={0.8}
           onPress={props.onSettingsPress}
           style={style.settingsSection}>
-          <Text style={style.rightText}>. . .</Text>
+          <SettingHeaderIcon />
         </TouchableOpacity>
       )}
     </View>
@@ -61,17 +62,16 @@ export const AppHeader = (props: ProfileHeader) => {
 
 const style = StyleSheet.create({
   container: {
+    marginTop: Platform.OS === 'ios' ? 40 : 0,
     width: '100%',
-    borderColor: '#D8D8D8',
-    borderBottomWidth: 1,
-    height: 69,
+    height: 50,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
   backSection: {
     width: '15%',
-    left: '4%',
+    left: '6%',
     flexDirection: 'row',
     position: 'absolute',
     alignItems: 'center',
@@ -92,7 +92,7 @@ const style = StyleSheet.create({
     color: '#000000',
   },
   settingsSection: {
-    right: '4%',
+    right: '6%',
     flexDirection: 'row',
     position: 'absolute',
     alignItems: 'center',

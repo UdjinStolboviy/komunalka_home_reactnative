@@ -9,7 +9,6 @@ export const EndScreen = (props: any) => {
   return (
     <View
       style={{
-        paddingTop: '10%',
         height: '100%',
         width: '100%',
       }}>

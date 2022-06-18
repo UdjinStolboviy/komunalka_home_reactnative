@@ -12,6 +12,10 @@ import {SecondScreen} from 'app/ui/screens/Main/SecondScreen';
 import {EndScreen} from 'app/ui/screens/Main/EndScreen';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {Screens} from 'app/assets/constants/codes/Screens';
+import {HomeIcon} from 'app/assets/Icons/HomeIcon';
+import {BellIcon} from 'app/assets/Icons/BellIcon';
+import {CalculatorIcon} from 'app/assets/Icons/CalculatorIcon';
+import {SettingIcon} from 'app/assets/Icons/SettingIcon';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,7 +44,7 @@ export const BottomTabBar = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text>M</Text>
+            <HomeIcon />
           </TouchableOpacity>
         );
       case 1:
@@ -55,7 +59,7 @@ export const BottomTabBar = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text>1</Text>
+            <BellIcon />
           </TouchableOpacity>
         );
       case 2:
@@ -70,7 +74,7 @@ export const BottomTabBar = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text>2</Text>
+            <CalculatorIcon />
           </TouchableOpacity>
         );
       case 3:
@@ -85,7 +89,7 @@ export const BottomTabBar = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text>3</Text>
+            <SettingIcon />
           </TouchableOpacity>
         );
       default:
