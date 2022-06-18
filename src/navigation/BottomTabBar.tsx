@@ -113,7 +113,8 @@ export const BottomTabBar = () => {
       const onPress = () => {
         const routeAvailable =
           route.name === Screens.SCREEN_FIRST ||
-          route.name === Screens.SCREEN_MAIN;
+          route.name === Screens.SCREEN_MAIN ||
+          route.name === Screens.SCREEN_END;
 
         if (!routeAvailable) {
           app.navigationService.navigate(Screens.SCREEN_SECOND);
@@ -155,7 +156,7 @@ export const BottomTabBar = () => {
       navigationOptions.descriptors[
         navigationOptions.state.routes[navigationOptions.state.index].key
       ].options;
-    if (focusedOptions.tabBarVisible === false) return null;
+    if (focusedOptions.unmountOnBlur === false) return null;
     return (
       <View
         style={{
@@ -170,16 +171,7 @@ export const BottomTabBar = () => {
             height: '100%',
             width: '50%',
           }}>
-          {renderIcon(navigationOptions, 0, 2)}
-        </View>
-        <View
-          style={{
-            height: '100%',
-            width: '1%',
-            alignItems: 'center',
-            paddingBottom: 100,
-          }}>
-          <Text>E</Text>
+          {renderIcon(navigationOptions, 0, 3)}
         </View>
         <View style={{flexDirection: 'row', height: '100%', width: '50%'}}>
           {renderIcon(navigationOptions, 2, 4)}
