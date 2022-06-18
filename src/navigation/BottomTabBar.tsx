@@ -157,20 +157,31 @@ export const BottomTabBar = () => {
       ].options;
     if (focusedOptions.tabBarVisible === false) return null;
     return (
-      <View style={{height: 58, flexDirection: 'row'}}>
-        <View style={{flexDirection: 'row', height: '100%', width: '42%'}}>
+      <View
+        style={{
+          height: 80,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            height: '100%',
+            width: '50%',
+          }}>
           {renderIcon(navigationOptions, 0, 2)}
         </View>
         <View
           style={{
             height: '100%',
-            width: '16%',
+            width: '1%',
             alignItems: 'center',
             paddingBottom: 100,
           }}>
           <Text>E</Text>
         </View>
-        <View style={{flexDirection: 'row', height: '100%', width: '42%'}}>
+        <View style={{flexDirection: 'row', height: '100%', width: '50%'}}>
           {renderIcon(navigationOptions, 2, 4)}
         </View>
       </View>
