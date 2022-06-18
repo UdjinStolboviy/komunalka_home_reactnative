@@ -7,11 +7,13 @@ import {Screens} from 'app/assets/constants/codes/Screens';
 
 const Stack = createStackNavigator();
 
-export const AuthStack = (props: any) => {
+export const MainStack = (props: any) => {
   return (
     <Stack.Navigator
       initialRouteName={!!props.route.params && props.route.params.name}
-      headerMode="none">
+      screenOptions={{
+        headerShown: false,
+      }}>
       <Stack.Screen
         name={Screens.SCREEN_MAIN}
         component={MainScreen}

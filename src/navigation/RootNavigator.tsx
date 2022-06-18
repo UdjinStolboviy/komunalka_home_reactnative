@@ -1,14 +1,11 @@
 import {NavigationContainer} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 
-import {
-  CardStyleInterpolators,
-  createStackNavigator,
-} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import {Screen} from '../models/navigator/navigator.screen.config';
 import {appCoreService} from 'app/data/ioc/inversify.config';
 
-import {AuthStack} from './AuthStack';
+import {MainStack} from './MainStack';
 import {BottomTabBar} from './BottomTabBar';
 import {MainScreen} from 'app/ui/screens/Main/MainScreen';
 import {Screens} from 'app/assets/constants/codes/Screens';
@@ -31,20 +28,20 @@ export const RootNavigator = (props: RootNavigatorProps) => {
         ref={ref => appCoreService.navigationService.setNavigator(ref)}>
         <Stack.Navigator
           initialRouteName={props.initialScreen.getName()}
-          headerMode="none">
-          {/*<Stack.Navigator  initialRouteName={Screens.SCREEN_PROFILE} headerMode='none'>*/}
-          <Stack.Screen
-            initialParams={props.initialScreen.getNext()}
-            name={Screens.STACK_AUTH}
-            component={AuthStack}
-            options={{gestureEnabled: false}}
-          />
+          screenOptions={{
+            headerShown: false,
+          }}>
           <Stack.Screen
             name={Screens.STACK_TAB}
             component={BottomTabBar}
             options={{gestureEnabled: false}}
           />
-
+          <Stack.Screen
+            initialParams={props.initialScreen.getNext()}
+            name={Screens.STACK_MAIN}
+            component={MainStack}
+            options={{gestureEnabled: false}}
+          />
           <Stack.Screen
             name={Screens.SCREEN_MAIN}
             component={MainScreen}

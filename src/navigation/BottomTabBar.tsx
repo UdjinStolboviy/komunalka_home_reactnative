@@ -178,7 +178,12 @@ export const BottomTabBar = () => {
   };
 
   return (
-    <Tab.Navigator tabBar={renderTabBar} initialRouteName={Screens.SCREEN_MAIN}>
+    <Tab.Navigator
+      tabBar={renderTabBar}
+      initialRouteName={Screens.SCREEN_MAIN}
+      screenOptions={{
+        headerShown: false,
+      }}>
       <Tab.Screen name={Screens.SCREEN_MAIN} component={MainScreen} />
       <Tab.Screen
         name={Screens.SCREEN_FIRST}
