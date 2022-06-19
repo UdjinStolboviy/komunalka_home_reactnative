@@ -13,6 +13,7 @@ export interface ProfileHeader {
   rightText?: string;
   onRightPress?: () => void;
   rightTextDisabled?: boolean;
+  leftButtonDisabled?: boolean;
 }
 
 export const AppHeader = (props: ProfileHeader) => {
@@ -20,16 +21,18 @@ export const AppHeader = (props: ProfileHeader) => {
 
   return (
     <View style={style.container}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={
-          props.onBackPress
-            ? props.onBackPress
-            : () => app.navigationService.goBack()
-        }
-        style={style.backSection}>
-        <HeaderBackIcon />
-      </TouchableOpacity>
+      {props.leftButtonDisabled ? null : (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={
+            props.onBackPress
+              ? props.onBackPress
+              : () => app.navigationService.goBack()
+          }
+          style={style.backSection}>
+          <HeaderBackIcon />
+        </TouchableOpacity>
+      )}
 
       <View style={style.middleWrapper}>
         <Text numberOfLines={3} style={style.mainText}>

@@ -37,7 +37,7 @@ export const BottomTabBar = () => {
           <TouchableOpacity
             onPress={props.onPress}
             onLongPress={props.onLongPress}
-            activeOpacity={1}
+            activeOpacity={0.5}
             style={{
               height: '100%',
               width: '50%',
@@ -52,7 +52,7 @@ export const BottomTabBar = () => {
           <TouchableOpacity
             onPress={props.onPress}
             onLongPress={props.onLongPress}
-            activeOpacity={1}
+            activeOpacity={0.5}
             style={{
               height: '100%',
               width: '50%',
