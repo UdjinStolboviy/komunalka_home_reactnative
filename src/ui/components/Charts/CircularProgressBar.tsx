@@ -61,15 +61,15 @@ export const CircularProgressBar: FC = (props: any) => {
             },
           }}
         />
-        <VictoryAnimation duration={1000} data={state}>
-          {newProps => {
+        <VictoryAnimation duration={1000} data={state.data}>
+          {state => {
             return (
               <VictoryLabel
                 textAnchor="middle"
                 verticalAnchor="middle"
                 x={200}
                 y={200}
-                text={`${Math.round(newProps.percent)}%`}
+                text={`${Math.round(state.percent)}%`}
                 style={{fontSize: 45}}
               />
             );
