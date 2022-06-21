@@ -35,11 +35,7 @@ export const MainScreen = (props: any) => {
     />
   );
   return (
-    <View
-      style={{
-        height: '100%',
-        width: '100%',
-      }}>
+    <View style={style.container}>
       <AppHeader leftButtonDisabled title={Texts.HOME} />
 
       <ContentProgressScrollView
@@ -54,6 +50,7 @@ export const MainScreen = (props: any) => {
           title={Type.CALCULATOR}
           titleButton={Texts.OPEN}
           description={Texts.OPEN}
+          onPress={() => app.navigationService.navigate(Screens._CALCULATOR)}
         />
       </ContentProgressScrollView>
     </View>
@@ -62,10 +59,7 @@ export const MainScreen = (props: any) => {
 
 const style = StyleSheet.create({
   container: {
+    height: '100%',
     width: '100%',
-    height: 50,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

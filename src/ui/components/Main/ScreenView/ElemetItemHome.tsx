@@ -46,6 +46,7 @@ export const ElementItem = (props: IElementItemHomeProps) => {
         onPress={props.onPress}
         title={props.titleButton}
         containerStyle={style.containerButton}
+        activeOpacity={0.7}
       />
     </View>
   );

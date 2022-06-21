@@ -17,6 +17,7 @@ import {BellIcon} from 'app/assets/Icons/BellIcon';
 import {CalculatorIcon} from 'app/assets/Icons/CalculatorIcon';
 import {SettingIcon} from 'app/assets/Icons/SettingIcon';
 import {Colors} from 'app/assets/constants/colors/Colors';
+import {CalculatorScreen} from 'app/ui/screens/calculator-komunlki/CalculatorScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -122,7 +123,7 @@ export const BottomTabBar = () => {
           route.name === Screens.SCREEN_END;
 
         if (!routeAvailable) {
-          app.navigationService.navigate(Screens.SCREEN_SECOND);
+          app.navigationService.navigate(Screens._CALCULATOR);
           return;
         }
         const event = navigation.emit({
@@ -198,7 +199,7 @@ export const BottomTabBar = () => {
         component={FirstScreen}
         options={{unmountOnBlur: true}}
       />
-      <Tab.Screen name={Screens.SCREEN_SECOND} component={SecondScreen} />
+      <Tab.Screen name={Screens._CALCULATOR} component={CalculatorScreen} />
       <Tab.Screen name={Screens.SCREEN_END} component={EndScreen} />
     </Tab.Navigator>
   );

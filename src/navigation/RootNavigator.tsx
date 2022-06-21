@@ -42,11 +42,6 @@ export const RootNavigator = (props: RootNavigatorProps) => {
             component={MainStack}
             options={{gestureEnabled: false}}
           />
-          <Stack.Screen
-            name={Screens.SCREEN_MAIN}
-            component={MainScreen}
-            options={{gestureEnabled: false}}
-          />
         </Stack.Navigator>
       </NavigationContainer>
     );
