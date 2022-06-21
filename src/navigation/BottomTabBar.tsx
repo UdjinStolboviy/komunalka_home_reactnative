@@ -6,16 +6,17 @@ import {TouchableOpacity, View} from 'react-native';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 
 import {IAppCoreService} from '../services/core/app.core.service.interface';
-import {MainScreen} from 'app/ui/screens/Main/MainScreen';
-import {FirstScreen} from 'app/ui/screens/Main/FirstScreen';
-import {SecondScreen} from 'app/ui/screens/Main/SecondScreen';
-import {EndScreen} from 'app/ui/screens/Main/EndScreen';
+import {MainScreen} from 'app/ui/screens/Home/HomeScreen';
+import {FirstScreen} from 'app/ui/screens/Home/FirstScreen';
+import {SecondScreen} from 'app/ui/screens/Home/SecondScreen';
+import {EndScreen} from 'app/ui/screens/Home/EndScreen';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {Screens} from 'app/assets/constants/codes/Screens';
 import {HomeIcon} from 'app/assets/Icons/HomeIcon';
 import {BellIcon} from 'app/assets/Icons/BellIcon';
 import {CalculatorIcon} from 'app/assets/Icons/CalculatorIcon';
 import {SettingIcon} from 'app/assets/Icons/SettingIcon';
+import {Colors} from 'app/assets/constants/colors/Colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -44,7 +45,7 @@ export const BottomTabBar = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <HomeIcon />
+            <HomeIcon color={Colors._007AFF} width={55} height={55} />
           </TouchableOpacity>
         );
       case 1:

@@ -1,9 +1,19 @@
+import {Colors} from 'app/assets/constants/colors/Colors';
+import {HomeIcon} from 'app/assets/Icons/HomeIcon';
 import React, {FC, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {VictoryAnimation, VictoryLabel, VictoryPie} from 'victory-native';
+import Svg from 'react-native-svg';
+import {
+  VictoryAnimation,
+  VictoryLabel,
+  VictoryPie,
+  VictoryContainer,
+} from 'victory-native';
+export interface CircularProgressBarProps {
+  colorIcon?: string;
+}
 
-export const CircularProgressBar: FC = (props: any) => {
-  let setStateInterval;
+export const CircularProgressBar = (props: CircularProgressBarProps) => {
   const getData = (percent: number) => {
     return [
       {x: 1, y: percent},
@@ -16,66 +26,74 @@ export const CircularProgressBar: FC = (props: any) => {
   });
   useEffect(() => {
     let percent = 25;
-    setStateInterval = window.setInterval(() => {
+    const interval = setInterval(() => {
       percent += Math.random() * 25;
       percent = percent > 100 ? 0 : percent;
       setState({
         percent,
         data: getData(percent),
       });
-    }, 2000);
+    }, 60000);
+    return () => clearInterval(interval);
   }, []);
-  useEffect(() => {
-    window.clearInterval(setStateInterval);
-  }, [state]);
   return (
     <View
       style={{
-        flex: 1,
-        height: 200,
-        width: '100%',
+        height: 180,
       }}>
-      <TouchableOpacity
-        onPress={() => console.log('end')}
-        style={{
-          width: '100%',
-          height: '90%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+      <View style={{position: 'absolute', marginTop: '36%', marginLeft: '26%'}}>
+        <HomeIcon
+          color={props.colorIcon || Colors._007AFF}
+          width={55}
+          height={55}
+        />
+      </View>
+
+      <Svg height={200} width={200}>
         <VictoryPie
           standalone={false}
           animate={{duration: 1000}}
-          width={400}
-          height={400}
+          width={200}
+          height={200}
           data={state.data}
-          innerRadius={120}
-          cornerRadius={25}
+          innerRadius={55}
+          cornerRadius={30}
           labels={() => null}
           style={{
             data: {
               fill: ({datum}) => {
-                const color = datum.y > 30 ? 'green' : 'red';
+                const color = datum.y > 30 ? Colors._007AFF : Colors._CF480E;
                 return datum.x === 1 ? color : 'transparent';
               },
             },
           }}
+          // events={[
+          //   {
+          //     target: 'data',
+          //     eventHandlers: {
+          //       onPress: () => {
+          //         return console.log('onPress');
+          //       },
+          //     },
+          //   },
+          // ]}
         />
+
         <VictoryAnimation duration={1000} data={state.data}>
-          {state => {
+          {NewState => {
             return (
               <VictoryLabel
                 textAnchor="middle"
                 verticalAnchor="middle"
-                x={200}
-                y={200}
+                x={120}
+                y={100}
                 text={`${Math.round(state.percent)}%`}
-                style={{fontSize: 45}}
+                style={{fontSize: 20, fill: Colors._007AFF}}
               />
             );
           }}
         </VictoryAnimation>
-      </TouchableOpacity>
+      </Svg>
     </View>
   );
 };

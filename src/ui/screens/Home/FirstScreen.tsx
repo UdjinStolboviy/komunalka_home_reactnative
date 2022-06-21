@@ -1,6 +1,6 @@
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 export const FirstScreen = (props: any) => {
   return (
@@ -23,3 +23,13 @@ export const FirstScreen = (props: any) => {
     </View>
   );
 };
+
+const style = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: 50,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
