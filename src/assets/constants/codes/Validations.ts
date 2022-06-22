@@ -6,7 +6,7 @@ export interface IValidationError {
 
 export class Validations {
 
-    public static readonly MIN_NAME_LENGTH: number = 2;
+    public static readonly MIN_NAME_LENGTH: number = 0;
     public static readonly MAX_PHONE_LENGTH: number = 20;
     public static readonly MIN_CODE_FROM_EMAIL_VALIDATIONS_LENGTH: number = 6;
     public static readonly MIN_PHONE_NUMBER_LENGTH: number = 6;

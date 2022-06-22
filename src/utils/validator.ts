@@ -34,6 +34,10 @@ export const validateNameWithSpaces = (name: string): boolean => {
   const nameWithSpacesRegExp = RegExp(/^[A-Za-z0-9 \"“”'‘’()[\]{}<>«»\\\/?!&@£$€¥.:;,-]{3}[*=#%+A-Za-z0-9 \"“”'‘’()[\]{}<>«»\\\/?!&@£$€¥.:;,-]{0,157}$/);
   return !!name && nameWithSpacesRegExp.test(name);
 };
+export const validateNumberWithSpaces = (text: string): boolean => {
+  const nameWithSpacesRegExp = RegExp(/^[0-9 \.]{0}[0-9 \.]{0,30}$/);
+  return !!text && nameWithSpacesRegExp.test(text);
+};
 
 export const validateCompanyName = (name: string): boolean => {
   const regex = RegExp(/^[a-zA-Z0-9?><;,{}[\]\-_+=!@#$%\^&*|'%]* $/);

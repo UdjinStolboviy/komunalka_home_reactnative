@@ -4,6 +4,7 @@ import {IAppCoreService} from '../../../../services/core/app.core.service.interf
 import {observer} from 'mobx-react';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {InputUniversal} from 'app/ui/components/input/app-input/InputUniversal';
+import {Texts} from 'app/assets/constants/codes/Texts';
 
 export interface SubtractionCalculatorProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -24,11 +25,22 @@ export const SubtractionCalculator = observer(
         console.log('clear');
       },
     }));
-
+    console.log('elecrtoPre', ectroPre);
+    console.log('elecrto', ectroUntil);
     return (
       <View style={[style.container, props.containerStyle]}>
-        <InputUniversal onTextChange={text => setEctroPre(text)} />
-        <InputUniversal onTextChange={text => setEctroUntil(text)} />
+        <InputUniversal
+          onTextChange={text => setEctroPre(text)}
+          typeKeyboard={'numeric'}
+          validateText={'numeric'}
+          placeholderInput={Texts.CURRENT_DATA}
+        />
+        <InputUniversal
+          onTextChange={text => setEctroUntil(text)}
+          typeKeyboard={'numeric'}
+          validateText={'numeric'}
+          placeholderInput={Texts.PRELIMINARY_DATA}
+        />
       </View>
     );
   }),

@@ -14,17 +14,39 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {validateNameWithSpaces} from '../../../../utils/validator';
+import {
+  validateNameWithSpaces,
+  validateNumberWithSpaces,
+} from '../../../../utils/validator';
 import {IAppCoreService} from '../../../../services/core/app.core.service.interface';
 
 import {observer} from 'mobx-react';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {InputButton} from 'app/ui/components/button/AppButton/InputButton';
+import {Texts} from 'app/assets/constants/codes/Texts';
 
 export interface InputUniversalProps {
   containerStyle?: StyleProp<ViewStyle>;
   onTextChange?: (text: string) => void;
+  focusedScreen?: boolean;
+  placeholderInput?: string;
+  typeKeyboard?:
+    | 'default'
+    | 'numeric'
+    | 'number-pad'
+    | 'decimal-pad'
+    | 'email-address'
+    | 'phone-pad'
+    | 'url';
+  validateText?:
+    | 'default'
+    | 'numeric'
+    | 'number-pad'
+    | 'decimal-pad'
+    | 'email-address'
+    | 'phone-pad'
+    | 'url';
 }
 
 export interface InputUniversalRef {
@@ -36,19 +58,19 @@ export const InputUniversal = observer(
     const app: IAppCoreService = useAppInjection();
     const inputRef = useRef<TextInput>(null);
 
-    const [focused, setFocused] = useState(false);
-    const [companyNameValid, setCompanyNameValid] = useState<boolean>(false);
+    const [focused, setFocused] = useState(props.focusedScreen);
+    const [textValid, setTextValid] = useState<boolean>(false);
     const [chosenText, setChosenText] = useState<string>('');
     const [buttonType, setButtonType] = useState<
       'clear' | 'add' | 'none' | 'loader'
     >('none');
     const [loadingLabels, setLoadingLabels] = useState<boolean>(false);
-    const [text, setText] = useState<string>('47755');
-    let initialCompanyName = useRef<string>(text).current;
+    const [text, setText] = useState<string>('');
+    let initialText = useRef<string>(text).current;
 
     useEffect(() => {
       _checkButtonType();
-      _validateCompanyName();
+      _validateText();
     }, [text]);
 
     useImperativeHandle(ref, () => ({
@@ -57,52 +79,46 @@ export const InputUniversal = observer(
       },
     }));
 
-    const _validateCompanyName = () => {
-      setCompanyNameValid(validateNameWithSpaces(text));
+    const _validateText = () => {
+      if (props.validateText === 'numeric') {
+        return setTextValid(validateNumberWithSpaces(text));
+      }
+      setTextValid(validateNameWithSpaces(text));
     };
 
     const _commitDropdown = (action: 'open' | 'close') => {
       if (action === 'open') {
-        console.log('Open');
+        setFocused(true);
       } else {
-        console.log('close');
+        setFocused(false);
       }
-    };
-
-    const _onPress = () => {
-      setTimeout(() => {
-        inputRef.current && inputRef.current.focus();
-      }, 50);
-      setFocused(true);
     };
 
     const _onBlur = () => {
       _commitDropdown('close');
       setFocused(false);
-      if (
-        text.trim().toLowerCase() === initialCompanyName.trim().toLowerCase()
-      ) {
+      if (text.trim().toLowerCase() === initialText.trim().toLowerCase()) {
         return;
       }
-      if (!companyNameValid) {
-        setText(initialCompanyName);
+      if (!textValid) {
+        setText(initialText);
         return;
       } else {
         _saveText();
       }
     };
 
-    const ValidDisplayName = () => {
-      if (!companyNameValid) {
-        return (
-          <View style={style.validNameWrapper}>
-            <Text style={style.validNameText}>error</Text>
-          </View>
-        );
-      } else {
-        return null;
-      }
-    };
+    // const ValidDisplayName = () => {
+    //   if (!textValid) {
+    //     return (
+    //       <View style={style.validNameWrapper}>
+    //         <Text style={style.validNameText}>{Texts.NOT_THE_RIGHT_MEAN}</Text>
+    //       </View>
+    //     );
+    //   } else {
+    //     return null;
+    //   }
+    // };
 
     const _onFocus = () => {
       _commitDropdown('open');
@@ -111,8 +127,15 @@ export const InputUniversal = observer(
 
     const _saveText = () => {
       console.log('save number');
+      setFocused(false);
       setChosenText(text);
       props.onTextChange && props.onTextChange(text);
+    };
+    const _onEditPress = () => {
+      setFocused(true);
+      setTimeout(() => {
+        inputRef.current && inputRef.current.focus();
+      }, 100);
     };
 
     const _addText = () => {
@@ -127,95 +150,100 @@ export const InputUniversal = observer(
     };
 
     const _checkButtonType = () => {
-      if (loadingLabels) {
+      if (loadingLabels && focused) {
         setButtonType('loader');
         return;
       }
-      if (text.length === 0) {
+      if (text.length === 0 && focused) {
         setButtonType('none');
         return;
       }
 
-      if (text.trim().length >= 5) {
-        setButtonType('add');
+      if (text.trim().length >= 0) {
+        setButtonType('clear');
         return;
       }
-      setButtonType('clear');
+      setButtonType('add');
     };
 
     return (
-      <>
-        <View style={[style.container, props.containerStyle]}>
-          <View style={style.textIconWrapper}>
-            {focused ? (
-              <TextInput
-                ref={inputRef}
-                style={[
-                  style.inputWrapper,
-                  companyNameValid ? null : {color: Colors._578FA2},
-                ]}
-                onFocus={_onFocus}
-                onChangeText={text => setText(text)}
-                onBlur={_onBlur}
-                maxLength={50}
-                value={text}
-              />
-            ) : (
-              <Text numberOfLines={3} style={style.inputWrapper}>
-                {text}
-              </Text>
-            )}
-            {!focused ? (
-              <TouchableOpacity
-                style={style.iconWrapper}
-                activeOpacity={0.8}
-                onPress={_onPress}>
-                <Text>...</Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={style.iconWrapper}
-                activeOpacity={0.8}
-                onPress={_deleteText}>
-                <Text>d</Text>
-              </TouchableOpacity>
-            )}
+      <View style={[style.container, props.containerStyle]}>
+        <TouchableOpacity
+          style={[
+            style.textIconWrapper,
+            {
+              borderColor: textValid ? Colors._007AFF : Colors._CF480E,
+            },
+          ]}
+          onPress={_onEditPress}>
+          {focused && chosenText ? (
+            <TextInput
+              ref={inputRef}
+              style={[
+                style.inputWrapper,
+                textValid ? {color: Colors._007AFF} : {color: Colors._CF480E},
+              ]}
+              onFocus={_onFocus}
+              placeholder={props.placeholderInput}
+              onChangeText={text => setText(text)}
+              onBlur={_onBlur}
+              maxLength={50}
+              value={text}
+              keyboardType={props.typeKeyboard ? props.typeKeyboard : 'default'}
+            />
+          ) : (
+            <Text numberOfLines={3} style={style.textInput}>
+              {text}
+            </Text>
+          )}
+          {focused ? (
             <InputButton
               buttonType={buttonType}
               pressClear={_deleteText}
               pressAdd={() => _addText()}
             />
-          </View>
-        </View>
-        <ValidDisplayName />
-      </>
+          ) : null}
+        </TouchableOpacity>
+        {/* <ValidDisplayName /> */}
+      </View>
     );
   }),
 );
 
 const style = StyleSheet.create({
   container: {
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: 'rgba(86, 86, 86, 0.2)',
-    width: '100%',
+    marginBottom: 8,
+    width: '30%',
     alignSelf: 'center',
-    minHeight: 48,
+    minHeight: 35,
+    borderRadius: 12,
     justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: Colors._007AFF,
   },
   textIconWrapper: {
     width: '100%',
     flexDirection: 'row',
-    minHeight: 17,
+    minHeight: 35,
     alignItems: 'center',
   },
   inputWrapper: {
-    width: '90%',
+    width: '100%',
+    backgroundColor: Colors._FFFFFF,
     paddingVertical: 0,
-    minHeight: 17,
+    minHeight: 35,
+    paddingHorizontal: '3%',
+    borderRadius: 12,
     fontSize: 14,
     fontWeight: '500',
     color: Colors._488296,
+  },
+  textInput: {
+    minHeight: 17,
+    fontSize: 14,
+    fontWeight: '500',
+    paddingHorizontal: '3%',
+    color: Colors._007AFF,
   },
   iconWrapper: {
     width: '10%',
@@ -223,13 +251,15 @@ const style = StyleSheet.create({
     alignItems: 'flex-end',
   },
   validNameWrapper: {
+    position: 'absolute',
+    top: 26,
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 5,
   },
   validNameText: {
     marginLeft: 6,
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: '700',
     color: Colors._007AFF,
   },

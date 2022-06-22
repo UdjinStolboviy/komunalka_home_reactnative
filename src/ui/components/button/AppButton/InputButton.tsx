@@ -8,6 +8,8 @@ import {
 
 import React, {useEffect} from 'react';
 import {Colors} from 'app/assets/constants/colors/Colors';
+import {DeleteIcon} from 'app/assets/Icons/DeleteIcon';
+import {EditIcon} from 'app/assets/Icons/EditIcon';
 
 export interface InputButtonProps {
   buttonType: 'add' | 'clear' | 'none' | 'loader';
@@ -27,7 +29,7 @@ export const InputButton = (props: InputButtonProps) => {
         activeOpacity={0.8}
         style={style.button}
         onPress={props.pressAdd}>
-        <Text style={style.addText}>Add tag</Text>
+        <EditIcon />
       </TouchableOpacity>
     );
   };
@@ -46,7 +48,7 @@ export const InputButton = (props: InputButtonProps) => {
         activeOpacity={0.8}
         style={style.button}
         onPress={props.pressClear}>
-        <Text>Canselt</Text>
+        <DeleteIcon />
       </TouchableOpacity>
     );
   };
@@ -67,8 +69,9 @@ export const InputButton = (props: InputButtonProps) => {
 
 const style = StyleSheet.create({
   button: {
-    minWidth: 30,
-    height: 44,
+    minWidth: 20,
+    height: 20,
+    marginLeft: -30,
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
