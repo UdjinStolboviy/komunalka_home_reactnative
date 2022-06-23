@@ -9,5 +9,6 @@ export class Texts {
   public static readonly NOT_THE_RIGHT_MEAN: string = 'Не правильне значення!'
   public static readonly CURRENT_DATA: string = 'Поточні  дані'
   public static readonly PRELIMINARY_DATA: string = 'Попередні данні'
+  public static readonly FILL_IN: string = 'Заповніть '
 }
 

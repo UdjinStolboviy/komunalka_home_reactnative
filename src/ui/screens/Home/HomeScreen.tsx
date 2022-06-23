@@ -27,13 +27,7 @@ export const MainScreen = (props: any) => {
       flats: [{id: 'homeWhitFlat1'}, {id: 'homeWhitFlat2'}],
     },
   ]);
-  const renderItem = ({item}) => (
-    <ElementItem
-      title={item.title}
-      titleButton={Texts.OPEN}
-      description={Texts.OPEN}
-    />
-  );
+
   return (
     <View style={style.container}>
       <AppHeader leftButtonDisabled title={Texts.HOME} />
@@ -41,10 +35,15 @@ export const MainScreen = (props: any) => {
       <ContentProgressScrollView
         onProgressChange={progress => setContentProgress(progress)}>
         <HomePageCharts />
-        <FlatList
-          data={homeStage}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
+        <ElementItem
+          title={homeStage[0].title}
+          titleButton={Texts.OPEN}
+          description={Texts.OPEN}
+        />
+        <ElementItem
+          title={homeStage[1].title}
+          titleButton={Texts.OPEN}
+          description={Texts.OPEN}
         />
         <ElementItem
           title={Type.CALCULATOR}

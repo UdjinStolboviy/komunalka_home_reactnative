@@ -108,17 +108,19 @@ export const InputUniversal = observer(
       }
     };
 
-    // const ValidDisplayName = () => {
-    //   if (!textValid) {
-    //     return (
-    //       <View style={style.validNameWrapper}>
-    //         <Text style={style.validNameText}>{Texts.NOT_THE_RIGHT_MEAN}</Text>
-    //       </View>
-    //     );
-    //   } else {
-    //     return null;
-    //   }
-    // };
+    const ValidDisplayText = () => {
+      if (!textValid) {
+        return (
+          <View style={style.validNameWrapper}>
+            <Text style={style.validNameText} onPress={_onEditPress}>
+              {props.placeholderInput}
+            </Text>
+          </View>
+        );
+      } else {
+        return null;
+      }
+    };
 
     const _onFocus = () => {
       _commitDropdown('open');
@@ -172,39 +174,41 @@ export const InputUniversal = observer(
           style={[
             style.textIconWrapper,
             {
-              borderColor: textValid ? Colors._007AFF : Colors._CF480E,
+              borderColor: textValid ? Colors._007AFF : Colors._248900,
             },
           ]}
           onPress={_onEditPress}>
-          {focused && chosenText ? (
-            <TextInput
-              ref={inputRef}
-              style={[
-                style.inputWrapper,
-                textValid ? {color: Colors._007AFF} : {color: Colors._CF480E},
-              ]}
-              onFocus={_onFocus}
-              placeholder={props.placeholderInput}
-              onChangeText={text => setText(text)}
-              onBlur={_onBlur}
-              maxLength={50}
-              value={text}
-              keyboardType={props.typeKeyboard ? props.typeKeyboard : 'default'}
-            />
+          {focused ? (
+            <View style={style.inputContainer}>
+              <TextInput
+                ref={inputRef}
+                style={[
+                  style.inputWrapper,
+                  textValid ? {color: Colors._007AFF} : {color: Colors._CF480E},
+                ]}
+                onFocus={_onFocus}
+                placeholder={props.placeholderInput}
+                onChangeText={text => setText(text)}
+                onBlur={_onBlur}
+                maxLength={50}
+                value={text}
+                keyboardType={
+                  props.typeKeyboard ? props.typeKeyboard : 'default'
+                }
+              />
+              <InputButton
+                buttonType={buttonType}
+                pressClear={_deleteText}
+                pressAdd={() => _addText()}
+              />
+            </View>
           ) : (
             <Text numberOfLines={3} style={style.textInput}>
               {text}
             </Text>
           )}
-          {focused ? (
-            <InputButton
-              buttonType={buttonType}
-              pressClear={_deleteText}
-              pressAdd={() => _addText()}
-            />
-          ) : null}
         </TouchableOpacity>
-        {/* <ValidDisplayName /> */}
+        {!focused ? <ValidDisplayText /> : null}
       </View>
     );
   }),
@@ -212,55 +216,67 @@ export const InputUniversal = observer(
 
 const style = StyleSheet.create({
   container: {
-    marginBottom: 8,
-    width: '30%',
+    marginVertical: 8,
+    width: '100%',
     alignSelf: 'center',
     minHeight: 35,
     borderRadius: 12,
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: Colors._007AFF,
+    backgroundColor: Colors._FFFFFF,
+    paddingHorizontal: 4,
+    paddingBottom: 4,
   },
   textIconWrapper: {
+    width: '100%',
+    minHeight: 35,
+    borderRadius: 12,
+    borderBottomWidth: 1,
+  },
+  inputContainer: {
     width: '100%',
     flexDirection: 'row',
     minHeight: 35,
     alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: Colors._FFFFFF,
+    paddingHorizontal: 4,
+    borderRadius: 12,
   },
   inputWrapper: {
-    width: '100%',
+    width: '85%',
+    marginTop: 4,
+
     backgroundColor: Colors._FFFFFF,
-    paddingVertical: 0,
     minHeight: 35,
-    paddingHorizontal: '3%',
+    paddingHorizontal: 10,
     borderRadius: 12,
     fontSize: 14,
     fontWeight: '500',
     color: Colors._488296,
   },
   textInput: {
-    minHeight: 17,
-    fontSize: 14,
+    textAlign: 'center',
+    minHeight: 35,
+    fontSize: 18,
+    paddingTop: 8,
     fontWeight: '500',
-    paddingHorizontal: '3%',
+    paddingHorizontal: 10,
     color: Colors._007AFF,
   },
-  iconWrapper: {
-    width: '10%',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
+
   validNameWrapper: {
     position: 'absolute',
-    top: 26,
+    width: '100%',
+    top: 10,
+    left: 7,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 5,
+    justifyContent: 'center',
   },
   validNameText: {
     marginLeft: 6,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
-    color: Colors._007AFF,
+    color: Colors._979797,
   },
 });

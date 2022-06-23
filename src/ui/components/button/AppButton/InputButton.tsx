@@ -71,9 +71,8 @@ const style = StyleSheet.create({
   button: {
     minWidth: 20,
     height: 20,
-    marginLeft: -30,
     justifyContent: 'center',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
   },
   addText: {
     fontWeight: '500',

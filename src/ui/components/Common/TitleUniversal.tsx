@@ -1,3 +1,4 @@
+import {Colors} from 'app/assets/constants/colors/Colors';
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
@@ -18,7 +19,8 @@ export const TitleUniversal = (props: ITitleUniversalProps) => {
 
 const style = StyleSheet.create({
   container: {
-    height: 80,
+    marginTop: 10,
+    height: 40,
     width: '100%',
   },
   text: {
@@ -26,5 +28,6 @@ const style = StyleSheet.create({
     fontSize: 18,
     lineHeight: 21,
     fontWeight: '500',
+    color: Colors._808080,
   },
 });
