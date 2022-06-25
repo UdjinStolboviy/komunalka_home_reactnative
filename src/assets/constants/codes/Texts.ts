@@ -10,5 +10,7 @@ export class Texts {
   public static readonly CURRENT_DATA: string = 'Поточні  дані'
   public static readonly PRELIMINARY_DATA: string = 'Попередні данні'
   public static readonly FILL_IN: string = 'Заповніть '
+  public static readonly KWT: string = 'кВт'
+  public static readonly UHG: string = 'грн'
 }
 
