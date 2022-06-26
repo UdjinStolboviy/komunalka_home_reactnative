@@ -3,11 +3,11 @@ import {StyleProp, StyleSheet, View, ViewStyle, Text} from 'react-native';
 
 import {observer} from 'mobx-react';
 
-import {InputUniversal} from 'app/ui/components/input/app-input/InputUniversal';
 import {Texts} from 'app/assets/constants/codes/Texts';
-import {Subtraction} from 'app/assets/Icons/SubtractionIcon';
+
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {MultiplicationIcon} from 'app/assets/Icons/MultiplicationIcon';
+import {EqualIcon} from 'app/assets/Icons/EqualIcon';
 
 export interface MultiplicationCalculatorProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -52,10 +52,7 @@ export const MultiplicationCalculator = observer(
           </Text>
 
           <Text style={style.validNumberText}>{Texts.UHG}</Text>
-          <View style={style.calculationIcon}>
-            <Subtraction />
-            <Subtraction />
-          </View>
+          <EqualIcon />
           <Text style={style.validNumberText}>{_calculateProgress()}</Text>
           <Text style={style.validNumberText}>{Texts.UHG}</Text>
         </View>
@@ -75,14 +72,7 @@ const style = StyleSheet.create({
     marginTop: 20,
     flexDirection: 'row',
   },
-  calculationIcon: {
-    marginTop: 4,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    height: 15,
-    width: '10%',
-  },
+
   validNumberText: {
     paddingTop: 2,
     textAlign: 'center',

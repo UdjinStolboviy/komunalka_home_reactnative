@@ -19,14 +19,14 @@ export const TitleUniversal = (props: ITitleUniversalProps) => {
 
 const style = StyleSheet.create({
   container: {
-    marginTop: 10,
+    marginTop: 15,
     height: 40,
     width: '100%',
   },
   text: {
     textAlign: 'center',
-    fontSize: 18,
-    lineHeight: 21,
+    fontSize: 23,
+    lineHeight: 24,
     fontWeight: '500',
     color: Colors._808080,
   },

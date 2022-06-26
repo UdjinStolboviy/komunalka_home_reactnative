@@ -31,6 +31,7 @@ export interface InputUniversalProps {
   onTextChange?: (text: string) => void;
   focusedScreen?: boolean;
   placeholderInput?: string;
+  defaultValue?: string;
   typeKeyboard?:
     | 'default'
     | 'numeric'
@@ -65,7 +66,9 @@ export const InputUniversal = observer(
       'clear' | 'add' | 'none' | 'loader'
     >('none');
     const [loadingLabels, setLoadingLabels] = useState<boolean>(false);
-    const [text, setText] = useState<string>('');
+    const [text, setText] = useState<string>(
+      props.defaultValue ? props.defaultValue : '',
+    );
     let initialText = useRef<string>(text).current;
 
     useEffect(() => {

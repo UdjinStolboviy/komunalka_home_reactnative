@@ -5,8 +5,9 @@ import {observer} from 'mobx-react';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {InputUniversal} from 'app/ui/components/input/app-input/InputUniversal';
 import {Texts} from 'app/assets/constants/codes/Texts';
-import {Subtraction} from 'app/assets/Icons/SubtractionIcon';
+import {SubtractionIcon} from 'app/assets/Icons/SubtractionIcon';
 import {Colors} from 'app/assets/constants/colors/Colors';
+import {EqualIcon} from 'app/assets/Icons/EqualIcon';
 
 export interface SubtractionCalculatorProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -47,7 +48,7 @@ export const SubtractionCalculator = observer(
           containerStyle={style.inputContainer}
         />
         <View style={style.wrapperIcon}>
-          <Subtraction />
+          <SubtractionIcon />
         </View>
 
         <InputUniversal
@@ -57,10 +58,7 @@ export const SubtractionCalculator = observer(
           placeholderInput={Texts.PRELIMINARY_DATA}
         />
         <View style={style.calculationWrapper}>
-          <View style={style.calculationIcon}>
-            <Subtraction />
-            <Subtraction />
-          </View>
+          <EqualIcon />
           <Text style={style.validNumberText}>{_calculateProgress()}</Text>
           <Text style={style.validNumberText}>{props.unitOfMeasurement}</Text>
         </View>
@@ -84,14 +82,7 @@ const style = StyleSheet.create({
     marginTop: 20,
     flexDirection: 'row',
   },
-  calculationIcon: {
-    marginTop: 2,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    height: 15,
-    width: '10%',
-  },
+
   inputContainer: {
     width: '100%',
   },

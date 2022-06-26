@@ -12,5 +12,11 @@ export class Texts {
   public static readonly FILL_IN: string = 'Заповніть '
   public static readonly KWT: string = 'кВт'
   public static readonly UHG: string = 'грн'
+  public static readonly WATER: string = 'Вода'
+  public static readonly KUBM: string = 'Куб.м'
+  public static readonly INTERNET: string = 'Інтернет'
+  public static readonly RENT: string = 'Оренда'
+  public static readonly OTHER_OPTIONS: string = 'Iнші варіанти'
+  public static readonly O_UHG: string = 'O грн'
 }
 
