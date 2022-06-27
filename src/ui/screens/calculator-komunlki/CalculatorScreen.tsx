@@ -28,8 +28,6 @@ export const CalculatorScreen = (props: ICalculatorScreenProps) => {
     Keyboard.dismiss();
   };
 
-  console.log('CalculatorScreen', resultOtherOption);
-
   return (
     <View style={style.container}>
       <AppHeader title={Texts.CALCULATOR} progress={contentProgress} />

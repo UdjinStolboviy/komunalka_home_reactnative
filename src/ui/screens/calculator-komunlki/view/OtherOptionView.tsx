@@ -15,7 +15,6 @@ export const OtherOptionView = (props: OtherOptionViewProps) => {
   const [subtractOtherValue, setSubtractOtherValue] = useState<number[]>([0]);
 
   useEffect(() => {
-    console.log('addOtherValue', addOtherValue);
     calculateVale();
   }, [addOtherValue, subtractOtherValue]);
 
