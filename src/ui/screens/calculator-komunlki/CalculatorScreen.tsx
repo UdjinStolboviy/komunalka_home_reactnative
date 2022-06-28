@@ -11,6 +11,8 @@ import {MultiplicationCalculator} from './view/MultiplicationCalculator';
 import {AdditionalTariffs} from './view/AdditionalTariffs';
 import {SwitchUniversal} from 'app/ui/components/Common/SwitchUniversal';
 import {OtherOptionView} from './view/OtherOptionView';
+import {InputUniversal} from 'app/ui/components/input/app-input/InputUniversal';
+import {FunctionButtons} from './view/FunctionButtons';
 
 export interface ICalculatorScreenProps {}
 
@@ -20,10 +22,12 @@ export const CalculatorScreen = (props: ICalculatorScreenProps) => {
   const [resultInternet, setResultInternet] = useState<string>('');
   const [resultRent, setResultRent] = useState<string>('');
   const [enableOtherOptions, setEnableOtherOptions] = useState<boolean>(true);
+  const [enableComments, setEnableComments] = useState<boolean>(true);
   const [multiplicationElectricity, setMultiplicationElectricity] =
     useState<number>(0);
   const [resultElectricity, setResultElectricity] = useState<number>(0);
   const [resultOtherOption, setResultOtherOption] = useState<number>(0);
+  const [comments, setComments] = useState<string>('');
   const _closeAllPopUps = () => {
     Keyboard.dismiss();
   };
@@ -82,6 +86,28 @@ export const CalculatorScreen = (props: ICalculatorScreenProps) => {
               onResultOther={(result: number) => setResultOtherOption(result)}
             />
           )}
+          <AdditionalTariffs
+            nameTariff={Texts.CONSOLIDATED_CALCULATION}
+            currentData={70}
+            unitOfMeasurement={Texts.UHG}
+            onTextChange={(text: string) => setResultInternet(text)}
+          />
+          <SwitchUniversal
+            unitOfMeasurement={Texts.COMMENTS}
+            onSwitchChange={(isEnabled: boolean) =>
+              setEnableComments(isEnabled)
+            }
+          />
+          {enableComments ? null : (
+            <InputUniversal
+              onTextChange={text => setComments(text)}
+              typeKeyboard={'default'}
+              validateText={'default'}
+              placeholderInput={Texts.COMMENTS}
+              containerStyle={style.inputContainer}
+            />
+          )}
+          <FunctionButtons />
         </TouchableOpacity>
       </ContentProgressScrollView>
     </View>
@@ -92,5 +118,9 @@ const style = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
+  },
+  inputContainer: {
+    width: '95%',
+    marginTop: 10,
   },
 });
