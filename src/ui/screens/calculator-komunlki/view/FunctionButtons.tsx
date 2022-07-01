@@ -7,6 +7,7 @@ import {CopyButton} from './CopyButton';
 
 export interface FunctionButtonsProps {
   containerStyle?: StyleProp<ViewStyle>;
+  massage: string;
 }
 
 export interface FunctionButtonsRef {
@@ -25,8 +26,8 @@ export const FunctionButtons = observer(
 
     return (
       <View style={[style.container, props.containerStyle]}>
-        <SharingButton />
-        <CopyButton />
+        <SharingButton message={props.massage} />
+        <CopyButton message={props.massage} />
       </View>
     );
   }),

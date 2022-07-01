@@ -21,3 +21,6 @@ export const symbolsMatchFromStart = (source: string, input: string): boolean =>
   return response;
 };
 
+export const financialFixed = (x) => {
+  return Number.parseFloat(x).toFixed(2);
+}

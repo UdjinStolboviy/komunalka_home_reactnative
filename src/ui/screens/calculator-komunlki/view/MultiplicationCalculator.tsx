@@ -32,12 +32,13 @@ export const MultiplicationCalculator = observer(
     }));
 
     const _calculateProgress = () => {
-      const result = Number(props.currentData) * Number(props.tariffData);
-      if (isNaN(result)) {
+      const result: number =
+        Number(props.currentData) * Number(props.tariffData);
+      if (!result && isNaN(result)) {
         return 0;
       }
-      props.onTextChange && props.onTextChange(result);
-      return result;
+      props.onTextChange && props.onTextChange(Number(result.toFixed(2)));
+      return Number(result.toFixed(2));
     };
     return (
       <View style={[style.container, props.containerStyle]}>

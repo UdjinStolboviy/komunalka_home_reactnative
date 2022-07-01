@@ -1,18 +1,20 @@
 import React, {forwardRef, useImperativeHandle, useState} from 'react';
 import {StyleProp, StyleSheet, View, ViewStyle, Text} from 'react-native';
-import {IAppCoreService} from '../../../../services/core/app.core.service.interface';
+
 import {observer} from 'mobx-react';
-import {useAppInjection} from 'app/data/ioc/inversify.config';
+
 import {InputUniversal} from 'app/ui/components/input/app-input/InputUniversal';
 import {Texts} from 'app/assets/constants/codes/Texts';
 import {SubtractionIcon} from 'app/assets/Icons/SubtractionIcon';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {EqualIcon} from 'app/assets/Icons/EqualIcon';
+import {financialFixed} from 'app/utils/comparator';
 
 export interface SubtractionCalculatorProps {
   containerStyle?: StyleProp<ViewStyle>;
   onTextChange: (text: number) => void;
   unitOfMeasurement?: string;
+  onTextChangeMessage?: (text: string) => void;
 }
 
 export interface SubtractionCalculatorRef {
@@ -21,7 +23,6 @@ export interface SubtractionCalculatorRef {
 
 export const SubtractionCalculator = observer(
   forwardRef((props: SubtractionCalculatorProps, ref) => {
-    const app: IAppCoreService = useAppInjection();
     const [currentData, setCurrentData] = useState<string>('');
     const [preliminaryData, setPreliminaryData] = useState<string>('');
     useImperativeHandle(ref, () => ({
@@ -35,8 +36,11 @@ export const SubtractionCalculator = observer(
       if (isNaN(result)) {
         return null;
       }
-      props.onTextChange && props.onTextChange(result);
-      return result;
+      const resultString = `${currentData} - ${preliminaryData} = ${result} ${props.unitOfMeasurement} \n`;
+      props.onTextChange && props.onTextChange(Number(financialFixed(result)));
+      props.onTextChangeMessage &&
+        props.onTextChangeMessage(resultString.toString());
+      return Number(financialFixed(result));
     };
     return (
       <View style={[style.container, props.containerStyle]}>

@@ -18,19 +18,50 @@ export interface ICalculatorScreenProps {}
 
 export const CalculatorScreen = (props: ICalculatorScreenProps) => {
   const app: IAppCoreService = useAppInjection();
+  const test1 = app.storage;
+
   const [contentProgress, setContentProgress] = useState<number>(0);
-  const [resultInternet, setResultInternet] = useState<string>('');
-  const [resultRent, setResultRent] = useState<string>('');
+  const [resultInternet, setResultInternet] = useState<number>(70);
+  const [resultRent, setResultRent] = useState<number>(6500);
+
   const [enableOtherOptions, setEnableOtherOptions] = useState<boolean>(true);
   const [enableComments, setEnableComments] = useState<boolean>(true);
   const [multiplicationElectricity, setMultiplicationElectricity] =
     useState<number>(0);
+  const [multiplicationWater, setMultiplicationWater] = useState<number>(0);
   const [resultElectricity, setResultElectricity] = useState<number>(0);
+  const [resultWater, setResultWater] = useState<number>(0);
   const [resultOtherOption, setResultOtherOption] = useState<number>(0);
   const [comments, setComments] = useState<string>('');
+  const [messageElectricity, setMessageElectricity] = useState<string>('');
+  const [messageWater, setMessageWater] = useState<string>('');
+
   const _closeAllPopUps = () => {
     Keyboard.dismiss();
   };
+  const resultAllCalculate =
+    multiplicationElectricity +
+    multiplicationWater +
+    resultInternet +
+    resultRent +
+    resultOtherOption;
+
+  const massage = `Доброго дня!\n
+  Порахували комунальні: \n
+  Електроенергія: ${resultElectricity} кВт\n
+  ${messageElectricity}
+  1,6 грн за кВт\n
+  ${resultElectricity} * 1.6 грн = ${multiplicationElectricity} грн \n
+  Вода: ${resultWater} куб.м\n
+   ${messageWater}
+    30,38 грн за куб.м\n
+    ${resultWater} * 30,38 грн = ${multiplicationWater} грн \n
+  Інтернет: ${resultInternet} грн\n
+  Квартплата: ${resultRent} грн\n
+  Додаткові послуги: ${resultOtherOption} грн\n
+  Коментар: ${comments}\n
+  Всього:  ${multiplicationElectricity} + ${multiplicationWater} + \n
+    ${resultInternet} + ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n `;
 
   return (
     <View style={style.container}>
@@ -45,6 +76,7 @@ export const CalculatorScreen = (props: ICalculatorScreenProps) => {
           <SubtractionCalculator
             unitOfMeasurement={Texts.KWT}
             onTextChange={(text: number) => setResultElectricity(text)}
+            onTextChangeMessage={(text: string) => setMessageElectricity(text)}
           />
           <MultiplicationCalculator
             unitOfMeasurement={Texts.KWT}
@@ -55,23 +87,24 @@ export const CalculatorScreen = (props: ICalculatorScreenProps) => {
           <TitleUniversal title={Texts.WATER} />
           <SubtractionCalculator
             unitOfMeasurement={Texts.KUBM}
-            onTextChange={(text: number) => setResultElectricity(text)}
+            onTextChange={(text: number) => setResultWater(text)}
+            onTextChangeMessage={(text: string) => setMessageWater(text)}
           />
           <MultiplicationCalculator
             unitOfMeasurement={Texts.KUBM}
-            currentData={resultElectricity}
+            currentData={resultWater}
             tariffData={34.6}
-            onTextChange={(text: number) => setMultiplicationElectricity(text)}
+            onTextChange={(text: number) => setMultiplicationWater(text)}
           />
           <AdditionalTariffs
             nameTariff={Texts.INTERNET}
-            currentData={70}
+            currentData={Number(resultInternet)}
             unitOfMeasurement={Texts.UHG}
             onTextChange={(text: string) => setResultInternet(text)}
           />
           <AdditionalTariffs
             nameTariff={Texts.RENT}
-            currentData={6500}
+            currentData={Number(resultRent)}
             unitOfMeasurement={Texts.UHG}
             onTextChange={(text: string) => setResultRent(text)}
           />
@@ -88,9 +121,9 @@ export const CalculatorScreen = (props: ICalculatorScreenProps) => {
           )}
           <AdditionalTariffs
             nameTariff={Texts.CONSOLIDATED_CALCULATION}
-            currentData={70}
+            currentData={resultAllCalculate}
             unitOfMeasurement={Texts.UHG}
-            onTextChange={(text: string) => setResultInternet(text)}
+            onTextChange={(text: string) => text}
           />
           <SwitchUniversal
             unitOfMeasurement={Texts.COMMENTS}
@@ -107,7 +140,7 @@ export const CalculatorScreen = (props: ICalculatorScreenProps) => {
               containerStyle={style.inputContainer}
             />
           )}
-          <FunctionButtons />
+          <FunctionButtons massage={massage} />
         </TouchableOpacity>
       </ContentProgressScrollView>
     </View>
