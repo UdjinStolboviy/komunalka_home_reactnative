@@ -1,5 +1,18 @@
 import { action, observable } from "mobx";
 
+export interface ICalculatorState {
+    multiplicationElectricity: number;
+    multiplicationWater: number;
+    resultElectricity: number;
+    resultWater: number;
+    resultOtherOption: number;
+    comments: string;
+    messageElectricity: string;
+    messageWater: string;
+    enableOtherOptions: boolean;
+    enableComments: boolean;
+}
+
 
 export class CalculatorState {
 
@@ -8,6 +21,7 @@ export class CalculatorState {
     @observable private resultElectricity: number;
     @observable private resultWater: number;
     @observable private resultOtherOption: number;
+    @observable private resultAllCalculate: number;
     @observable private comments: string;
     @observable private messageElectricity: string;
     @observable private messageWater: string;
@@ -22,6 +36,7 @@ export class CalculatorState {
         this.resultElectricity = 0;
         this.resultWater = 0;
         this.resultOtherOption = 0;
+        this.resultAllCalculate = 0;
         this.comments = '';
         this.messageElectricity = '';
         this.messageWater = '';
@@ -36,6 +51,15 @@ export class CalculatorState {
     @action
     public setMultiplicationElectricity(value: number) {
         this.multiplicationElectricity = value;
+    }
+
+    public getResultAllCalculate(): number {
+        return this.resultAllCalculate;
+    }
+
+    @action
+    public setResultAllCalculate(value: number) {
+        this.resultAllCalculate = value;
     }
 
     public getMultiplicationWater(): number {

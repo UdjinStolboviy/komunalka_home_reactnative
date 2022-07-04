@@ -3,30 +3,20 @@ import {StyleProp, StyleSheet, View, ViewStyle, Text} from 'react-native';
 
 import {EqualIcon} from 'app/assets/Icons/EqualIcon';
 import {Colors} from 'app/assets/constants/colors/Colors';
-import {InputUniversal} from 'app/ui/components/input/app-input/InputUniversal';
-import {Texts} from 'app/assets/constants/codes/Texts';
 
-export interface AdditionalTariffsProps {
+export interface ResultCalculatorViewProps {
   containerStyle?: StyleProp<ViewStyle>;
   nameTariff: string;
-  currentData: number;
+  currentData: string;
   unitOfMeasurement: string;
-  onTextChange?: (text: string) => void;
 }
 
-export const AdditionalTariffs = (props: AdditionalTariffsProps) => {
+export const ResultCalculatorView = (props: ResultCalculatorViewProps) => {
   return (
     <View style={[style.container, props.containerStyle]}>
       <Text style={style.textTitle}>{props.nameTariff}</Text>
       <EqualIcon />
-      <InputUniversal
-        onTextChange={text => props.onTextChange && props.onTextChange(text)}
-        typeKeyboard={'numeric'}
-        validateText={'numeric'}
-        placeholderInput={Texts.INTERNET}
-        containerStyle={style.inputContainer}
-        defaultValue={props.currentData.toString()}
-      />
+      <Text style={style.textDescription}>{props.currentData}</Text>
       <Text style={style.text}>{props.unitOfMeasurement}</Text>
     </View>
   );
@@ -48,6 +38,14 @@ const style = StyleSheet.create({
     fontWeight: '500',
     paddingHorizontal: 5,
     color: Colors._808080,
+  },
+  textDescription: {
+    textAlign: 'center',
+    minHeight: 24,
+    fontSize: 18,
+    marginTop: 3,
+    marginLeft: 5,
+    color: Colors._007AFF,
   },
   text: {
     paddingTop: 2,

@@ -11,7 +11,7 @@ import {EqualIcon} from 'app/assets/Icons/EqualIcon';
 
 export interface MultiplicationCalculatorProps {
   containerStyle?: StyleProp<ViewStyle>;
-  onTextChange: (text: number) => void;
+  onTextChange?: (text: number) => void;
   unitOfMeasurement?: string;
   currentData?: number;
   tariffData?: number;

@@ -13,9 +13,11 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {Colors} from 'app/assets/constants/colors/Colors';
+import {Texts} from 'app/assets/constants/codes/Texts';
 
 export interface ProfileHeader {
   title?: string;
+  result?: number;
   onBackPress?: () => void;
   settingsDisabled?: boolean;
   onSettingsPress?: () => void;
@@ -63,6 +65,11 @@ export const AppHeader = (props: ProfileHeader) => {
           <Text numberOfLines={3} style={style.mainText}>
             {props.title || ''}
           </Text>
+          {props.result ? (
+            <Text numberOfLines={3} style={style.mainText}>
+              {props.result + ' ' + Texts.UHG || ''}
+            </Text>
+          ) : null}
         </View>
 
         {props.settingsDisabled ? (

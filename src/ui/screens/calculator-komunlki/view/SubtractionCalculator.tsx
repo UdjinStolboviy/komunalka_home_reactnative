@@ -36,7 +36,9 @@ export const SubtractionCalculator = observer(
       if (isNaN(result)) {
         return null;
       }
-      const resultString = `${currentData} - ${preliminaryData} = ${result} ${props.unitOfMeasurement} \n`;
+      const resultString = `${financialFixed(currentData)} - ${financialFixed(
+        preliminaryData,
+      )} = ${financialFixed(result)} ${props.unitOfMeasurement}`;
       props.onTextChange && props.onTextChange(Number(financialFixed(result)));
       props.onTextChangeMessage &&
         props.onTextChangeMessage(resultString.toString());

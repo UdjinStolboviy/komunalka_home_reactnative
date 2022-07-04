@@ -4,6 +4,8 @@ import { NotificationsState } from "./notifications/notifications.state";
 import { AnimationsState } from "./animation/animations.state";
 import { NavigationState } from "./navigation/navigation.state.model";
 import { ListenerState } from "./listener/listener.state.model";
+import { CalculatorState, ICalculatorState } from "./calculator/calculator.model";
+import { SettingAccountTariffState } from "./setting-account/setting.account.tariff.model";
 
 
 @injectable()
@@ -12,6 +14,8 @@ export class GlobalStorage {
     @observable private notificationsState: NotificationsState;
     @observable private animationsState: AnimationsState;
     @observable private navigationState: NavigationState;
+    @observable private calculatorState: CalculatorState;
+    @observable private settingAccountTariffState: SettingAccountTariffState;
     @observable private readonly listenerState: ListenerState;
 
 
@@ -22,6 +26,8 @@ export class GlobalStorage {
             notifications: [],
             badgeShown: false
         })
+        this.calculatorState = new CalculatorState();
+        this.settingAccountTariffState = new SettingAccountTariffState();
         this.animationsState = new AnimationsState();
         this.navigationState = new NavigationState();
         this.listenerState = new ListenerState();
@@ -39,6 +45,14 @@ export class GlobalStorage {
 
     public getNavigationState(): NavigationState {
         return this.navigationState;
+    }
+
+    public getCalculatorState(): CalculatorState {
+        return this.calculatorState;
+    }
+
+    public getSettingAccountTariffState(): SettingAccountTariffState {
+        return this.settingAccountTariffState;
     }
 
     @action

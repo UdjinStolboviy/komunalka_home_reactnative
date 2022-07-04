@@ -7,6 +7,7 @@ import { GlobalStorage } from "../../data/storage/global.storage";
 import { ILoggerService } from "../logger/main/logger.service.interface";
 import { IAsyncStorage } from "../async-storage/async.storage.interface";
 import { IListenerService } from "../listener/listener.service";
+import { ISettingAccountTariffState } from "app/data/storage/setting-account/setting.account.tariff.model";
 
 
 @injectable()
