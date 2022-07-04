@@ -58,15 +58,6 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
     Keyboard.dismiss();
   };
 
-  useEffect(() => {
-    console.log('multiplicationElectricity', multiplicationElectricity);
-    console.log('multiplicationWater', multiplicationWater);
-    console.log('resultInternet', resultInternet);
-    console.log('resultRent', resultRent);
-    console.log('resultOtherOption', resultOtherOption);
-    console.log('resultAllCalculate', resultAllCalculate);
-  }, [contentProgress]);
-
   const massage = `Доброго дня!
     Порахували комунальні:
     Електроенергія: ${resultElectricity} кВт
@@ -82,7 +73,7 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
     Інтернет: ${resultInternet} грн
     Квартплата: ${resultRent} грн
     Додаткові послуги: ${resultOtherOption} грн
-    
+
     Коментар: ${comments}\n
     Всього:  ${multiplicationElectricity} + ${multiplicationWater} + 
     ${resultInternet} + ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n `;
