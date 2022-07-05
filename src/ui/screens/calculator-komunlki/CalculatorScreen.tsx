@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Keyboard} from 'react-native';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
@@ -54,11 +54,25 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
       resultOtherOption,
   );
 
+  const SubtractionElectricityRef: any = useRef();
+  const SubtractionWaterRef: any = useRef();
+
   const _closeAllPopUps = () => {
     Keyboard.dismiss();
   };
 
-  const massage = `Доброго дня!
+  const _onPressTrash = () => {
+    calculatorState.clearState();
+    setContentProgress(0);
+    setEnableOtherOptions(true);
+    setEnableComments(true);
+    SubtractionElectricityRef.current &&
+      SubtractionElectricityRef.current.clear();
+    SubtractionWaterRef.current && SubtractionWaterRef.current.clear();
+  };
+
+  const massage = `      Доброго дня!
+
     Порахували комунальні:
     Електроенергія: ${resultElectricity} кВт
     ${messageElectricity}
@@ -93,6 +107,7 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
           onPress={_closeAllPopUps}>
           <TitleUniversal title={Texts.ELECTRICITY} />
           <SubtractionCalculator
+            ref={SubtractionElectricityRef}
             unitOfMeasurement={Texts.KWT}
             onTextChange={(text: number) =>
               calculatorState.setResultElectricity(text)
@@ -111,6 +126,7 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
           />
           <TitleUniversal title={Texts.WATER} />
           <SubtractionCalculator
+            ref={SubtractionWaterRef}
             unitOfMeasurement={Texts.KUBM}
             onTextChange={(text: number) =>
               calculatorState.setResultWater(text)
@@ -176,7 +192,7 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
               containerStyle={style.inputContainer}
             />
           )}
-          <FunctionButtons massage={massage} />
+          <FunctionButtons massage={massage} onPressTrash={_onPressTrash} />
         </TouchableOpacity>
       </ContentProgressScrollView>
     </View>

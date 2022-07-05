@@ -4,10 +4,12 @@ import {StyleProp, StyleSheet, View, ViewStyle, Text} from 'react-native';
 import {observer} from 'mobx-react';
 import {SharingButton} from './SharingButton';
 import {CopyButton} from './CopyButton';
+import {TrashButton} from './TrashButton';
 
 export interface FunctionButtonsProps {
   containerStyle?: StyleProp<ViewStyle>;
   massage: string;
+  onPressTrash: () => void;
 }
 
 export interface FunctionButtonsRef {
@@ -26,6 +28,7 @@ export const FunctionButtons = observer(
 
     return (
       <View style={[style.container, props.containerStyle]}>
+        <TrashButton onPressTrash={props.onPressTrash} />
         <SharingButton message={props.massage} />
         <CopyButton message={props.massage} />
       </View>

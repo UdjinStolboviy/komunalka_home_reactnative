@@ -114,5 +114,6 @@ const style = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingLeft: 30,
   },
 });

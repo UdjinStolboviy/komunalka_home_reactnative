@@ -51,7 +51,13 @@ export interface InputUniversalRef {
   clear: () => void;
 }
 
-export const InputUniversal = (props: InputUniversalProps) => {
+export const InputUniversal = forwardRef((props: InputUniversalProps, ref) => {
+  useImperativeHandle(ref, () => ({
+    clear() {
+      setChosenText('');
+      setText('');
+    },
+  }));
   const inputRef = useRef<TextInput>(null);
 
   const [focused, setFocused] = useState(props.focusedScreen);
@@ -201,7 +207,7 @@ export const InputUniversal = (props: InputUniversalProps) => {
       {!focused ? <ValidDisplayText /> : null}
     </View>
   );
-};
+});
 
 const style = StyleSheet.create({
   container: {

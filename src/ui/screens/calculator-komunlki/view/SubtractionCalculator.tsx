@@ -1,4 +1,4 @@
-import React, {forwardRef, useImperativeHandle, useState} from 'react';
+import React, {forwardRef, useImperativeHandle, useRef, useState} from 'react';
 import {StyleProp, StyleSheet, View, ViewStyle, Text} from 'react-native';
 
 import {observer} from 'mobx-react';
@@ -25,9 +25,14 @@ export const SubtractionCalculator = observer(
   forwardRef((props: SubtractionCalculatorProps, ref) => {
     const [currentData, setCurrentData] = useState<string>('');
     const [preliminaryData, setPreliminaryData] = useState<string>('');
+    const inputOneRef: any = useRef();
+    const inputSecondRef: any = useRef();
     useImperativeHandle(ref, () => ({
       clear() {
-        console.log('clear');
+        inputOneRef.current && inputOneRef.current.clear();
+        inputSecondRef.current && inputSecondRef.current.clear();
+        setCurrentData('');
+        setPreliminaryData('');
       },
     }));
 
@@ -47,6 +52,7 @@ export const SubtractionCalculator = observer(
     return (
       <View style={[style.container, props.containerStyle]}>
         <InputUniversal
+          ref={inputOneRef}
           onTextChange={text => setCurrentData(text)}
           typeKeyboard={'numeric'}
           validateText={'numeric'}
@@ -58,6 +64,7 @@ export const SubtractionCalculator = observer(
         </View>
 
         <InputUniversal
+          ref={inputSecondRef}
           onTextChange={text => setPreliminaryData(text)}
           typeKeyboard={'numeric'}
           validateText={'numeric'}

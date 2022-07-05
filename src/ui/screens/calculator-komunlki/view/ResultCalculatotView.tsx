@@ -7,7 +7,7 @@ import {Colors} from 'app/assets/constants/colors/Colors';
 export interface ResultCalculatorViewProps {
   containerStyle?: StyleProp<ViewStyle>;
   nameTariff: string;
-  currentData: string;
+  currentData: number;
   unitOfMeasurement: string;
 }
 
