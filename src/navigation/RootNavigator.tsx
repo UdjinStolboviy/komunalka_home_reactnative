@@ -7,7 +7,6 @@ import {appCoreService} from 'app/data/ioc/inversify.config';
 
 import {MainStack} from './MainStack';
 import {BottomTabBar} from './BottomTabBar';
-import {MainScreen} from 'app/ui/screens/Home/HomeScreen';
 import {Screens} from 'app/assets/constants/codes/Screens';
 
 const Stack = createStackNavigator();

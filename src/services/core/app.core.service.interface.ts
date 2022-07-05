@@ -9,6 +9,7 @@ import { ICalculatorState } from "app/data/storage/calculator/calculator.model";
 
 
 export interface IAppCoreService {
+    listenerService: IListenerService;
     navigationService: INavigationService;
     storage: GlobalStorage;
     logger: ILoggerService;
