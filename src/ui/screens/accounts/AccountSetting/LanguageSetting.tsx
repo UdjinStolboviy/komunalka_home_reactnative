@@ -13,27 +13,29 @@ export const LanguageSetting: React.FC = () => {
   // const { changeLanguage } = useContext<LocalizationContext>(localizationContext);
 
   return (
-    <ScrollView style={style.container}>
+    <ScrollView>
       <AppHeader />
-      <View style={style.switchesContainer}>
-        <Text style={style.switchName}>{'English'}</Text>
-        <TouchableOpacity
-          onPress={() => {
-            // changeLanguage('en');
-            // RNRestart.Restart();
-          }}>
+      <View style={style.container}>
+        <View style={style.switchesContainer}>
           <Text style={style.switchName}>{'English'}</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={[style.switchesContainer, {marginTop: 30}]}>
-        <Text style={style.switchName}>{'Chinese'}</Text>
-        <TouchableOpacity
-          onPress={() => {
-            // changeLanguage('cn');
-            // RNRestart.Restart();
-          }}>
+          <TouchableOpacity
+            onPress={() => {
+              // changeLanguage('en');
+              // RNRestart.Restart();
+            }}>
+            <Text style={style.switchName}>{'English'}</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={[style.switchesContainer, {marginTop: 30}]}>
           <Text style={style.switchName}>{'Chinese'}</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              // changeLanguage('cn');
+              // RNRestart.Restart();
+            }}>
+            <Text style={style.switchName}>{'Chinese'}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );

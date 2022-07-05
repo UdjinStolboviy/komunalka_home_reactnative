@@ -129,7 +129,9 @@ export const AccountSettingScreen: React.FC = observer(() => {
               <NotificationIcon />
               <AccountItem
                 text={'Setting_Language'}
-                onPress={() => navigationService.navigate(StackScreen.LANGUAGE)}
+                onPress={() =>
+                  navigationService.navigate(Screens._LANGUAGE_SETTING)
+                }
               />
             </View>
           </View>
@@ -141,7 +143,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
               <PrivacyPolicyIcon />
               <AccountItem
                 text={'Setting_Privacy_Policy'}
-                onPress={() => navigationService.navigate(StackScreen.POLICY)}
+                onPress={() => navigationService.navigate(Screens._POLICY)}
               />
             </View>
 
@@ -149,7 +151,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
               <TermsIcon />
               <AccountItem
                 text={'Setting_Terms_Of_Conditions'}
-                onPress={() => navigationService.navigate(StackScreen.TERMS)}
+                onPress={() => navigationService.navigate(Screens._TERMS)}
               />
             </View>
           </View>
@@ -171,7 +173,7 @@ const AccountStyle = StyleSheet.create({
     padding: 24,
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: Colors.white,
+    backgroundColor: Colors._FFFFFF,
   },
   navigationContainer: {
     display: 'flex',
@@ -184,7 +186,7 @@ const AccountStyle = StyleSheet.create({
   header: {
     fontSize: 34,
     lineHeight: 41,
-    color: Colors.blackFont,
+    color: Colors._000000,
     marginBottom: 24,
   },
   avatarNameContainer: {
@@ -201,11 +203,11 @@ const AccountStyle = StyleSheet.create({
     marginRight: 20,
     resizeMode: 'contain',
   },
-  name: {color: Colors.blackFont, fontSize: 16, lineHeight: 22},
+  name: {color: Colors._000000, fontSize: 16, lineHeight: 22},
   blockHeader: {
     fontSize: 12,
     lineHeight: 16,
-    color: Colors.grey70,
+    color: Colors._979797,
     marginBottom: 18,
   },
   blockOfLinksContainer: {
@@ -218,15 +220,15 @@ const AccountStyle = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  textArrow: {fontSize: 17, lineHeight: 20, color: Colors.blackFont},
+  textArrow: {fontSize: 17, lineHeight: 20, color: Colors._000000},
   divider: {
     width: '100%',
     borderWidth: 0.5,
-    borderColor: Colors.grey6,
+    borderColor: Colors._979797,
     marginBottom: 18,
     marginTop: 18,
   },
-  logout: {color: Colors.grey60, fontSize: 17, lineHeight: 20},
+  logout: {color: Colors._979797, fontSize: 17, lineHeight: 20},
   AccountItemContainer: {flexDirection: 'row', alignItems: 'center'},
   svg: {marginRight: 16},
   logoutContainer: {
@@ -238,7 +240,7 @@ const AccountStyle = StyleSheet.create({
   saveButton: {
     fontSize: 17,
     lineHeight: 22,
-    color: Colors.saveButtonBlue,
+    color: Colors._979797,
     marginHorizontal: 24,
   },
   imageUserProfile: {
@@ -249,7 +251,7 @@ const AccountStyle = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
   },
-  nameUserProfile: {color: Colors.blackFont, fontSize: 16, lineHeight: 22},
+  nameUserProfile: {color: Colors._000000, fontSize: 16, lineHeight: 22},
   avatarNameContainerUserProfile: {
     display: 'flex',
     flexDirection: 'column',
@@ -260,7 +262,7 @@ const AccountStyle = StyleSheet.create({
   headerUserProfile: {
     fontSize: 34,
     lineHeight: 41,
-    color: Colors.blackFont,
+    color: Colors._000000,
     marginTop: 24,
     alignSelf: 'flex-start',
   },
@@ -271,7 +273,7 @@ const AccountStyle = StyleSheet.create({
     marginTop: 12,
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: Colors.activeBlue,
+    borderColor: Colors._007AFF,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 10,
@@ -282,15 +284,12 @@ const AccountStyle = StyleSheet.create({
     backgroundColor: '#F2F8FF',
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: Colors.activeBlue,
+    borderColor: Colors._007AFF,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 20,
   },
-  webWiev: {
-    width: '100%',
-    height: Dimensions.get('screen').height,
-  },
+
   headerContainer: {
     paddingHorizontal: 24,
     flexDirection: 'column',

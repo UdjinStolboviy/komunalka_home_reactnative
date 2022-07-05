@@ -8,8 +8,6 @@ import {BottomTabBarProps} from '@react-navigation/bottom-tabs/lib/typescript/sr
 import {IAppCoreService} from '../services/core/app.core.service.interface';
 import {MainScreen} from 'app/ui/screens/Home/HomeScreen';
 import {FirstScreen} from 'app/ui/screens/Home/FirstScreen';
-import {SecondScreen} from 'app/ui/screens/Home/SecondScreen';
-import {EndScreen} from 'app/ui/screens/Home/EndScreen';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {Screens} from 'app/assets/constants/codes/Screens';
 import {HomeIcon} from 'app/assets/Icons/HomeIcon';
@@ -18,6 +16,7 @@ import {CalculatorIcon} from 'app/assets/Icons/CalculatorIcon';
 import {SettingIcon} from 'app/assets/Icons/SettingIcon';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {CalculatorScreen} from 'app/ui/screens/calculator-komunlki/CalculatorScreen';
+import {AccountSettingScreen} from 'app/ui/screens/accounts/AccountSetting/AccountSettingScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -120,7 +119,8 @@ export const BottomTabBar = () => {
         const routeAvailable =
           route.name === Screens.SCREEN_FIRST ||
           route.name === Screens.SCREEN_MAIN ||
-          route.name === Screens.SCREEN_END;
+          route.name === Screens.SCREEN_END ||
+          route.name === Screens._ACCOUNT_SETTING;
 
         if (!routeAvailable) {
           app.navigationService.navigate(Screens._CALCULATOR);
@@ -200,7 +200,10 @@ export const BottomTabBar = () => {
         options={{unmountOnBlur: true}}
       />
       <Tab.Screen name={Screens._CALCULATOR} component={CalculatorScreen} />
-      <Tab.Screen name={Screens.SCREEN_END} component={EndScreen} />
+      <Tab.Screen
+        name={Screens._ACCOUNT_SETTING}
+        component={AccountSettingScreen}
+      />
     </Tab.Navigator>
   );
 };
