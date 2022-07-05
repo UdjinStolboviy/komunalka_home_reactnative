@@ -16,6 +16,7 @@ import {FunctionButtons} from './view/FunctionButtons';
 import {observer} from 'mobx-react';
 import {ResultCalculatorView} from './view/ResultCalculatotView';
 import {financialFixed} from 'app/utils/comparator';
+import {Colors} from 'app/assets/constants/colors/Colors';
 
 export interface ICalculatorScreenProps {}
 
@@ -203,6 +204,7 @@ const style = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
+    backgroundColor: Colors._FFFFFF,
   },
   inputContainer: {
     width: '95%',

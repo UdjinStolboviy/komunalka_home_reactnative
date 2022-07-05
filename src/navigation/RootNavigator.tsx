@@ -31,14 +31,14 @@ export const RootNavigator = (props: RootNavigatorProps) => {
   //   navigationService.navigate(Screens.STACK_MAIN, {
   //     screen: Screens._TERMS,
   //   });
-  {
-    /* <Stack.Screen
+  // {
+  /* <Stack.Screen
             initialParams={props.initialScreen.getNext()}
             name={Screens.STACK_MAIN}
             component={MainStack}
             options={{gestureEnabled: false}}
           /> */
-  }
+  // }
   if (props.initialScreen) {
     return (
       <NavigationContainer

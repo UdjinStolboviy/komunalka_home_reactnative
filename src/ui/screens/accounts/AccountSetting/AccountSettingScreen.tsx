@@ -82,10 +82,8 @@ export const AccountSettingScreen: React.FC = observer(() => {
   };
 
   return (
-    <View>
-      <View style={AccountStyle.headerContainer}>
-        <AppHeader />
-      </View>
+    <View style={AccountStyle.containerWrapper}>
+      <AppHeader />
       <ScrollView>
         <View style={AccountStyle.container}>
           <UserProfile />
@@ -96,7 +94,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
             </Text>
 
             <View style={AccountStyle.AccountItemContainer}>
-              <ProfileIcon />
+              <ProfileIcon style={AccountStyle.iconWrapper} />
               <AccountItem
                 text={'Setting_Personal_Information'}
                 onPress={() =>
@@ -106,7 +104,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
             </View>
 
             <View style={AccountStyle.AccountItemContainer}>
-              <StartIcon />
+              <StartIcon style={AccountStyle.iconWrapper} />
               <AccountItem
                 text={'CalculatorTariffSetting'}
                 onPress={() =>
@@ -116,7 +114,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
             </View>
 
             <View style={AccountStyle.AccountItemContainer}>
-              <NotificationIcon />
+              <NotificationIcon style={AccountStyle.iconWrapper} />
               <AccountItem
                 text={'Setting_Notifications'}
                 onPress={() =>
@@ -126,7 +124,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
             </View>
 
             <View style={AccountStyle.AccountItemContainer}>
-              <NotificationIcon />
+              <NotificationIcon style={AccountStyle.iconWrapper} />
               <AccountItem
                 text={'Setting_Language'}
                 onPress={() =>
@@ -140,7 +138,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
             <Text style={AccountStyle.blockHeader}>{'Setting_Support'}</Text>
 
             <View style={AccountStyle.AccountItemContainer}>
-              <PrivacyPolicyIcon />
+              <PrivacyPolicyIcon style={AccountStyle.iconWrapper} />
               <AccountItem
                 text={'Setting_Privacy_Policy'}
                 onPress={() => navigationService.navigate(Screens._POLICY)}
@@ -148,7 +146,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
             </View>
 
             <View style={AccountStyle.AccountItemContainer}>
-              <TermsIcon />
+              <TermsIcon style={AccountStyle.iconWrapper} />
               <AccountItem
                 text={'Setting_Terms_Of_Conditions'}
                 onPress={() => navigationService.navigate(Screens._TERMS)}
@@ -159,7 +157,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
           <TouchableOpacity
             onPress={() => console.log('logout')}
             style={AccountStyle.logoutContainer}>
-            <LogoutIcon />
+            <LogoutIcon style={AccountStyle.iconWrapper} />
             <Text style={AccountStyle.logout}>{'Setting_Logout'}</Text>
           </TouchableOpacity>
         </View>
@@ -169,41 +167,17 @@ export const AccountSettingScreen: React.FC = observer(() => {
 });
 
 const AccountStyle = StyleSheet.create({
+  containerWrapper: {
+    backgroundColor: Colors._FFFFFF,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     padding: 24,
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: Colors._FFFFFF,
   },
-  navigationContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 25,
-    marginBottom: 8,
-  },
-  header: {
-    fontSize: 34,
-    lineHeight: 41,
-    color: Colors._000000,
-    marginBottom: 24,
-  },
-  avatarNameContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 24,
-    marginTop: 50,
-  },
-  image: {
-    width: 72,
-    height: 72,
-    borderRadius: 8,
-    marginRight: 20,
-    resizeMode: 'contain',
-  },
-  name: {color: Colors._000000, fontSize: 16, lineHeight: 22},
+  iconWrapper: {marginRight: 10},
   blockHeader: {
     fontSize: 12,
     lineHeight: 16,
@@ -221,28 +195,19 @@ const AccountStyle = StyleSheet.create({
     justifyContent: 'space-between',
   },
   textArrow: {fontSize: 17, lineHeight: 20, color: Colors._000000},
-  divider: {
-    width: '100%',
-    borderWidth: 0.5,
-    borderColor: Colors._979797,
-    marginBottom: 18,
-    marginTop: 18,
-  },
+
   logout: {color: Colors._979797, fontSize: 17, lineHeight: 20},
-  AccountItemContainer: {flexDirection: 'row', alignItems: 'center'},
-  svg: {marginRight: 16},
+  AccountItemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 18,
+  },
   logoutContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: '14%',
   },
-  arrow: {fontSize: 28},
-  saveButton: {
-    fontSize: 17,
-    lineHeight: 22,
-    color: Colors._979797,
-    marginHorizontal: 24,
-  },
+
   imageUserProfile: {
     width: 72,
     height: 72,
@@ -259,13 +224,7 @@ const AccountStyle = StyleSheet.create({
     marginBottom: 24,
     marginTop: 10,
   },
-  headerUserProfile: {
-    fontSize: 34,
-    lineHeight: 41,
-    color: Colors._000000,
-    marginTop: 24,
-    alignSelf: 'flex-start',
-  },
+
   profile: {
     height: 72,
     width: 72,
@@ -277,22 +236,5 @@ const AccountStyle = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 10,
-  },
-  profilePersonalInfo: {
-    height: 72,
-    width: 72,
-    backgroundColor: '#F2F8FF',
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors._007AFF,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 20,
-  },
-
-  headerContainer: {
-    paddingHorizontal: 24,
-    flexDirection: 'column',
-    marginTop: 10,
   },
 });

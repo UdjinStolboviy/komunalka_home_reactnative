@@ -11,6 +11,7 @@ import {ContentProgressScrollView} from 'app/ui/components/Common/Scroll/Content
 import {HomePageCharts} from 'app/ui/screens/Home/HomePageCharts';
 import {ElementItem} from 'app/ui/components/Main/ScreenView/ElemetItemHome';
 import {Type} from 'app/assets/constants/codes/Type';
+import {Colors} from 'app/assets/constants/colors/Colors';
 
 export const MainScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -60,5 +61,6 @@ const style = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
+    backgroundColor: Colors._FFFFFF,
   },
 });

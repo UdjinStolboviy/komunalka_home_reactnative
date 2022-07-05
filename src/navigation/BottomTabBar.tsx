@@ -1,7 +1,6 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {Text} from 'react-native';
 import {TouchableOpacity, View} from 'react-native';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 
@@ -170,6 +169,7 @@ export const BottomTabBar = () => {
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
+          backgroundColor: Colors._FFFFFF,
         }}>
         <View
           style={{

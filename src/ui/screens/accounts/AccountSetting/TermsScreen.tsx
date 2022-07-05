@@ -1,3 +1,4 @@
+import {Colors} from 'app/assets/constants/colors/Colors';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
@@ -7,11 +8,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 export const TermsScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
   return (
-    <View
-      style={{
-        height: '100%',
-        width: '100%',
-      }}>
+    <View style={style.container}>
       <AppHeader />
       <TouchableOpacity
         onPress={() => console.log('TermsScreen')}
@@ -30,9 +27,7 @@ export const TermsScreen = (props: any) => {
 const style = StyleSheet.create({
   container: {
     width: '100%',
-    height: 50,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: '100%',
+    backgroundColor: Colors._FFFFFF,
   },
 });
