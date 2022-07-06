@@ -28,6 +28,7 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
   const resultInternet = settingAccountTariffState.getInternetTariff();
   const resultRent = settingAccountTariffState.getRentTariff();
   const electricityTariff = settingAccountTariffState.getElectricityTariff();
+  const waterTariff = settingAccountTariffState.getWaterTariff();
 
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [enableOtherOptions, setEnableOtherOptions] = useState<boolean>(true);
@@ -80,12 +81,12 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
     Електроенергія: ${resultElectricity} кВт
     ${messageElectricity}
     ${electricityTariff} грн за кВт
-    ${resultElectricity} * 1.6 грн = ${multiplicationElectricity} грн 
+    ${resultElectricity} * ${electricityTariff} грн = ${multiplicationElectricity} грн 
 
     Вода: ${resultWater} куб.м
     ${messageWater}
-    30,38 грн за куб.м
-    ${resultWater} * 30,38 грн = ${multiplicationWater} грн 
+    ${waterTariff} грн за куб.м
+    ${resultWater} * ${waterTariff} грн = ${multiplicationWater} грн 
 
     Інтернет: ${resultInternet} грн
     Квартплата: ${resultRent} грн
