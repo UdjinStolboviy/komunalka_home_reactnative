@@ -85,7 +85,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
 
   return (
     <View style={AccountStyle.containerWrapper}>
-      <AppHeader settingsDisabled />
+      <AppHeader settingsDisabled title={"Налаштування"} />
       <ScrollView>
         <View style={AccountStyle.container}>
           <UserProfile />
