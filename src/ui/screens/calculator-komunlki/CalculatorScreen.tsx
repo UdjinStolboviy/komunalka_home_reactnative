@@ -17,6 +17,7 @@ import {observer} from 'mobx-react';
 import {ResultCalculatorView} from './view/ResultCalculatotView';
 import {financialFixed} from 'app/utils/comparator';
 import {Colors} from 'app/assets/constants/colors/Colors';
+import {Screens} from 'app/assets/constants/codes/Screens';
 
 export interface ICalculatorScreenProps {}
 
@@ -26,6 +27,7 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
   const settingAccountTariffState = app.storage.getSettingAccountTariffState();
   const resultInternet = settingAccountTariffState.getInternetTariff();
   const resultRent = settingAccountTariffState.getRentTariff();
+  const electricityTariff = settingAccountTariffState.getElectricityTariff();
 
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [enableOtherOptions, setEnableOtherOptions] = useState<boolean>(true);
@@ -77,7 +79,7 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
     Порахували комунальні:
     Електроенергія: ${resultElectricity} кВт
     ${messageElectricity}
-    1,6 грн за кВт
+    ${electricityTariff} грн за кВт
     ${resultElectricity} * 1.6 грн = ${multiplicationElectricity} грн 
 
     Вода: ${resultWater} куб.м
@@ -99,6 +101,9 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
         title={Texts.CALCULATOR}
         progress={contentProgress}
         result={resultAllCalculate}
+        onSettingsPress={() =>
+          app.navigationService.navigate(Screens._CALCULATOR_TARIFF_SETTING)
+        }
       />
       <ContentProgressScrollView
         onProgressChange={progress => setContentProgress(progress)}>

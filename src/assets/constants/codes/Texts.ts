@@ -21,4 +21,5 @@ export class Texts {
   public static readonly CALCULATION_OF_UTILITIES: string =
     'Розрахунок комунальних послуг';
   public static readonly COMMENTS: string = 'Коментарі';
+  public static readonly UTILITY_TARIFFS: string = 'Комунальні тарифи';
 }

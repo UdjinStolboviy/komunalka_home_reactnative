@@ -12,13 +12,14 @@ export interface AdditionalTariffsProps {
   currentData: number;
   unitOfMeasurement: string;
   onTextChange?: (text: string) => void;
+  notDisabledEqual?: boolean;
 }
 
 export const AdditionalTariffs = (props: AdditionalTariffsProps) => {
   return (
     <View style={[style.container, props.containerStyle]}>
       <Text style={style.textTitle}>{props.nameTariff}</Text>
-      <EqualIcon />
+      {!props.notDisabledEqual ? <EqualIcon /> : null}
       <InputUniversal
         onTextChange={text => props.onTextChange && props.onTextChange(text)}
         typeKeyboard={'numeric'}
