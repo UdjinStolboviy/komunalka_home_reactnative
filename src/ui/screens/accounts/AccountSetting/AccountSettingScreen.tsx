@@ -16,6 +16,8 @@ import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {Screens} from 'app/assets/constants/codes/Screens';
+import {CalculatorIcon} from 'app/assets/Icons/CalculatorIcon';
+import {CalculatorIconSmall} from 'app/assets/Icons/CalculatorIconSmall';
 
 interface IProps {
   text: string;
@@ -76,27 +78,27 @@ export const AccountSettingScreen: React.FC = observer(() => {
             <ProfileSettingIcon />
           </View>
         )}
-        <Text style={AccountStyle.nameUserProfile}>{'Name'}</Text>
+        <Text style={AccountStyle.nameUserProfile}>{'Імя'}</Text>
       </View>
     );
   };
 
   return (
     <View style={AccountStyle.containerWrapper}>
-      <AppHeader />
+      <AppHeader settingsDisabled />
       <ScrollView>
         <View style={AccountStyle.container}>
           <UserProfile />
 
           <View style={AccountStyle.blockOfLinksContainer}>
             <Text style={AccountStyle.blockHeader}>
-              {'Setting_Account_Settings'}
+              {'Налаштування акаунту'}
             </Text>
 
             <View style={AccountStyle.AccountItemContainer}>
               <ProfileIcon style={AccountStyle.iconWrapper} />
               <AccountItem
-                text={'Setting_Personal_Information'}
+                text={'Персональні данні'}
                 onPress={() =>
                   navigationService.navigate(Screens._PERSONAL_INFO)
                 }
@@ -104,9 +106,9 @@ export const AccountSettingScreen: React.FC = observer(() => {
             </View>
 
             <View style={AccountStyle.AccountItemContainer}>
-              <StartIcon style={AccountStyle.iconWrapper} />
+              <CalculatorIconSmall style={AccountStyle.iconWrapper} />
               <AccountItem
-                text={'CalculatorTariffSetting'}
+                text={'Комунальні тарифи'}
                 onPress={() =>
                   navigationService.navigate(Screens._CALCULATOR_TARIFF_SETTING)
                 }
@@ -116,7 +118,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
             <View style={AccountStyle.AccountItemContainer}>
               <NotificationIcon style={AccountStyle.iconWrapper} />
               <AccountItem
-                text={'Setting_Notifications'}
+                text={'Нагадування'}
                 onPress={() =>
                   navigationService.navigate(Screens._NOTIFICATION_SETTING)
                 }
@@ -124,9 +126,9 @@ export const AccountSettingScreen: React.FC = observer(() => {
             </View>
 
             <View style={AccountStyle.AccountItemContainer}>
-              <NotificationIcon style={AccountStyle.iconWrapper} />
+              <StartIcon style={AccountStyle.iconWrapper} />
               <AccountItem
-                text={'Setting_Language'}
+                text={'Мова'}
                 onPress={() =>
                   navigationService.navigate(Screens._LANGUAGE_SETTING)
                 }
@@ -135,12 +137,12 @@ export const AccountSettingScreen: React.FC = observer(() => {
           </View>
 
           <View style={AccountStyle.blockOfLinksContainer}>
-            <Text style={AccountStyle.blockHeader}>{'Setting_Support'}</Text>
+            <Text style={AccountStyle.blockHeader}>{'Підтримка'}</Text>
 
             <View style={AccountStyle.AccountItemContainer}>
               <PrivacyPolicyIcon style={AccountStyle.iconWrapper} />
               <AccountItem
-                text={'Setting_Privacy_Policy'}
+                text={'Політика конфіденційності'}
                 onPress={() => navigationService.navigate(Screens._POLICY)}
               />
             </View>
@@ -148,7 +150,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
             <View style={AccountStyle.AccountItemContainer}>
               <TermsIcon style={AccountStyle.iconWrapper} />
               <AccountItem
-                text={'Setting_Terms_Of_Conditions'}
+                text={'Умови використання'}
                 onPress={() => navigationService.navigate(Screens._TERMS)}
               />
             </View>
@@ -158,7 +160,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
             onPress={() => console.log('logout')}
             style={AccountStyle.logoutContainer}>
             <LogoutIcon style={AccountStyle.iconWrapper} />
-            <Text style={AccountStyle.logout}>{'Setting_Logout'}</Text>
+            <Text style={AccountStyle.logout}>{'Вихід'}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
