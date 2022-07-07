@@ -67,7 +67,7 @@ export const AppHeader = (props: ProfileHeader) => {
           </Text>
           {props.result ? (
             <Text numberOfLines={3} style={style.mainText}>
-              {props.result + ' ' + Texts.UHG || ''}
+              {'Всього: ' + props.result + ' ' + Texts.UHG || ''}
             </Text>
           ) : null}
         </View>

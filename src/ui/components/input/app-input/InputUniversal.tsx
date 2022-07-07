@@ -81,6 +81,9 @@ export const InputUniversal = forwardRef((props: InputUniversalProps, ref) => {
     if (props.validateText === 'numeric') {
       return setTextValid(validateNumberWithSpaces(text));
     }
+    if (props.validateText === 'default') {
+      return setTextValid(true);
+    }
     setTextValid(validateNameWithSpaces(text));
   };
 

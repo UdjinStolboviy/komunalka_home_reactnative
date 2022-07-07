@@ -29,6 +29,8 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
   const resultRent = settingAccountTariffState.getRentTariff();
   const electricityTariff = settingAccountTariffState.getElectricityTariff();
   const waterTariff = settingAccountTariffState.getWaterTariff();
+  const garbageRemovalTariff =
+    settingAccountTariffState.getGarbageRemovalTariff();
 
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [enableOtherOptions, setEnableOtherOptions] = useState<boolean>(true);
@@ -50,11 +52,18 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
   const comments = calculatorState.getComments();
   const messageElectricity = calculatorState.getMessageElectricity();
   const messageWater = calculatorState.getMessageWater();
+  const resultAllUtilityPayments = financialFixed(
+    multiplicationElectricity +
+      multiplicationWater +
+      resultInternet +
+      garbageRemovalTariff,
+  );
   const resultAllCalculate = financialFixed(
     multiplicationElectricity +
       multiplicationWater +
       resultInternet +
       resultRent +
+      garbageRemovalTariff +
       resultOtherOption,
   );
 
@@ -89,17 +98,19 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
     ${resultWater} * ${waterTariff} грн = ${multiplicationWater} грн 
 
     Інтернет: ${resultInternet} грн
+    Вивіз сміття: ${garbageRemovalTariff} грн
+    Комунальні платежі всього: ${resultAllUtilityPayments} грн
     Квартплата: ${resultRent} грн
     Додаткові послуги: ${resultOtherOption} грн
-
     Коментар: ${comments}\n
     Всього:  ${multiplicationElectricity} + ${multiplicationWater} + 
-    ${resultInternet} + ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n `;
+    ${resultInternet} + ${garbageRemovalTariff} + 
+    ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n `;
 
   return (
     <View style={style.container}>
       <AppHeader
-        title={Texts.CALCULATOR}
+        title={`Комунальні: ${resultAllUtilityPayments} грн`}
         progress={contentProgress}
         result={resultAllCalculate}
         onSettingsPress={() =>
@@ -164,6 +175,14 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
             unitOfMeasurement={Texts.UHG}
             onTextChange={(text: string) =>
               settingAccountTariffState.setRentTariff(Number(text))
+            }
+          />
+          <AdditionalTariffs
+            nameTariff={Texts.GARBAGE_REMOVAL}
+            currentData={garbageRemovalTariff}
+            unitOfMeasurement={Texts.UHG}
+            onTextChange={(text: string) =>
+              settingAccountTariffState.setGarbageRemovalTariff(Number(text))
             }
           />
           <SwitchUniversal

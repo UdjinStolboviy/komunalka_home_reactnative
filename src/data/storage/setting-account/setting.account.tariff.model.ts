@@ -5,6 +5,7 @@ export interface ISettingAccountTariffState {
     waterTariff: number;
     internetTariff: number;
     rentTariff: number;
+    garbageRemovalTariff: number;
 }
 
 
@@ -16,15 +17,26 @@ export class SettingAccountTariffState {
     @observable private waterTariff: number;
     @observable private internetTariff: number;
     @observable private rentTariff: number;
+    @observable private garbageRemovalTariff: number;
 
 
 
     constructor() {
-        this.electricityTariff = 1.67;
-        this.waterTariff = 68.00;
+        this.electricityTariff = 1.68;
+        this.waterTariff = 30.39;
         this.internetTariff = 70.00;
         this.rentTariff = 6500.00;
+        this.garbageRemovalTariff = 50.00;
 
+    }
+
+    public getGarbageRemovalTariff(): number {
+        return this.garbageRemovalTariff;
+    }
+
+    @action
+    public setGarbageRemovalTariff(value: number) {
+        this.garbageRemovalTariff = value;
     }
 
     public getElectricityTariff(): number {
@@ -70,5 +82,6 @@ export class SettingAccountTariffState {
         this.waterTariff = 0;
         this.internetTariff = 0;
         this.rentTariff = 0;
+        this.garbageRemovalTariff = 0;
     }
 }

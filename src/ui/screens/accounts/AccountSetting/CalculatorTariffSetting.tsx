@@ -15,6 +15,8 @@ export const CalculatorTariffSetting = observer((props: any) => {
   const resultRent = settingAccountTariffState.getRentTariff();
   const electricityTariff = settingAccountTariffState.getElectricityTariff();
   const waterTariff = settingAccountTariffState.getWaterTariff();
+  const garbageRemovalTariff =
+    settingAccountTariffState.getGarbageRemovalTariff();
 
   const _closeAllPopUps = () => {
     Keyboard.dismiss();
@@ -60,6 +62,16 @@ export const CalculatorTariffSetting = observer((props: any) => {
           unitOfMeasurement={Texts.UHG + '/' + Texts.KWT}
           onTextChange={(text: string) =>
             settingAccountTariffState.setElectricityTariff(Number(text))
+          }
+        />
+
+        <AdditionalTariffs
+          notDisabledEqual
+          nameTariff={Texts.GARBAGE_REMOVAL}
+          currentData={garbageRemovalTariff}
+          unitOfMeasurement={Texts.UHG}
+          onTextChange={(text: string) =>
+            settingAccountTariffState.setGarbageRemovalTariff(Number(text))
           }
         />
       </TouchableOpacity>
