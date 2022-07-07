@@ -25,6 +25,7 @@ export const ResultCalculatorView = (props: ResultCalculatorViewProps) => {
 const style = StyleSheet.create({
   container: {
     marginTop: 15,
+    marginBottom: 15,
     paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',

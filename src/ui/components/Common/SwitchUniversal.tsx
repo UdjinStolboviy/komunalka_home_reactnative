@@ -37,7 +37,8 @@ export const SwitchUniversal = (props: SwitchUniversalProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 15,
+    marginTop: 20,
+    marginBottom: 20,
     paddingHorizontal: 15,
     width: '100%',
     alignItems: 'center',

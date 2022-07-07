@@ -19,7 +19,6 @@ import {
   validateNumberWithSpaces,
 } from '../../../../utils/validator';
 
-import {observer} from 'mobx-react';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {InputButton} from 'app/ui/components/button/AppButton/InputButton';
 
