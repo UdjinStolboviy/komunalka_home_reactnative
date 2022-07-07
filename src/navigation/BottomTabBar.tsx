@@ -16,6 +16,7 @@ import {SettingIcon} from 'app/assets/Icons/SettingIcon';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {CalculatorScreen} from 'app/ui/screens/calculator-komunlki/CalculatorScreen';
 import {AccountSettingScreen} from 'app/ui/screens/accounts/AccountSetting/AccountSettingScreen';
+import {useTheme} from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,6 +30,7 @@ interface IconContainerProps {
 
 export const BottomTabBar = () => {
   const app: IAppCoreService = useAppInjection();
+  const {colors} = useTheme();
 
   const IconContainer = (props: IconContainerProps) => {
     switch (props.index) {
@@ -169,7 +171,7 @@ export const BottomTabBar = () => {
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: Colors._FFFFFF,
+          backgroundColor: colors.background,
         }}>
         <View
           style={{

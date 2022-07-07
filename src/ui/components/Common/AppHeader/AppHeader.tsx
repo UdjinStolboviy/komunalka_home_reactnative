@@ -1,5 +1,13 @@
 import React from 'react';
-import {Platform, StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {
+  Platform,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {HeaderBackIcon} from '../../../../assets/Icons/HeaderBackIcon';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
@@ -26,7 +34,7 @@ export interface ProfileHeader {
   rightTextDisabled?: boolean;
   leftButtonDisabled?: boolean;
   progress?: number;
-  textStyle?: StyleProp<ViewStyle>;
+  textStyle?: any;
 }
 
 export const AppHeader = (props: ProfileHeader) => {

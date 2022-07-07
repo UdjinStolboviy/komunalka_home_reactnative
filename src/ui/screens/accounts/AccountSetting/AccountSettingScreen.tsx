@@ -18,6 +18,10 @@ import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {Screens} from 'app/assets/constants/codes/Screens';
 import {CalculatorIcon} from 'app/assets/Icons/CalculatorIcon';
 import {CalculatorIconSmall} from 'app/assets/Icons/CalculatorIconSmall';
+import {SwitchUniversal} from 'app/ui/components/Common/SwitchUniversal';
+import {Texts} from 'app/assets/constants/codes/Texts';
+import {ThemeContext} from 'app/navigation/RootNavigator';
+import {useTheme} from '@react-navigation/native';
 
 interface IProps {
   text: string;
@@ -26,11 +30,12 @@ interface IProps {
 
 const AccountItem: React.FC<IProps> = props => {
   const {text, onPress} = props;
+  const {colors} = useTheme();
   return (
     <TouchableOpacity
       onPress={() => onPress()}
       style={AccountStyle.linkArrowContainer}>
-      <Text style={AccountStyle.textArrow}>{text}</Text>
+      <Text style={[AccountStyle.textArrow, {color: colors.text}]}>{text}</Text>
     </TouchableOpacity>
   );
 };
@@ -38,6 +43,8 @@ const AccountItem: React.FC<IProps> = props => {
 export const AccountSettingScreen: React.FC = observer(() => {
   const app: IAppCoreService = useAppInjection();
   const navigationService = app.navigationService;
+  const {setTheme} = useContext(ThemeContext);
+  const {colors} = useTheme();
   // const navigationService = useInjection(INavigationService);
   // const appStore = useInjection(IAppStore);
   // const authStore = useInjection(IAuthStore);
@@ -84,14 +91,18 @@ export const AccountSettingScreen: React.FC = observer(() => {
   };
 
   return (
-    <View style={AccountStyle.containerWrapper}>
-      <AppHeader settingsDisabled title={"Налаштування"} />
+    <View
+      style={[
+        AccountStyle.containerWrapper,
+        {backgroundColor: colors.background},
+      ]}>
+      <AppHeader settingsDisabled title={'Налаштування'} />
       <ScrollView>
         <View style={AccountStyle.container}>
           <UserProfile />
 
           <View style={AccountStyle.blockOfLinksContainer}>
-            <Text style={AccountStyle.blockHeader}>
+            <Text style={[AccountStyle.blockHeader, {color: colors.text}]}>
               {'Налаштування акаунту'}
             </Text>
 
@@ -137,7 +148,9 @@ export const AccountSettingScreen: React.FC = observer(() => {
           </View>
 
           <View style={AccountStyle.blockOfLinksContainer}>
-            <Text style={AccountStyle.blockHeader}>{'Підтримка'}</Text>
+            <Text style={[AccountStyle.blockHeader, {color: colors.text}]}>
+              {'Підтримка'}
+            </Text>
 
             <View style={AccountStyle.AccountItemContainer}>
               <PrivacyPolicyIcon style={AccountStyle.iconWrapper} />
@@ -155,7 +168,16 @@ export const AccountSettingScreen: React.FC = observer(() => {
               />
             </View>
           </View>
-
+          <SwitchUniversal
+            unitOfMeasurement={'Темна тема'}
+            onSwitchChange={(isEnabled: boolean) => {
+              if (isEnabled) {
+                setTheme && setTheme('Light');
+              } else {
+                setTheme && setTheme('Dark');
+              }
+            }}
+          />
           <TouchableOpacity
             onPress={() => console.log('logout')}
             style={AccountStyle.logoutContainer}>
@@ -170,7 +192,6 @@ export const AccountSettingScreen: React.FC = observer(() => {
 
 const AccountStyle = StyleSheet.create({
   containerWrapper: {
-    backgroundColor: Colors._FFFFFF,
     width: '100%',
     height: '100%',
   },
@@ -207,7 +228,7 @@ const AccountStyle = StyleSheet.create({
   logoutContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: '14%',
+    marginTop: 20,
   },
 
   imageUserProfile: {

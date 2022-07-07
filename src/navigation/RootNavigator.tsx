@@ -1,5 +1,5 @@
-import {NavigationContainer} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
+import React, {createContext, useEffect, useState} from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {Screen} from '../models/navigator/navigator.screen.config';
@@ -19,7 +19,40 @@ import {LanguageSetting} from 'app/ui/screens/accounts/AccountSetting/LanguageSe
 import {PolicyScreen} from 'app/ui/screens/accounts/AccountSetting/PolicyScreen';
 import {TermsScreen} from 'app/ui/screens/accounts/AccountSetting/TermsScreen';
 
+import {Colors} from 'app/assets/constants/colors/Colors';
+
+export interface ThemeContext {
+  theme?: string;
+  setTheme?: (theme: string) => void;
+}
+export const ThemeContext = createContext<ThemeContext>(null as any);
+
 const Stack = createStackNavigator();
+const DarkTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: Colors._007AFF,
+    background: Colors._000000,
+    card: Colors._007AFF,
+    text: Colors._34C759,
+    border: Colors._007AFF,
+    notification: Colors._007AFF,
+  },
+};
+
+const LightTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: Colors._007AFF,
+    background: Colors._FFFFFF,
+    card: Colors._FFFFFF,
+    text: Colors._000000,
+    border: Colors._007AFF,
+    notification: Colors._007AFF,
+  },
+};
 
 export interface RootNavigatorProps {
   initialScreen: Screen;
@@ -27,6 +60,9 @@ export interface RootNavigatorProps {
 
 export const RootNavigator = (props: RootNavigatorProps) => {
   useEffect(() => {}, [props.initialScreen]);
+  const [theme, setTheme] = useState('Light');
+  const themeData = {theme, setTheme};
+
   // () =>
   //   navigationService.navigate(Screens.STACK_MAIN, {
   //     screen: Screens._TERMS,
@@ -41,76 +77,79 @@ export const RootNavigator = (props: RootNavigatorProps) => {
   // }
   if (props.initialScreen) {
     return (
-      <NavigationContainer
-        onStateChange={appCoreService.listenerService.onNavigationStateChange.bind(
-          appCoreService.listenerService,
-        )}
-        ref={ref => appCoreService.navigationService.setNavigator(ref)}>
-        <Stack.Navigator
-          initialRouteName={props.initialScreen.getName()}
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen
-            name={Screens.STACK_TAB}
-            component={BottomTabBar}
-            options={{gestureEnabled: false}}
-          />
+      <ThemeContext.Provider value={themeData}>
+        <NavigationContainer
+          theme={theme == 'Light' ? LightTheme : DarkTheme}
+          onStateChange={appCoreService.listenerService.onNavigationStateChange.bind(
+            appCoreService.listenerService,
+          )}
+          ref={ref => appCoreService.navigationService.setNavigator(ref)}>
+          <Stack.Navigator
+            initialRouteName={props.initialScreen.getName()}
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <Stack.Screen
+              name={Screens.STACK_TAB}
+              component={BottomTabBar}
+              options={{gestureEnabled: false}}
+            />
 
-          <Stack.Screen
-            name={Screens.SCREEN_MAIN}
-            component={MainScreen}
-            options={{
-              gestureEnabled: false,
-            }}
-          />
-          <Stack.Screen
-            name={Screens.SCREEN_FIRST}
-            component={FirstScreen}
-            options={{gestureEnabled: false}}
-          />
-          <Stack.Screen
-            name={Screens._CALCULATOR}
-            component={CalculatorScreen}
-            options={{gestureEnabled: false}}
-          />
-          <Stack.Screen
-            name={Screens._PERSONAL_INFO}
-            component={PersonalInfoScreen}
-            options={{gestureEnabled: false}}
-          />
-          <Stack.Screen
-            name={Screens._ACCOUNT_SETTING}
-            component={AccountSettingScreen}
-            options={{gestureEnabled: false}}
-          />
-          <Stack.Screen
-            name={Screens._CALCULATOR_TARIFF_SETTING}
-            component={CalculatorTariffSetting}
-            options={{gestureEnabled: false}}
-          />
-          <Stack.Screen
-            name={Screens._NOTIFICATION_SETTING}
-            component={NotificationSetting}
-            options={{gestureEnabled: false}}
-          />
-          <Stack.Screen
-            name={Screens._LANGUAGE_SETTING}
-            component={LanguageSetting}
-            options={{gestureEnabled: false}}
-          />
-          <Stack.Screen
-            name={Screens._POLICY}
-            component={PolicyScreen}
-            options={{gestureEnabled: false}}
-          />
-          <Stack.Screen
-            name={Screens._TERMS}
-            component={TermsScreen}
-            options={{gestureEnabled: false}}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+            <Stack.Screen
+              name={Screens.SCREEN_MAIN}
+              component={MainScreen}
+              options={{
+                gestureEnabled: false,
+              }}
+            />
+            <Stack.Screen
+              name={Screens.SCREEN_FIRST}
+              component={FirstScreen}
+              options={{gestureEnabled: false}}
+            />
+            <Stack.Screen
+              name={Screens._CALCULATOR}
+              component={CalculatorScreen}
+              options={{gestureEnabled: false}}
+            />
+            <Stack.Screen
+              name={Screens._PERSONAL_INFO}
+              component={PersonalInfoScreen}
+              options={{gestureEnabled: false}}
+            />
+            <Stack.Screen
+              name={Screens._ACCOUNT_SETTING}
+              component={AccountSettingScreen}
+              options={{gestureEnabled: false}}
+            />
+            <Stack.Screen
+              name={Screens._CALCULATOR_TARIFF_SETTING}
+              component={CalculatorTariffSetting}
+              options={{gestureEnabled: false}}
+            />
+            <Stack.Screen
+              name={Screens._NOTIFICATION_SETTING}
+              component={NotificationSetting}
+              options={{gestureEnabled: false}}
+            />
+            <Stack.Screen
+              name={Screens._LANGUAGE_SETTING}
+              component={LanguageSetting}
+              options={{gestureEnabled: false}}
+            />
+            <Stack.Screen
+              name={Screens._POLICY}
+              component={PolicyScreen}
+              options={{gestureEnabled: false}}
+            />
+            <Stack.Screen
+              name={Screens._TERMS}
+              component={TermsScreen}
+              options={{gestureEnabled: false}}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ThemeContext.Provider>
     );
   } else return null;
 };
