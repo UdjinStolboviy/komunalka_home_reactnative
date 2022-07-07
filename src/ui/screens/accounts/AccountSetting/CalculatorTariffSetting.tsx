@@ -57,7 +57,7 @@ export const CalculatorTariffSetting = observer((props: any) => {
         />
         <AdditionalTariffs
           notDisabledEqual
-          nameTariff={Texts.ELECTRICITY}
+          nameTariff={Texts.ELECTR}
           currentData={electricityTariff}
           unitOfMeasurement={Texts.UHG + '/' + Texts.KWT}
           onTextChange={(text: string) =>
