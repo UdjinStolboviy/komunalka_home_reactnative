@@ -31,7 +31,13 @@ export const MainScreen = (props: any) => {
 
   return (
     <View style={style.container}>
-      <AppHeader leftButtonDisabled title={Texts.HOME} />
+      <AppHeader
+        leftButtonDisabled
+        title={Texts.HOME}
+        onSettingsPress={() =>
+          app.navigationService.navigate(Screens._ACCOUNT_SETTING)
+        }
+      />
 
       <ContentProgressScrollView
         onProgressChange={progress => setContentProgress(progress)}>

@@ -113,6 +113,7 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
         title={`Комунальні: ${resultAllUtilityPayments} грн`}
         progress={contentProgress}
         result={resultAllCalculate}
+        textStyle={style.headerText}
         onSettingsPress={() =>
           app.navigationService.navigate(Screens._CALCULATOR_TARIFF_SETTING)
         }
@@ -234,5 +235,9 @@ const style = StyleSheet.create({
   inputContainer: {
     width: '95%',
     marginTop: 10,
+  },
+  headerText: {
+    fontSize: 0,
+    color: Colors._007AFF,
   },
 });
