@@ -5,7 +5,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Screen} from '../models/navigator/navigator.screen.config';
 import {appCoreService} from 'app/data/ioc/inversify.config';
 
-import {MainStack} from './MainStack';
 import {BottomTabBar} from './BottomTabBar';
 import {Screens} from 'app/assets/constants/codes/Screens';
 import {MainScreen} from 'app/ui/screens/Home/HomeScreen';
@@ -20,6 +19,10 @@ import {PolicyScreen} from 'app/ui/screens/accounts/AccountSetting/PolicyScreen'
 import {TermsScreen} from 'app/ui/screens/accounts/AccountSetting/TermsScreen';
 
 import {Colors} from 'app/assets/constants/colors/Colors';
+import {Platform} from 'react-native';
+
+import {Confirm} from 'app/ui/screens/auth/Login/Confirm';
+import {observer} from 'mobx-react';
 
 export interface ThemeContext {
   theme?: string;
@@ -27,7 +30,6 @@ export interface ThemeContext {
 }
 export const ThemeContext = createContext<ThemeContext>(null as any);
 
-const Stack = createStackNavigator();
 const DarkTheme = {
   ...DefaultTheme,
   colors: {
@@ -57,99 +59,134 @@ const LightTheme = {
 export interface RootNavigatorProps {
   initialScreen: Screen;
 }
+const MainStack = createStackNavigator();
 
-export const RootNavigator = (props: RootNavigatorProps) => {
-  useEffect(() => {}, [props.initialScreen]);
-  const [theme, setTheme] = useState('Light');
-  const themeData = {theme, setTheme};
-
-  // () =>
-  //   navigationService.navigate(Screens.STACK_MAIN, {
-  //     screen: Screens._TERMS,
-  //   });
-  // {
-  /* <Stack.Screen
-            initialParams={props.initialScreen.getNext()}
-            name={Screens.STACK_MAIN}
-            component={MainStack}
-            options={{gestureEnabled: false}}
-          /> */
-  // }
-  if (props.initialScreen) {
-    return (
-      <ThemeContext.Provider value={themeData}>
-        <NavigationContainer
-          theme={theme == 'Light' ? LightTheme : DarkTheme}
-          onStateChange={appCoreService.listenerService.onNavigationStateChange.bind(
-            appCoreService.listenerService,
-          )}
-          ref={ref => appCoreService.navigationService.setNavigator(ref)}>
-          <Stack.Navigator
-            initialRouteName={props.initialScreen.getName()}
-            screenOptions={{
-              headerShown: false,
-            }}>
-            <Stack.Screen
-              name={Screens.STACK_TAB}
-              component={BottomTabBar}
-              options={{gestureEnabled: false}}
-            />
-
-            <Stack.Screen
-              name={Screens.SCREEN_MAIN}
-              component={MainScreen}
-              options={{
-                gestureEnabled: false,
-              }}
-            />
-            <Stack.Screen
-              name={Screens.SCREEN_FIRST}
-              component={FirstScreen}
-              options={{gestureEnabled: false}}
-            />
-            <Stack.Screen
-              name={Screens._CALCULATOR}
-              component={CalculatorScreen}
-              options={{gestureEnabled: false}}
-            />
-            <Stack.Screen
-              name={Screens._PERSONAL_INFO}
-              component={PersonalInfoScreen}
-              options={{gestureEnabled: false}}
-            />
-            <Stack.Screen
-              name={Screens._ACCOUNT_SETTING}
-              component={AccountSettingScreen}
-              options={{gestureEnabled: false}}
-            />
-            <Stack.Screen
-              name={Screens._CALCULATOR_TARIFF_SETTING}
-              component={CalculatorTariffSetting}
-              options={{gestureEnabled: false}}
-            />
-            <Stack.Screen
-              name={Screens._NOTIFICATION_SETTING}
-              component={NotificationSetting}
-              options={{gestureEnabled: false}}
-            />
-            <Stack.Screen
-              name={Screens._LANGUAGE_SETTING}
-              component={LanguageSetting}
-              options={{gestureEnabled: false}}
-            />
-            <Stack.Screen
-              name={Screens._POLICY}
-              component={PolicyScreen}
-              options={{gestureEnabled: false}}
-            />
-            <Stack.Screen
-              name={Screens._TERMS}
-              component={TermsScreen}
-              options={{gestureEnabled: false}}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </ThemeContext.Provider>
-    );
-  } else return null;
+const AuthStack = (props: RootNavigatorProps) => {
+  // const { translate } = useContext<LocalizationContext>(localizationContext);
+  return (
+    <MainStack.Navigator
+      initialRouteName={Screens._CONFIRM}
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <MainStack.Screen
+        name={Screens._CONFIRM}
+        component={Confirm}
+        options={{title: 'Main_SingUp'}}
+      />
+    </MainStack.Navigator>
+  );
 };
+
+const AppStack = (props: RootNavigatorProps) => {
+  return (
+    <MainStack.Navigator
+      //initialRouteName={props.initialScreen.getName()}
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <MainStack.Screen
+        name={Screens.STACK_TAB}
+        component={BottomTabBar}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens.SCREEN_MAIN}
+        component={MainScreen}
+        options={{
+          gestureEnabled: false,
+        }}
+      />
+      <MainStack.Screen
+        name={Screens.SCREEN_FIRST}
+        component={FirstScreen}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._CALCULATOR}
+        component={CalculatorScreen}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._PERSONAL_INFO}
+        component={PersonalInfoScreen}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._ACCOUNT_SETTING}
+        component={AccountSettingScreen}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._CALCULATOR_TARIFF_SETTING}
+        component={CalculatorTariffSetting}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._NOTIFICATION_SETTING}
+        component={NotificationSetting}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._LANGUAGE_SETTING}
+        component={LanguageSetting}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._POLICY}
+        component={PolicyScreen}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._TERMS}
+        component={TermsScreen}
+        options={{gestureEnabled: false}}
+      />
+    </MainStack.Navigator>
+  );
+};
+export const RootNavigator: React.FC<any> = observer(
+  (props: RootNavigatorProps) => {
+    useEffect(() => {}, [props.initialScreen]);
+    const [theme, setTheme] = useState('Light');
+    const themeData = {theme, setTheme};
+    const [authStore, setAuthStore] = useState(true);
+
+    if (props.initialScreen) {
+      return (
+        <ThemeContext.Provider value={themeData}>
+          <NavigationContainer
+            theme={theme == 'Light' ? LightTheme : DarkTheme}
+            onStateChange={appCoreService.listenerService.onNavigationStateChange.bind(
+              appCoreService.listenerService,
+            )}
+            ref={ref => appCoreService.navigationService.setNavigator(ref)}>
+            <MainStack.Navigator
+              screenOptions={{
+                animationEnabled: false,
+                headerStyle: {
+                  height: Platform.OS === 'ios' ? 60 : 0,
+                  borderBottomWidth: 0,
+                  shadowColor: 'transparent',
+                },
+                headerTitleAlign: 'center',
+                headerShown: false,
+              }}>
+              {authStore ? (
+                <MainStack.Screen
+                  name={Screens.STACK_APP}
+                  component={AppStack}
+                />
+              ) : (
+                <MainStack.Screen
+                  name={Screens.STACK_AUTH}
+                  component={AuthStack}
+                />
+              )}
+            </MainStack.Navigator>
+          </NavigationContainer>
+        </ThemeContext.Provider>
+      );
+    } else return null;
+  },
+);

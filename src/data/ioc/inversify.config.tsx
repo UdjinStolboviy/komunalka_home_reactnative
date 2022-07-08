@@ -45,7 +45,10 @@ const InversifyContext = React.createContext<{container: Container}>({
   container: appContainer,
 });
 
-export const Provider: React.FC<{container: Container}> = props => {
+export const Provider: React.FC<{
+  children: ReactNode;
+  container: Container;
+}> = props => {
   return (
     <InversifyContext.Provider value={{container: props.container}}>
       <InversifyProvider container={props.container}>

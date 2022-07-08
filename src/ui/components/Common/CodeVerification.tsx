@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
-import {Text} from '../../components/Common/Text';
+import {StyleSheet, Text} from 'react-native';
+
 import {
   CodeField,
   Cursor,

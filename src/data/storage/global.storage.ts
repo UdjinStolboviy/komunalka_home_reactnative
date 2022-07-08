@@ -6,6 +6,7 @@ import { NavigationState } from "./navigation/navigation.state.model";
 import { ListenerState } from "./listener/listener.state.model";
 import { CalculatorState, ICalculatorState } from "./calculator/calculator.model";
 import { SettingAccountTariffState } from "./setting-account/setting.account.tariff.model";
+import { TimeState } from "./time/time.model";
 
 
 @injectable()
@@ -15,6 +16,7 @@ export class GlobalStorage {
     @observable private animationsState: AnimationsState;
     @observable private navigationState: NavigationState;
     @observable private calculatorState: CalculatorState;
+    @observable private timeState: TimeState;
     @observable private settingAccountTariffState: SettingAccountTariffState;
     @observable private readonly listenerState: ListenerState;
 
@@ -31,6 +33,7 @@ export class GlobalStorage {
         this.animationsState = new AnimationsState();
         this.navigationState = new NavigationState();
         this.listenerState = new ListenerState();
+        this.timeState = new TimeState();
     }
 
 
@@ -49,6 +52,10 @@ export class GlobalStorage {
 
     public getCalculatorState(): CalculatorState {
         return this.calculatorState;
+    }
+
+    public getTimeState(): TimeState {
+        return this.timeState;
     }
 
     public getSettingAccountTariffState(): SettingAccountTariffState {

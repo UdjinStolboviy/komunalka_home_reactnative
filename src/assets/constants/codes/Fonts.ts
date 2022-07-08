@@ -1,6 +1,6 @@
 export const FONTS = {
   PARALUCENT300: 'Paralucent-Light',
-  PARALUCENT400: 'Paralucent-Medium',
+  PARALUCENT400: 'Roboto',
   PARALUCENT600: 'Paralucent-DemiBold',
   PARALUCENT700: 'Paralucent-Bold',
   SFPro100: 'SFProDisplay-Thin',

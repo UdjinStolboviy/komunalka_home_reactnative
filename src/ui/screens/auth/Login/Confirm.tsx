@@ -6,14 +6,13 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  Text,
 } from 'react-native';
-
-import {Text} from 'src/ui/components/Common/Text';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {observer} from 'mobx-react';
-import {useInjection} from 'inversify-react';
+
 import {
   localizationContext,
   LocalizationContext,
@@ -21,15 +20,18 @@ import {
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {CodeVerification} from 'app/ui/components/Common/CodeVerification';
+import {Screens} from 'app/assets/constants/codes/Screens';
 
 const RESEND_INTERVAL = 59;
 
 export const Confirm: React.FC = observer(({route}: any) => {
   const app: IAppCoreService = useAppInjection();
+  const timeState = app.storage.getTimeState();
+  const timeForResendCode = app.storage.getTimeState().getTimeForResendCode();
 
   const {translate} = useContext<LocalizationContext>(localizationContext);
 
-  const {email} = route.params;
+  // const {email} = route.params;
 
   const [code, setCode] = useState<string>('');
   const [codeError, setCodeError] = useState<boolean>(false);
@@ -39,17 +41,17 @@ export const Confirm: React.FC = observer(({route}: any) => {
   const [time, setTime] = React.useState(RESEND_INTERVAL);
 
   useEffect(() => {
-    appStore.setTimeForResendOTPCode(
+    timeState.setTimeForResendCode(
       new Date().getMinutes() * 60 + new Date().getSeconds() + RESEND_INTERVAL,
     );
     const timer = setInterval(() => {
       const curentTime = new Date().getMinutes() * 60 + new Date().getSeconds();
-      setTime(appStore.timeForResendOTPCode - curentTime);
+      setTime(timeForResendCode - curentTime);
     }, 1000);
     return () => {
       clearInterval(timer);
     };
-  }, [appStore.timeForResendOTPCode]);
+  }, [timeForResendCode]);
 
   useEffect(() => {
     const minutes = Math.trunc(time / 60);
@@ -59,9 +61,9 @@ export const Confirm: React.FC = observer(({route}: any) => {
 
   useEffect(() => {
     if (code && code.length === 4) {
-      appStore.checkOTPCode(email, code).then(response => {
-        setCodeError(response);
-      });
+      if (code === '1999') {
+        app.navigationService.navigate(Screens.SCREEN_MAIN);
+      }
     }
   }, [code]);
 
@@ -70,58 +72,42 @@ export const Confirm: React.FC = observer(({route}: any) => {
   }, [code]);
 
   const onResend = () => {
-    try {
-      const request: IOtpRequest = {email};
-      doWithCatch(loggerService, apiService.getOTP(request));
-
-      appStore.setTimeForResendOTPCode(
-        new Date().getMinutes() * 60 +
-          new Date().getSeconds() +
-          RESEND_INTERVAL,
-      );
-    } catch (error) {}
+    timeState.setTimeForResendCode(
+      new Date().getMinutes() * 60 + new Date().getSeconds() + RESEND_INTERVAL,
+    );
   };
 
   return (
     <KeyboardAwareScrollView>
-      <KeyboardAvoidingView
-        style={styles.loginContainer}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={-100}>
-        <Text normal style={styles.header}>
-          {'Main_Email'}
-        </Text>
-        <Text isSFP normal style={[styles.text, styles.confirmText]}>
-          {"We've sent a code to your email. Please enter it below."}
-        </Text>
-        <CodeVerification onChangeCode={setCode} />
+      <Text style={styles.header}>{'Main_Email'}</Text>
+      <Text style={[styles.text, styles.confirmText]}>
+        {"We've sent a code to your email. Please enter it below."}
+      </Text>
+      <CodeVerification onChangeCode={setCode} />
 
-        <View style={styles.errorBox}>
-          {!!codeError && (
-            <>
-              <Image
+      <View style={styles.errorBox}>
+        {!!codeError && (
+          <>
+            {/* <Image
                 style={styles.attention}
-                source={require('../../assets/img/attentionCircle.png')}
-              />
-              <Text isSFP normal style={styles.errorMsg}>
-                {'Main_OopsTryAgainOrResendCode'}
-              </Text>
-            </>
-          )}
-        </View>
-        {time > 0 ? (
-          <Text style={styles.timeLeft} normal>
-            {`${'Main_ResendCodeIn'} ${remainingTime}`}
-          </Text>
-        ) : (
-          <TouchableOpacity onPress={onResend}>
-            <Text style={styles.buttonLike} normal>
-              {'Main_ResendCode'}
+                source={require('/../../assets/images/attentionCircle.png')}
+              /> */}
+            <Text style={styles.errorMsg}>
+              {'Main_OopsTryAgainOrResendCode'}
             </Text>
-          </TouchableOpacity>
+          </>
         )}
-        <View style={{flex: 1}} />
-      </KeyboardAvoidingView>
+      </View>
+      {time > 0 ? (
+        <Text style={styles.timeLeft}>
+          {`${'Main_ResendCodeIn'} ${remainingTime}`}
+        </Text>
+      ) : (
+        <TouchableOpacity onPress={onResend}>
+          <Text style={styles.buttonLike}>{'Main_ResendCode'}</Text>
+        </TouchableOpacity>
+      )}
+      <View style={{flex: 1}} />
     </KeyboardAwareScrollView>
   );
 });
