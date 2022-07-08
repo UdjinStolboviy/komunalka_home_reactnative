@@ -84,28 +84,31 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
     SubtractionWaterRef.current && SubtractionWaterRef.current.clear();
   };
 
-  const massage = `      Доброго дня!
+  const massage = `
+_____________________________
+        Доброго дня!
+Порахували комунальні:
+Електроенергія: ${resultElectricity} кВт
+${messageElectricity}
+${electricityTariff} грн за кВт
+${resultElectricity} * ${electricityTariff} грн = ${multiplicationElectricity} грн 
 
-    Порахували комунальні:
-    Електроенергія: ${resultElectricity} кВт
-    ${messageElectricity}
-    ${electricityTariff} грн за кВт
-    ${resultElectricity} * ${electricityTariff} грн = ${multiplicationElectricity} грн 
+Вода: ${resultWater} куб.м
+${messageWater}
+${waterTariff} грн за куб.м
+${resultWater} * ${waterTariff} грн = ${multiplicationWater} грн 
 
-    Вода: ${resultWater} куб.м
-    ${messageWater}
-    ${waterTariff} грн за куб.м
-    ${resultWater} * ${waterTariff} грн = ${multiplicationWater} грн 
+Інтернет: ${resultInternet} грн
+Вивіз сміття: ${garbageRemovalTariff} грн
+Комунальні всього: ${resultAllUtilityPayments} грн
+Квартплата: ${resultRent} грн
+Додаткові послуги: ${resultOtherOption} грн
+Коментар: ${comments}\n
 
-    Інтернет: ${resultInternet} грн
-    Вивіз сміття: ${garbageRemovalTariff} грн
-    Комунальні платежі всього: ${resultAllUtilityPayments} грн
-    Квартплата: ${resultRent} грн
-    Додаткові послуги: ${resultOtherOption} грн
-    Коментар: ${comments}\n
-    Всього:  ${multiplicationElectricity} + ${multiplicationWater} + 
-    ${resultInternet} + ${garbageRemovalTariff} + 
-    ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n `;
+Всього:  ${multiplicationElectricity} + ${multiplicationWater} + 
+  ${resultInternet} + ${garbageRemovalTariff} + 
+  ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n 
+____________________________\n`;
 
   return (
     <View style={style.container}>
@@ -236,7 +239,7 @@ const style = StyleSheet.create({
     marginTop: 10,
   },
   headerText: {
-    fontSize: 0,
+    fontSize: 12,
     color: Colors._007AFF,
   },
 });
