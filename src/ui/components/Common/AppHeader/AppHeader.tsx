@@ -4,6 +4,7 @@ import {
   StyleProp,
   StyleSheet,
   Text,
+  TextStyle,
   TouchableOpacity,
   View,
   ViewStyle,
@@ -34,7 +35,7 @@ export interface ProfileHeader {
   rightTextDisabled?: boolean;
   leftButtonDisabled?: boolean;
   progress?: number;
-  textStyle?: any;
+  textStyle?: StyleProp<TextStyle>;
 }
 
 export const AppHeader = (props: ProfileHeader) => {

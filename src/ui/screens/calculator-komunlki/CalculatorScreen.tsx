@@ -100,7 +100,9 @@ ${resultWater} * ${waterTariff} грн = ${multiplicationWater} грн
 
 Інтернет: ${resultInternet} грн
 Вивіз сміття: ${garbageRemovalTariff} грн
+
 Комунальні всього: ${resultAllUtilityPayments} грн
+
 Квартплата: ${resultRent} грн
 Додаткові послуги: ${resultOtherOption} грн
 Коментар: ${comments}\n

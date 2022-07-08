@@ -1,50 +1,59 @@
-// import { ILoggerService } from 'app/services/Logger';
-// import { Dimensions, Platform, ScaledSize } from 'react-native';
 
-// export function isNil(value: unknown): value is null | undefined {
-//   return value === undefined || value === null;
-// }
+import { ILoggerService } from 'app/services/logger/main/logger.service.interface';
+import { Dimensions, Platform, ScaledSize } from 'react-native';
 
-// /* Async */
 
-// export function doWithCatch<T>(loggerService: ILoggerService, ...promises: Promise<T>[]): void {
-//   promises.forEach((promise: Promise<T>) => promise.catch((e: Error) => loggerService.error(e)));
-// }
+export function isNil(value: unknown): value is null | undefined {
+    return value === undefined || value === null;
+}
 
-// /* Enums */
+/* Async */
 
-// export function enumFromValue<T extends Record<string, string | number>>(
-//   val: string | number,
-//   _enum: T
-// ): T[keyof T] | null {
-//   const enumName = (Object.keys(_enum) as Array<keyof T>).find((k: keyof T) => _enum[k] === val);
-//   return enumName ? _enum[enumName] : null;
-// }
+export function doWithCatch<T>(loggerService: ILoggerService, ...promises: Promise<T>[]): void {
+    promises.forEach((promise: Promise<T>) => promise.catch((e: Error) => loggerService.error(e)));
+}
 
-// /* Device */
+/* Enums */
 
-// export function isIOS(): boolean {
-//   return Platform.OS === 'ios';
-// }
+export function enumFromValue<T extends Record<string, string | number>>(
+    val: string | number,
+    _enum: T
+): T[keyof T] | null {
+    const enumName = (Object.keys(_enum) as Array<keyof T>).find((k: keyof T) => _enum[k] === val);
+    return enumName ? _enum[enumName] : null;
+}
 
-// export function isAndroid(): boolean {
-//   return Platform.OS === 'android';
-// }
+/* Device */
 
-// export function getScreenSize(): ScaledSize {
-//   return Dimensions.get('screen');
-// }
+export function isIOS(): boolean {
+    return Platform.OS === 'ios';
+}
 
-// export function getScreenWidth(): number {
-//   return getScreenSize().width;
-// }
+export function isAndroid(): boolean {
+    return Platform.OS === 'android';
+}
 
-// export function getScreenHeight(): number {
-//   return getScreenSize().height;
-// }
+export function getScreenSize(): ScaledSize {
+    return Dimensions.get('screen');
+}
 
-// /* Phone */
+export function getScreenWidth(): number {
+    return getScreenSize().width;
+}
 
-// export function normalizeUSAPhone(phone: string): string {
-//   return `${phone.startsWith('+1') ? '+' : '+1'}${phone.replace(/^(\+)|[^\d\n]/g, '')}`;
-// }
+export function getScreenHeight(): number {
+    return getScreenSize().height;
+}
+
+/* Phone */
+
+export function normalizeUSAPhone(phone: string): string {
+    return `${phone.startsWith('+1') ? '+' : '+1'}${phone.replace(/^(\+)|[^\d\n]/g, '')}`;
+}
+
+
+
+export function delay(ms: number): Promise<unknown> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
