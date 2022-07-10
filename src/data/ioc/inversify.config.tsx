@@ -16,6 +16,7 @@ import {IListenerService} from 'app/services/listener/listener.service';
 import {ListenerService} from 'app/services/listener/listen.service.impl';
 import {IAsyncStorage} from 'app/services/async-storage/async.storage.interface';
 import {AsyncStorage} from 'app/services/async-storage/async.storage';
+import { AuthService } from 'app/services/auth/auth.service';
 
 const appContainer: Container = new Container();
 appContainer
@@ -39,6 +40,7 @@ appContainer
   .to(AsyncStorage)
   .inSingletonScope();
 appContainer.bind(TYPES.Storage).to(GlobalStorage).inSingletonScope();
+appContainer.bind(TYPES.AuthService).to(AuthService).inSingletonScope();
 
 const appCoreService = appContainer.get<IAppCoreService>(TYPES.AppCoreService);
 const InversifyContext = React.createContext<{container: Container}>({

@@ -4,4 +4,5 @@ export enum AsyncStorageKey {
   RecentPlaces = 'recent_places',
   SentFcmToken = 'sent_fcm_token',
   LanguageTag = 'language_tag',
+  RenderedAuthStore = 'rendered_auth_store',
 }

@@ -12,6 +12,7 @@ import {HomePageCharts} from 'app/ui/screens/Home/HomePageCharts';
 import {ElementItem} from 'app/ui/components/Main/ScreenView/ElemetItemHome';
 import {Type} from 'app/assets/constants/codes/Type';
 import {Colors} from 'app/assets/constants/colors/Colors';
+import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
 
 export const MainScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -28,6 +29,12 @@ export const MainScreen = (props: any) => {
       flats: [{id: 'homeWhitFlat1'}, {id: 'homeWhitFlat2'}],
     },
   ]);
+  const setRenderedAuthStore = async (code: boolean) => {
+    await AsyncStorageFacade.saveBoolean(
+      AsyncStorageKey.RenderedAuthStore,
+      code,
+    );
+  };
 
   return (
     <View style={style.container}>
@@ -56,7 +63,10 @@ export const MainScreen = (props: any) => {
           title={Type.CALCULATOR}
           titleButton={Texts.OPEN}
           description={Texts.OPEN}
-          onPress={() => app.navigationService.navigate(Screens._CALCULATOR)}
+          onPress={() => {
+            setRenderedAuthStore(false);
+            app.navigationService.navigate(Screens._CALCULATOR);
+          }}
         />
       </ContentProgressScrollView>
     </View>

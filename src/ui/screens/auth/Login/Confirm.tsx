@@ -1,13 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  Text,
-} from 'react-native';
+import {TouchableOpacity, View, StyleSheet, Text} from 'react-native';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Colors} from 'app/assets/constants/colors/Colors';
@@ -21,6 +13,11 @@ import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {CodeVerification} from 'app/ui/components/Common/CodeVerification';
 import {Screens} from 'app/assets/constants/codes/Screens';
+import {AttentionCircleIcon} from 'app/assets/Icons/AttentionCircleIcon';
+
+import RNRestart from 'react-native-restart';
+import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
+import SplashScreen from 'react-native-splash-screen';
 
 const RESEND_INTERVAL = 59;
 
@@ -28,6 +25,8 @@ export const Confirm: React.FC = observer(({route}: any) => {
   const app: IAppCoreService = useAppInjection();
   const timeState = app.storage.getTimeState();
   const timeForResendCode = app.storage.getTimeState().getTimeForResendCode();
+  const auth = app.authService.getAuthState();
+  const appStateRender = app.authService.getAuthState().getAuthStareRender();
 
   const {translate} = useContext<LocalizationContext>(localizationContext);
 
@@ -62,14 +61,25 @@ export const Confirm: React.FC = observer(({route}: any) => {
   useEffect(() => {
     if (code && code.length === 4) {
       if (code === '1999') {
-        app.navigationService.navigate(Screens.SCREEN_MAIN);
+        setCodeError(false);
+        setRenderedAuthStore(true);
+        auth.setAuthStareRender(true);
+        SplashScreen.show();
+        //app.navigationService.navigate(Screens.SCREEN_MAIN);
+        RNRestart.Restart();
+      } else {
+        setRenderedAuthStore(false);
+        setCodeError(true);
       }
     }
-  }, [code]);
+  }, [code, codeError]);
 
-  useEffect(() => {
-    setCodeError(false);
-  }, [code]);
+  const setRenderedAuthStore = async (code: boolean) => {
+    await AsyncStorageFacade.saveBoolean(
+      AsyncStorageKey.RenderedAuthStore,
+      code,
+    );
+  };
 
   const onResend = () => {
     timeState.setTimeForResendCode(
@@ -79,40 +89,42 @@ export const Confirm: React.FC = observer(({route}: any) => {
 
   return (
     <KeyboardAwareScrollView>
-      <Text style={styles.header}>{'Main_Email'}</Text>
-      <Text style={[styles.text, styles.confirmText]}>
-        {"We've sent a code to your email. Please enter it below."}
-      </Text>
-      <CodeVerification onChangeCode={setCode} />
-
-      <View style={styles.errorBox}>
-        {!!codeError && (
-          <>
-            {/* <Image
-                style={styles.attention}
-                source={require('/../../assets/images/attentionCircle.png')}
-              /> */}
-            <Text style={styles.errorMsg}>
-              {'Main_OopsTryAgainOrResendCode'}
-            </Text>
-          </>
-        )}
-      </View>
-      {time > 0 ? (
-        <Text style={styles.timeLeft}>
-          {`${'Main_ResendCodeIn'} ${remainingTime}`}
+      <View style={styles.container}>
+        <Text style={styles.header}>{'Код доступу'}</Text>
+        <Text style={[styles.text, styles.confirmText]}>
+          {'Введідь будь ласка цей код доступу 1999'}
         </Text>
-      ) : (
-        <TouchableOpacity onPress={onResend}>
-          <Text style={styles.buttonLike}>{'Main_ResendCode'}</Text>
-        </TouchableOpacity>
-      )}
-      <View style={{flex: 1}} />
+        <CodeVerification onChangeCode={setCode} />
+
+        {codeError && (
+          <View style={styles.errorBox}>
+            <AttentionCircleIcon />
+            <Text style={styles.errorMsg}>{'Невірний код'}</Text>
+          </View>
+        )}
+        {time > 0 ? (
+          <Text style={styles.timeLeft}>
+            {`${'Код скинеться через'} ${remainingTime}`}
+          </Text>
+        ) : (
+          <TouchableOpacity onPress={onResend}>
+            <Text style={styles.buttonLike}>{'Main_ResendCode'}</Text>
+          </TouchableOpacity>
+        )}
+        <View style={{flex: 1}} />
+      </View>
     </KeyboardAwareScrollView>
   );
 });
 
 export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 60,
+    paddingHorizontal: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   loginContainer: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -154,7 +166,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 24,
+    height: 40,
+    width: '100%',
     marginTop: 14,
   },
   timeLeft: {

@@ -1,9 +1,9 @@
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
-import React, {createContext, useEffect, useState} from 'react';
+import React, {createContext, useCallback, useEffect, useState} from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {Screen} from '../models/navigator/navigator.screen.config';
-import {appCoreService} from 'app/data/ioc/inversify.config';
+import {appCoreService, useAppInjection} from 'app/data/ioc/inversify.config';
 
 import {BottomTabBar} from './BottomTabBar';
 import {Screens} from 'app/assets/constants/codes/Screens';
@@ -23,6 +23,8 @@ import {Platform} from 'react-native';
 
 import {Confirm} from 'app/ui/screens/auth/Login/Confirm';
 import {observer} from 'mobx-react';
+import {IAppCoreService} from 'app/services/core/app.core.service.interface';
+import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
 
 export interface ThemeContext {
   theme?: string;
@@ -73,6 +75,13 @@ const AuthStack = (props: RootNavigatorProps) => {
         name={Screens._CONFIRM}
         component={Confirm}
         options={{title: 'Main_SingUp'}}
+      />
+      <MainStack.Screen
+        name={Screens.SCREEN_MAIN}
+        component={MainScreen}
+        options={{
+          gestureEnabled: false,
+        }}
       />
     </MainStack.Navigator>
   );
@@ -147,10 +156,27 @@ const AppStack = (props: RootNavigatorProps) => {
 };
 export const RootNavigator: React.FC<any> = observer(
   (props: RootNavigatorProps) => {
-    useEffect(() => {}, [props.initialScreen]);
+    const app: IAppCoreService = useAppInjection();
+
+    const [renderAuth, setRenderAuth] = useState(false);
+    useEffect(() => {
+      getRenderedAuthStore();
+    }, [props.initialScreen]);
     const [theme, setTheme] = useState('Light');
     const themeData = {theme, setTheme};
-    const [authStore, setAuthStore] = useState(true);
+
+    const getRenderedAuthStore = async (): Promise<void> => {
+      try {
+        const result = await AsyncStorageFacade.getBoolean(
+          AsyncStorageKey.RenderedAuthStore,
+        );
+        if (result !== null) {
+          return setRenderAuth(result);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
     if (props.initialScreen) {
       return (
@@ -172,7 +198,7 @@ export const RootNavigator: React.FC<any> = observer(
                 headerTitleAlign: 'center',
                 headerShown: false,
               }}>
-              {authStore ? (
+              {renderAuth ? (
                 <MainStack.Screen
                   name={Screens.STACK_APP}
                   component={AppStack}
