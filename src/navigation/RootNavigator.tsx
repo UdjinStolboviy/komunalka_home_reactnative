@@ -156,8 +156,6 @@ const AppStack = (props: RootNavigatorProps) => {
 };
 export const RootNavigator: React.FC<any> = observer(
   (props: RootNavigatorProps) => {
-    const app: IAppCoreService = useAppInjection();
-
     const [renderAuth, setRenderAuth] = useState(false);
     useEffect(() => {
       getRenderedAuthStore();
