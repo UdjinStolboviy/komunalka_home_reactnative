@@ -12,8 +12,10 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		9CB56D3867B50DB9E3041C95 /* libPods-komunalka_home_reactnative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1B4748805F604907119441 /* libPods-komunalka_home_reactnative.a */; };
-		B89F1F31DC09295B741E703B /* libPods-komunalka_home_reactnative-komunalka_home_reactnativeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E08A80506421EA95B8C1CAB /* libPods-komunalka_home_reactnative-komunalka_home_reactnativeTests.a */; };
+		A973CA0B16201313DF1993EE /* libPods-komunalka_home_reactnative-komunalka_home_reactnativeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46B2B6658E8B212C55F03FB9 /* libPods-komunalka_home_reactnative-komunalka_home_reactnativeTests.a */; };
+		E3DBBBF3DF8F06BB90524C6D /* libPods-komunalka_home_reactnative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4501B3F6E7FB041D59D027F3 /* libPods-komunalka_home_reactnative.a */; };
+		FA42FADD287B7E74004FF751 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA42FADC287B7E74004FF751 /* GoogleService-Info.plist */; };
+		FA42FADE287B7E74004FF751 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA42FADC287B7E74004FF751 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,14 +38,15 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = komunalka_home_reactnative/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = komunalka_home_reactnative/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = komunalka_home_reactnative/main.m; sourceTree = "<group>"; };
-		1E08A80506421EA95B8C1CAB /* libPods-komunalka_home_reactnative-komunalka_home_reactnativeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-komunalka_home_reactnative-komunalka_home_reactnativeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C14DC0636CE056F69E058EA /* Pods-komunalka_home_reactnative.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-komunalka_home_reactnative.release.xcconfig"; path = "Target Support Files/Pods-komunalka_home_reactnative/Pods-komunalka_home_reactnative.release.xcconfig"; sourceTree = "<group>"; };
-		2D1B4748805F604907119441 /* libPods-komunalka_home_reactnative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-komunalka_home_reactnative.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F7A750034EFEA6823E5F8FB /* Pods-komunalka_home_reactnative-komunalka_home_reactnativeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-komunalka_home_reactnative-komunalka_home_reactnativeTests.release.xcconfig"; path = "Target Support Files/Pods-komunalka_home_reactnative-komunalka_home_reactnativeTests/Pods-komunalka_home_reactnative-komunalka_home_reactnativeTests.release.xcconfig"; sourceTree = "<group>"; };
+		4501B3F6E7FB041D59D027F3 /* libPods-komunalka_home_reactnative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-komunalka_home_reactnative.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		46B2B6658E8B212C55F03FB9 /* libPods-komunalka_home_reactnative-komunalka_home_reactnativeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-komunalka_home_reactnative-komunalka_home_reactnativeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = komunalka_home_reactnative/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A4EAF0BAEF9982F8FD79284C /* Pods-komunalka_home_reactnative-komunalka_home_reactnativeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-komunalka_home_reactnative-komunalka_home_reactnativeTests.debug.xcconfig"; path = "Target Support Files/Pods-komunalka_home_reactnative-komunalka_home_reactnativeTests/Pods-komunalka_home_reactnative-komunalka_home_reactnativeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D0EA504B23AB8F547763A7F2 /* Pods-komunalka_home_reactnative.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-komunalka_home_reactnative.debug.xcconfig"; path = "Target Support Files/Pods-komunalka_home_reactnative/Pods-komunalka_home_reactnative.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		FA42FADC287B7E74004FF751 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B89F1F31DC09295B741E703B /* libPods-komunalka_home_reactnative-komunalka_home_reactnativeTests.a in Frameworks */,
+				A973CA0B16201313DF1993EE /* libPods-komunalka_home_reactnative-komunalka_home_reactnativeTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CB56D3867B50DB9E3041C95 /* libPods-komunalka_home_reactnative.a in Frameworks */,
+				E3DBBBF3DF8F06BB90524C6D /* libPods-komunalka_home_reactnative.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,8 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				2D1B4748805F604907119441 /* libPods-komunalka_home_reactnative.a */,
-				1E08A80506421EA95B8C1CAB /* libPods-komunalka_home_reactnative-komunalka_home_reactnativeTests.a */,
+				4501B3F6E7FB041D59D027F3 /* libPods-komunalka_home_reactnative.a */,
+				46B2B6658E8B212C55F03FB9 /* libPods-komunalka_home_reactnative-komunalka_home_reactnativeTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -116,6 +119,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				FA42FADC287B7E74004FF751 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* komunalka_home_reactnative */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* komunalka_home_reactnativeTests */,
@@ -145,7 +149,6 @@
 				A4EAF0BAEF9982F8FD79284C /* Pods-komunalka_home_reactnative-komunalka_home_reactnativeTests.debug.xcconfig */,
 				3F7A750034EFEA6823E5F8FB /* Pods-komunalka_home_reactnative-komunalka_home_reactnativeTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -236,6 +239,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA42FADE287B7E74004FF751 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +249,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				FA42FADD287B7E74004FF751 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
