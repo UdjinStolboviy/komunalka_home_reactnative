@@ -39,7 +39,7 @@ export const CopyButton = observer(
         toggleModal();
       }, 1000);
     }
-    const modalTester = () => {
+    const modalDone = () => {
       return (
         <Modal
           isVisible={isModalVisible}
@@ -69,7 +69,7 @@ export const CopyButton = observer(
         <TouchableOpacity onPress={copyToClipboard}>
           <CopyButtonIcon />
         </TouchableOpacity>
-        {modalTester()}
+        {modalDone()}
       </View>
     );
   }),

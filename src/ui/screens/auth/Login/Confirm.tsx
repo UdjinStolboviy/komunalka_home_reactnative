@@ -66,7 +66,6 @@ export const Confirm: React.FC = observer(({route}: any) => {
         setRenderedAuthStore(true);
         auth.setAuthStareRender(true);
         analyticsEvent();
-        //app.navigationService.navigate(Screens.SCREEN_MAIN);
         RNRestart.Restart();
       } else {
         setRenderedAuthStore(false);
@@ -96,7 +95,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
     <KeyboardAwareScrollView>
       <View style={styles.container}>
         <Text style={styles.header}>{'Код доступу'}</Text>
-        <Text style={[styles.text, styles.confirmText]}>
+        <Text style={[styles.textDescription]}>
           {'Введідь будь ласка цей код доступу 1999'}
         </Text>
         <CodeVerification onChangeCode={setCode} />
@@ -113,7 +112,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
           </Text>
         ) : (
           <TouchableOpacity onPress={onResend}>
-            <Text style={styles.buttonLike}>{'Main_ResendCode'}</Text>
+            <Text style={styles.buttonLike}>{'Обновити'}</Text>
           </TouchableOpacity>
         )}
         <View style={{flex: 1}} />
@@ -143,8 +142,8 @@ export const styles = StyleSheet.create({
     fontSize: 34,
     lineHeight: 41,
     letterSpacing: 0.01,
-    alignSelf: 'flex-start',
-    color: Colors._000000,
+
+    color: Colors._007AFF,
   },
   errorMsg: {
     color: 'red',
@@ -156,17 +155,16 @@ export const styles = StyleSheet.create({
     marginRight: 4,
     marginBottom: 2,
   },
-  text: {
+  textDescription: {
     color: Colors._DBDBDB,
     width: '100%',
     fontSize: 16,
-    marginBottom: 24,
+    marginBottom: 140,
     lineHeight: 21,
     letterSpacing: -0.32,
+    textAlign: 'center',
   },
-  confirmText: {
-    marginBottom: 140,
-  },
+
   errorBox: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -176,7 +174,6 @@ export const styles = StyleSheet.create({
     marginTop: 14,
   },
   timeLeft: {
-    display: 'flex',
     alignSelf: 'center',
     marginTop: 16,
     fontSize: 15,
@@ -185,7 +182,6 @@ export const styles = StyleSheet.create({
     color: Colors._000000,
   },
   buttonLike: {
-    display: 'flex',
     alignSelf: 'center',
     color: Colors._007AFF,
     marginTop: 16,
