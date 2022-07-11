@@ -4,10 +4,6 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '11.0'
 
 target 'komunalka_home_reactnative' do
-  pod 'RNSVG', :path => '../node_modules/react-native-svg'
-  pod 'react-native-restart', :path => '../node_modules/react-native-restart'
-  # pod 'FirebaseCoreInternal', :modular_headers => true
-  # pod 'GoogleUtilities', :modular_headers => true
   config = use_native_modules!
   use_frameworks! :linkage => :static
 
@@ -20,8 +16,6 @@ target 'komunalka_home_reactnative' do
   
 
   target 'komunalka_home_reactnativeTests' do
-    pod 'RNSVG', :path => '../node_modules/react-native-svg'
-    pod 'react-native-restart', :path => '../node_modules/react-native-restart'
     use_frameworks! :linkage => :static
     inherit! :complete
     # Pods for testing
