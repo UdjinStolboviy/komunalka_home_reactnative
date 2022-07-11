@@ -4,6 +4,7 @@ import {TouchableOpacity, View, StyleSheet, Text} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {observer} from 'mobx-react';
+import analytics from '@react-native-firebase/analytics';
 
 import {
   localizationContext,
@@ -64,7 +65,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
         setCodeError(false);
         setRenderedAuthStore(true);
         auth.setAuthStareRender(true);
-        SplashScreen.show();
+        analyticsEvent();
         //app.navigationService.navigate(Screens.SCREEN_MAIN);
         RNRestart.Restart();
       } else {
@@ -73,6 +74,10 @@ export const Confirm: React.FC = observer(({route}: any) => {
       }
     }
   }, [code, codeError]);
+
+  const analyticsEvent = async () => {
+    await analytics().logEvent('confirm_code_screen_view');
+  };
 
   const setRenderedAuthStore = async (code: boolean) => {
     await AsyncStorageFacade.saveBoolean(

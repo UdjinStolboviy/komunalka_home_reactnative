@@ -13,9 +13,14 @@ import {ElementItem} from 'app/ui/components/Main/ScreenView/ElemetItemHome';
 import {Type} from 'app/assets/constants/codes/Type';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
+import database, {firebase} from '@react-native-firebase/database';
 
 export const MainScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
+  const reference = firebase
+    .app()
+    .database('https://komunalka-home-default-rtdb.firebaseio.com/')
+    .ref('/home');
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [homeStage, setHomeStage] = useState([
     {
@@ -29,12 +34,12 @@ export const MainScreen = (props: any) => {
       flats: [{id: 'homeWhitFlat1'}, {id: 'homeWhitFlat2'}],
     },
   ]);
-  const setRenderedAuthStore = async (code: boolean) => {
-    await AsyncStorageFacade.saveBoolean(
-      AsyncStorageKey.RenderedAuthStore,
-      code,
-    );
-  };
+  // const setRenderedAuthStore = async (code: boolean) => {
+  //   await AsyncStorageFacade.saveBoolean(
+  //     AsyncStorageKey.RenderedAuthStore,
+  //     code,
+  //   );
+  // };
 
   return (
     <View style={style.container}>
@@ -53,6 +58,9 @@ export const MainScreen = (props: any) => {
           title={homeStage[0].title}
           titleButton={Texts.OPEN}
           description={Texts.OPEN}
+          onPress={() => {
+            reference.set(homeStage).then(() => console.log('Data set.'));
+          }}
         />
         <ElementItem
           title={homeStage[1].title}
@@ -64,7 +72,7 @@ export const MainScreen = (props: any) => {
           titleButton={Texts.OPEN}
           description={Texts.OPEN}
           onPress={() => {
-            setRenderedAuthStore(false);
+            //setRenderedAuthStore(false);
             app.navigationService.navigate(Screens._CALCULATOR);
           }}
         />
