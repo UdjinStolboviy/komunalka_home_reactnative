@@ -17,7 +17,6 @@ export class Screens {
   public static readonly _POLICY: string = 'PolicyScreen';
   public static readonly _TERMS: string = 'TermsScreen';
   public static readonly _CONFIRM: string = 'ConfirmScreen';
-  public static readonly SCREEN_SECOND: string = 'SecondScreen';
+  public static readonly _FLATS: string = 'FlatsScreen';
   public static readonly SCREEN_FIRST: string = 'FirstScreen';
-  public static readonly SCREEN_END: string = 'EndScreen';
 }

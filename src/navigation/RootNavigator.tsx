@@ -25,6 +25,7 @@ import {Confirm} from 'app/ui/screens/auth/Login/Confirm';
 import {observer} from 'mobx-react';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
+import {FlatsScreen} from 'app/ui/screens/flat/FlatScreen';
 
 export interface ThemeContext {
   theme?: string;
@@ -149,6 +150,11 @@ const AppStack = (props: RootNavigatorProps) => {
       <MainStack.Screen
         name={Screens._TERMS}
         component={TermsScreen}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._FLATS}
+        component={FlatsScreen}
         options={{gestureEnabled: false}}
       />
     </MainStack.Navigator>

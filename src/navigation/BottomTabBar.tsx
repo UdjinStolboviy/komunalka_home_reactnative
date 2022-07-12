@@ -120,7 +120,7 @@ export const BottomTabBar = () => {
         const routeAvailable =
           route.name === Screens.SCREEN_FIRST ||
           route.name === Screens.SCREEN_MAIN ||
-          route.name === Screens.SCREEN_END ||
+          route.name === Screens._FLATS ||
           route.name === Screens._ACCOUNT_SETTING;
 
         if (!routeAvailable) {
