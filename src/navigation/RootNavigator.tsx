@@ -26,6 +26,7 @@ import {observer} from 'mobx-react';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
 import {FlatsScreen} from 'app/ui/screens/flat/FlatScreen';
+import {FlatInfoScreen} from 'app/ui/screens/flat/FlatInfoScreen';
 
 export interface ThemeContext {
   theme?: string;
@@ -157,6 +158,11 @@ const AppStack = (props: RootNavigatorProps) => {
         component={FlatsScreen}
         options={{gestureEnabled: false}}
       />
+      <MainStack.Screen
+        name={Screens._FLAT_INFO}
+        component={FlatInfoScreen}
+        options={{gestureEnabled: false}}
+      />
     </MainStack.Navigator>
   );
 };
@@ -199,7 +205,6 @@ export const RootNavigator: React.FC<any> = observer(
                   borderBottomWidth: 0,
                   shadowColor: 'transparent',
                 },
-                headerTitleAlign: 'center',
                 headerShown: false,
               }}>
               {renderAuth ? (

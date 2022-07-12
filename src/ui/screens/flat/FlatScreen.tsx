@@ -19,6 +19,7 @@ import {IHome} from 'app/data/storage/home/home.model';
 import {IFlat} from 'app/data/storage/flat/flat.model';
 import {FlatItem} from './FlatItem';
 import {BottomTabBar} from '@react-navigation/bottom-tabs';
+import {BottomNavigatorBar} from 'app/ui/components/Common/BottomNavigatorBar';
 
 export const FlatsScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -33,9 +34,12 @@ export const FlatsScreen = (props: any) => {
     return homeStage.flats!.map((item: IFlat, index: number) => (
       <FlatItem
         key={index}
+        type={homeStage.id}
         title={item.title}
-        titleButton={Texts.OPEN}
-        description={Texts.OPEN}
+        owner={item.owner}
+        occupant={item.occupant}
+        dateSettlement={item.dateSettlement}
+        flat={item}
         onPress={() => {}}
       />
     ));
@@ -49,11 +53,11 @@ export const FlatsScreen = (props: any) => {
           app.navigationService.navigate(Screens._ACCOUNT_SETTING)
         }
       />
-
       <ContentProgressScrollView
         onProgressChange={progress => setContentProgress(progress)}>
         {renderFlatItem()}
       </ContentProgressScrollView>
+      <BottomNavigatorBar />
     </View>
   );
 };

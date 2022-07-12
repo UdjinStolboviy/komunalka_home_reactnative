@@ -18,5 +18,6 @@ export class Screens {
   public static readonly _TERMS: string = 'TermsScreen';
   public static readonly _CONFIRM: string = 'ConfirmScreen';
   public static readonly _FLATS: string = 'FlatsScreen';
+  public static readonly _FLAT_INFO: string = 'FlatInfoScreen';
   public static readonly SCREEN_FIRST: string = 'FirstScreen';
 }

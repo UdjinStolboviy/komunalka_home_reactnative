@@ -16,6 +16,7 @@ import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
 import {firebase} from '@react-native-firebase/database';
 import {HomeItem} from './HomeItem';
 import {Home, IHome} from 'app/data/storage/home/home.model';
+import NetInfo from '@react-native-community/netinfo';
 
 export const MainScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -25,40 +26,59 @@ export const MainScreen = (props: any) => {
     .ref('/homes');
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [homeStage, setHomeStage] = useState<IHome[]>([]);
+  const [connectionNet, setConnectionNet] = useState<boolean | null>(false);
 
   useEffect(() => {
-    const onValueChange = reference.on('value', snapshot => {
-      console.log('A new node has been added', snapshot.val());
-      setHomeStage(snapshot.val());
-    });
-    // Stop listening for updates when no longer required
-    return () => reference.off('value', onValueChange);
-  }, []);
+    saveHomeStore();
+  }, [connectionNet]);
 
-  // const setRenderedAuthStore = async (code: boolean) => {
-  //   await AsyncStorageFacade.saveBoolean(
-  //     AsyncStorageKey.RenderedAuthStore,
-  //     code,
-  //   );
-  // };
+  NetInfo.fetch().then(state => {
+    console.log('Connection type', state.type);
+    console.log('Is connected?', state.isConnected);
+    setConnectionNet(state.isConnected);
+  });
+
+  const saveHomeStore = () => {
+    if (connectionNet) {
+      const onValueChange = reference.on('value', snapshot => {
+        console.log('A new node has been added', snapshot.val());
+        setHomeStage(snapshot.val());
+        setHomeStore(snapshot.val());
+      });
+      // Stop listening for updates when no longer required
+      return () => reference.off('value', onValueChange);
+    }
+    getHomeStore();
+  };
+
+  const getHomeStore = async (): Promise<void> => {
+    try {
+      const result: IHome[] | null = await AsyncStorageFacade.get(
+        AsyncStorageKey.HomeStore,
+      );
+      if (result !== null) {
+        return setHomeStage(result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const setHomeStore = async (home: IHome[]) => {
+    await AsyncStorageFacade.save(AsyncStorageKey.HomeStore, home);
+  };
 
   const renderHomeItem = () => {
     return homeStage.map((item: IHome, index: number) => (
       <HomeItem
         key={index}
         title={item.title}
+        type={item.id}
         titleButton={Texts.OPEN}
         description={Texts.OPEN}
         onPress={() => {
           app.navigationService.navigate(Screens._FLATS, {
             title: `${Texts.FLAT} ${item.title}`,
             home: new Home(item),
-
-            // onFocusLose: () => {
-            //   dialogsShareState.setEntityShareType(entityShareType);
-            //   dialogsShareState.setEntityToShareMetadata(entityToShareMetadata);
-            //   dialogsShareState.setEntityToShare(entityToShare);
-            // },
           });
           //reference.set(homeStage).then(() => console.log('Data set.'));
         }}

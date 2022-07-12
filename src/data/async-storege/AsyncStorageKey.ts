@@ -5,4 +5,5 @@ export enum AsyncStorageKey {
   SentFcmToken = 'sent_fcm_token',
   LanguageTag = 'language_tag',
   RenderedAuthStore = 'rendered_auth_store',
+  HomeStore = 'home_store',
 }

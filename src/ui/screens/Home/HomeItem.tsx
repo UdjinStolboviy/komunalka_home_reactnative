@@ -11,6 +11,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 export interface IHomeItemProps {
   onPress?: () => void;
   title: string;
+  type: string;
   description?: string;
   titleButton: string;
 }
@@ -18,7 +19,7 @@ export interface IHomeItemProps {
 export const HomeItem = (props: IHomeItemProps) => {
   const app: IAppCoreService = useAppInjection();
   const _renderIcon = () => {
-    switch (props.title) {
+    switch (props.type) {
       case Type.HOME_RED:
         return <HomeIcon color={Colors._CF480E} width={55} height={55} />;
       case Type.HOME_WHITE:
@@ -32,7 +33,7 @@ export const HomeItem = (props: IHomeItemProps) => {
     <View style={style.container}>
       {_renderIcon()}
       <View style={style.middleWrapper}>
-        <Text numberOfLines={1} style={style.mainText}>
+        <Text numberOfLines={2} style={style.mainText}>
           {props.title}
         </Text>
         <Text numberOfLines={4} style={style.descriptionText}>
@@ -69,11 +70,13 @@ const style = StyleSheet.create({
     justifyContent: 'center',
   },
   mainText: {
+    textAlign: 'center',
     fontSize: 22,
     fontWeight: 'bold',
     color: Colors._007AFF,
   },
   descriptionText: {
+    textAlign: 'center',
     fontSize: 12,
     fontWeight: '400',
     color: Colors._979797,

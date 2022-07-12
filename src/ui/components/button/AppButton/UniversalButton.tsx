@@ -1,4 +1,5 @@
 import {Colors} from 'app/assets/constants/colors/Colors';
+import {OpenIcon} from 'app/assets/Icons/OpenIcon';
 import React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 

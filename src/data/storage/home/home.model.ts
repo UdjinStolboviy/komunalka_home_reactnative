@@ -3,9 +3,9 @@ import { Flat, IFlat } from "../flat/flat.model";
 
 export interface IHome {
     index: number;
-    id?: string
+    id: string
     title: string;
-    flats?: IFlat[];
+    flats: IFlat[];
 
 }
 
