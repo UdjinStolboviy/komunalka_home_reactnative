@@ -40,12 +40,4 @@ const style = StyleSheet.create({
     fontSize: 18,
     color: Colors._000000,
   },
-  badge: {
-    alignSelf: 'center',
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    marginLeft: 8,
-    backgroundColor: Colors._007AFF,
-  },
 });

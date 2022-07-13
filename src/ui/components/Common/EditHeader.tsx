@@ -37,7 +37,6 @@ export const EditHeader = (props: EditHeaderProps) => {
 
 const style = StyleSheet.create({
   container: {
-    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
