@@ -3,6 +3,7 @@ import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IFlat} from 'app/data/storage/flat/flat.model';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
+import {ContentProgressScrollView} from 'app/ui/components/Common/Scroll/ContentProgressScrollView';
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {ImageFlat} from './ImageFlat';
@@ -16,20 +17,22 @@ export const FlatInfoScreen = (props: any) => {
   const [flatStage, setFlatStage] = useState<IFlat>(
     props.route.params && props.route.params.flat,
   );
+  const [contentProgress, setContentProgress] = useState<number>(0);
   const flatIndex = props.route.params && props.route.params.flatIndex;
   const homeIndex = props.route.params && props.route.params.homeIndex;
   console.log('flatIndex', flatStage);
 
   return (
     <View style={style.container}>
-      <AppHeader />
-      <View style={style.middleWrapper}>
+      <AppHeader progress={contentProgress} title={flatStage.title} />
+      <ContentProgressScrollView
+        onProgressChange={progress => setContentProgress(progress)}>
         <ImageFlat imagStack={flatStage.images!} />
         <Text>{flatStage.title}</Text>
         <Text>{flatStage.rooms}</Text>
         <Text>{flatStage.emailOccupant}</Text>
         <Text>{flatStage.area}</Text>
-      </View>
+      </ContentProgressScrollView>
     </View>
   );
 };

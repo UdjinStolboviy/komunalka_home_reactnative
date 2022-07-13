@@ -13,11 +13,8 @@ export interface IImageFlat {
 
 export const ImageFlat = (props: IImageFlat) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  //   const [carouselItems, setCarouselItems] = useState<IFlatImage[] | null>(
-  //     props.imagStack,
-  //   );
   const carouselItems = props.imagStack;
-  //console.log('carouselItems', carouselItems);
+
   const ref = useRef(null);
 
   const renderItem = useCallback(
@@ -42,13 +39,14 @@ export const ImageFlat = (props: IImageFlat) => {
   );
 
   return (
-    <View style={{width: '100%', height: 300, alignItems: 'center'}}>
+    <View
+      style={{width: '100%', height: 400, alignItems: 'center', marginTop: 15}}>
       <Carousel
         layout="tinder"
         ref={ref}
         data={carouselItems}
-        sliderWidth={300}
-        itemWidth={300}
+        sliderWidth={400}
+        itemWidth={400}
         renderItem={renderItem}
         onSnapToItem={index => setActiveIndex(index)}
       />
