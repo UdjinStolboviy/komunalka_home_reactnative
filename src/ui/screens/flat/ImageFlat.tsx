@@ -40,7 +40,12 @@ export const ImageFlat = (props: IImageFlat) => {
 
   return (
     <View
-      style={{width: '100%', height: 400, alignItems: 'center', marginTop: 15}}>
+      style={{
+        width: '100%',
+        alignItems: 'center',
+        marginTop: 15,
+        marginBottom: 15,
+      }}>
       <Carousel
         layout="tinder"
         ref={ref}

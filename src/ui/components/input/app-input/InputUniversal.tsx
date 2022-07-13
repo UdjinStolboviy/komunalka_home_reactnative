@@ -128,7 +128,6 @@ export const InputUniversal = forwardRef((props: InputUniversalProps, ref) => {
   };
 
   const _saveText = () => {
-    console.log('save number');
     setFocused(false);
     setChosenText(text);
     props.onTextChange && props.onTextChange(text);

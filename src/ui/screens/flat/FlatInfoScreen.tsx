@@ -1,4 +1,5 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
+import {Colors} from 'app/assets/constants/colors/Colors';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IFlat} from 'app/data/storage/flat/flat.model';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
@@ -6,6 +7,7 @@ import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import {ContentProgressScrollView} from 'app/ui/components/Common/Scroll/ContentProgressScrollView';
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {FlatInfoView} from './FlatInfoView';
 import {ImageFlat} from './ImageFlat';
 
 export interface IFlatInfoScreenProps {
@@ -28,10 +30,14 @@ export const FlatInfoScreen = (props: any) => {
       <ContentProgressScrollView
         onProgressChange={progress => setContentProgress(progress)}>
         <ImageFlat imagStack={flatStage.images!} />
-        <Text>{flatStage.title}</Text>
-        <Text>{flatStage.rooms}</Text>
-        <Text>{flatStage.emailOccupant}</Text>
-        <Text>{flatStage.area}</Text>
+        <View style={style.middleWrapper}>
+          <FlatInfoView
+            isAdmin={true}
+            flat={flatStage}
+            flatIndex={flatIndex}
+            homeIndex={homeIndex}
+          />
+        </View>
       </ContentProgressScrollView>
     </View>
   );
@@ -44,8 +50,13 @@ const style = StyleSheet.create({
   },
   middleWrapper: {
     width: '100%',
-    height: '100%',
     justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  textDescription: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 7,
+    color: Colors._007AFF,
   },
 });
