@@ -21,6 +21,8 @@ export interface IFlatItemProps {
   occupant?: string;
   owner?: string;
   flat: IFlat;
+  homeIndex: number;
+  flatIndex: number;
 }
 
 export const FlatItem = (props: IFlatItemProps) => {
@@ -58,7 +60,11 @@ export const FlatItem = (props: IFlatItemProps) => {
         style={[style.buttonFlat]}
         activeOpacity={0.7}
         onPress={() =>
-          app.navigationService.navigate(Screens._FLAT_INFO, {flat: props.flat})
+          app.navigationService.navigate(Screens._FLAT_INFO, {
+            flat: props.flat,
+            homeIndex: props.homeIndex,
+            flatIndex: props.flatIndex,
+          })
         }>
         <OpenIcon color={Colors._FFFFFF} />
       </TouchableOpacity>

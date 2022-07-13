@@ -79,6 +79,7 @@ export const MainScreen = (props: any) => {
           app.navigationService.navigate(Screens._FLATS, {
             title: `${Texts.FLAT} ${item.title}`,
             home: new Home(item),
+            homeIndex: index,
           });
           //reference.set(homeStage).then(() => console.log('Data set.'));
         }}

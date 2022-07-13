@@ -10,18 +10,18 @@ export interface IFlatInfoScreenProps {
   flat?: IFlat;
 }
 
-interface IFlatInfoScreenRouteParams {
-  flat?: IFlat;
-}
+// interface IFlatInfoScreenRouteParams {
+//   flat?: IFlat;
+// }
 
 export const FlatInfoScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
   const [flatStage, setFlatStage] = useState<IFlat>(
     props.route.params && props.route.params.flat,
   );
-  const flat =
-    useRoute<RouteProp<{params: IFlatInfoScreenRouteParams}, 'params'>>().params
-      ?.flat;
+  // const flat =
+  //   useRoute<RouteProp<{params: IFlatInfoScreenRouteParams}, 'params'>>().params
+  //     ?.flat;
   return (
     <View
       style={{

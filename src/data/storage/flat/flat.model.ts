@@ -23,6 +23,7 @@ export interface IFlat {
     owner?: string;
     ownerPhone?: string;
     ownerEmail?: string;
+    floor: number;
 }
 
 export class Flat {
@@ -47,6 +48,7 @@ export class Flat {
     @observable private owner: string;
     @observable private ownerPhone: string;
     @observable private ownerEmail: string;
+    @observable private floor: number;
 
     constructor(flat: IFlat) {
         this.index = flat && flat.index;
@@ -69,6 +71,7 @@ export class Flat {
         this.owner = flat && flat.owner as string;
         this.ownerPhone = flat && flat.ownerPhone as string;
         this.ownerEmail = flat && flat.ownerEmail as string;
+        this.floor = flat && flat.floor as number
     }
 
     public getIndex(): number {
@@ -245,6 +248,15 @@ export class Flat {
     @action
     public setFlatCalculator(flatCalculator: FlatCalculator[]): void {
         this.flatCalculator = flatCalculator;
+    }
+
+    public getFloor(): number {
+        return this.floor
+    }
+
+    @action
+    public setFloor(floor: number): void {
+        this.floor = floor;
     }
 
 
