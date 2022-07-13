@@ -34,7 +34,7 @@ export const FlatsScreen = (props: any) => {
   const floor3 = 3;
   const floor4 = 4;
 
-  useEffect(() => {}, []);
+  //useEffect(() => {}, []);
 
   const renderFlatItemFloor = (floor: number) => {
     return homeStage.flats!.map((item: IFlat, index: number) => {

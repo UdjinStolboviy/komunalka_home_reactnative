@@ -2,7 +2,7 @@ import { observable } from "mobx";
 
 export interface IFlatImage {
   index: number;
-  uri?: string
+  url?: string
 }
 
 export class FlatImage {
@@ -11,12 +11,12 @@ export class FlatImage {
   private index: number;
 
   @observable
-  private uri: string;
+  private url: string;
 
 
   constructor(flatImage: IFlatImage) {
     this.index = flatImage && flatImage.index;
-    this.uri = flatImage && flatImage.uri as string;
+    this.url = flatImage && flatImage.url as string;
   }
 
   public getIndex(): number {
@@ -24,10 +24,10 @@ export class FlatImage {
   }
 
   public getUri(): string {
-    return this.uri
+    return this.url;
   }
 
-  public setUri(uri: string): void {
-    this.uri = uri;
+  public setUri(url: string): void {
+    this.url = url;
   }
 }
