@@ -59,9 +59,9 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
   };
 
   const renderCalculatorFlatStage = () => {
-    return calculatorFlatStage
-      .reverse()
-      .map((item: IFlatCalculator, index: number) => renderItem(item));
+    return calculatorFlatStage.map((item: IFlatCalculator, index: number) =>
+      renderItem(item),
+    );
   };
 
   return (

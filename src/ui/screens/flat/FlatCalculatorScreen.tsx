@@ -36,6 +36,8 @@ export const FlatCalculatorScreen = observer((props: any) => {
     props.route.params && props.route.params.calculatorFlat;
   const preResultCalculatorFlat: IFlatCalculator =
     calculatorFlatStage.reverse()[0];
+
+  const price = props.route.params && props.route.params.price;
   const flatIndex = props.route.params && props.route.params.flatIndex;
   const homeIndex = props.route.params && props.route.params.homeIndex;
 
@@ -279,7 +281,7 @@ export const FlatCalculatorScreen = observer((props: any) => {
           />
           <AdditionalTariffs
             nameTariff={Texts.RENT}
-            currentData={resultRent}
+            currentData={price}
             unitOfMeasurement={Texts.UHG}
             onTextChange={(text: string) =>
               settingAccountTariffState.setRentTariff(Number(text))

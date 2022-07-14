@@ -13,6 +13,7 @@ export interface FlatInfoViewProps {
   isAdmin: boolean;
   flatIndex: number;
   homeIndex: number;
+  onChangeFlat?: (value: IFlat) => void;
 }
 
 export const FlatInfoView = observer((props: FlatInfoViewProps) => {
@@ -39,6 +40,51 @@ export const FlatInfoView = observer((props: FlatInfoViewProps) => {
   const [ownerEmail, setOwnerEmail] = useState<string>(flat.ownerEmail);
   const [wifiName, setWifiName] = useState<string>(flat.wifiName);
   const [wifiPassword, setWifiPassword] = useState<string>(flat.wifiPassword);
+
+  useEffect(() => {
+    return (
+      props.onChangeFlat &&
+      props.onChangeFlat({
+        id: flat.id,
+        title: flat.title,
+        price: price,
+        area: areaText,
+        rooms: rooms,
+        dateSettlement: dateSettlement,
+        dateEviction: dateEviction,
+        description: description,
+        emailOccupant: emailOccupant,
+        occupant: occupant,
+        phoneOccupant: phoneOccupant,
+        owner: owner,
+        ownerPhone: ownerPhone,
+        ownerEmail: ownerEmail,
+        wifiName: wifiName,
+        wifiPassword: wifiPassword,
+        address: addressText,
+        floor: floorText,
+        index: 0,
+        calculatorFlat: [],
+      })
+    );
+  }, [
+    floorText,
+    areaText,
+    price,
+    rooms,
+    addressText,
+    dateSettlement,
+    dateEviction,
+    description,
+    emailOccupant,
+    occupant,
+    phoneOccupant,
+    owner,
+    ownerPhone,
+    ownerEmail,
+    wifiName,
+    wifiPassword,
+  ]);
   return (
     <View style={[style.container, props.containerStyle]}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
