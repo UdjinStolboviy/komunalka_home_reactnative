@@ -63,8 +63,8 @@ export const FlatInfoView = observer((props: FlatInfoViewProps) => {
         wifiPassword: wifiPassword,
         address: addressText,
         floor: floorText,
-        index: 0,
-        calculatorFlat: [],
+        index: flatIndex,
+        calculatorFlat: flat.calculatorFlat,
       })
     );
   }, [

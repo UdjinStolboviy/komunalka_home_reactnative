@@ -23,7 +23,7 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
 
   const [contentProgress, setContentProgress] = useState<number>(0);
 
-  const renderItem = (item: IFlatCalculator) => {
+  const renderItem = (item: IFlatCalculator, index: number) => {
     const massage = `
    Дата розрахунку: ${item.dateCalculator} 
 
@@ -52,16 +52,16 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
 `;
 
     return (
-      <View style={style.textWrapper}>
+      <View key={index} style={style.textWrapper}>
         <Text style={style.text}>{massage}</Text>
       </View>
     );
   };
 
   const renderCalculatorFlatStage = () => {
-    return calculatorFlatStage.map((item: IFlatCalculator, index: number) =>
-      renderItem(item),
-    );
+    return calculatorFlatStage
+      .reverse()
+      .map((item: IFlatCalculator, index: number) => renderItem(item, index));
   };
 
   return (
