@@ -6,7 +6,6 @@ import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {observer} from 'mobx-react';
 import {useEffect} from 'react';
 import {
-  Keyboard,
   StyleProp,
   StyleSheet,
   Text,
@@ -17,24 +16,19 @@ import {
 import {EditHeader} from '../../components/Common/EditHeader';
 import {Texts} from 'app/assets/constants/codes/Texts';
 import {InputUniversal} from 'app/ui/components/input/app-input/InputUniversal';
+import CalendarListScreen from 'app/ui/components/Common/CalendarListScreen';
+import CalendarScreen from 'app/ui/components/Common/CalendarListScreen';
+import moment from 'moment';
 
-export interface TitleFlatViewProps {
+export interface DateFlatViewProps {
   containerStyle?: StyleProp<ViewStyle>;
   isAdmin: boolean;
   title: string;
   description: string | null | number;
-  typeKeyboard?:
-    | 'default'
-    | 'numeric'
-    | 'number-pad'
-    | 'decimal-pad'
-    | 'email-address'
-    | 'phone-pad'
-    | 'url';
   onChange: (value: string) => void;
 }
 
-export const TitleFlatView = observer((props: TitleFlatViewProps) => {
+export const DateFlatView = observer((props: DateFlatViewProps) => {
   const app: IAppCoreService = useAppInjection();
   const [editTextDisable, setEditTextDisable] = useState<boolean>(false);
 
@@ -44,22 +38,16 @@ export const TitleFlatView = observer((props: TitleFlatViewProps) => {
     setEditTextDisable(!editTextDisable);
   };
 
-  const _closeAllPopUps = () => {
-    Keyboard.dismiss();
-  };
+  const _closeAllPopUps = () => {};
 
   const _renderDescription = () => {
     if (editTextDisable) {
       return (
-        <InputUniversal
-          onTextChange={text => {
-            setEditTextDisable(!editTextDisable);
-            return props.onChange && props.onChange(text);
-          }}
-          typeKeyboard={props.typeKeyboard}
-          validateText={'default'}
-          placeholderInput={Texts.COMMENTS}
-          containerStyle={style.inputContainer}
+        <CalendarScreen
+          onChange={text =>
+            props.onChange &&
+            props.onChange(text.split('-').reverse().join('.'))
+          }
         />
       );
     } else {
@@ -85,7 +73,9 @@ export const TitleFlatView = observer((props: TitleFlatViewProps) => {
 });
 
 const style = StyleSheet.create({
-  container: {},
+  container: {
+    width: '100%',
+  },
   text: {
     marginTop: 10,
     fontWeight: 'normal',
