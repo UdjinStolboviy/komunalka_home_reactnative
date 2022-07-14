@@ -27,6 +27,7 @@ import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
 import {FlatsScreen} from 'app/ui/screens/flat/FlatScreen';
 import {FlatInfoScreen} from 'app/ui/screens/flat/FlatInfoScreen';
+import {FlatListUtilityBillsScreen} from 'app/ui/screens/flat/FlatListUtilityBillsScreen';
 
 export interface ThemeContext {
   theme?: string;
@@ -161,6 +162,11 @@ const AppStack = (props: RootNavigatorProps) => {
       <MainStack.Screen
         name={Screens._FLAT_INFO}
         component={FlatInfoScreen}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._FLAT_LIST_UTILITY_BILLS}
+        component={FlatListUtilityBillsScreen}
         options={{gestureEnabled: false}}
       />
     </MainStack.Navigator>

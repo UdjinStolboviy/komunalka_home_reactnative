@@ -5,7 +5,7 @@ import { IFlatImage, FlatImage } from "./flat.image.model";
 export interface IFlat {
     index: number;
     images?: IFlatImage[];
-    flatCalculator?: IFlatCalculator[];
+    calculatorFlat: IFlatCalculator[];
     id: string;
     title: string;
     price: number;
@@ -30,7 +30,7 @@ export class Flat {
 
     @observable private index: number;
     @observable private images!: FlatImage[];
-    @observable private flatCalculator!: FlatCalculator[];
+    @observable private calculatorFlat!: FlatCalculator[];
     @observable private id: string;
     @observable private title: string;
     @observable private price: number;
@@ -53,7 +53,7 @@ export class Flat {
     constructor(flat: IFlat) {
         this.index = flat && flat.index;
         this.initImages(flat && flat.images || []);
-        this.initFlatCalculator(flat && flat.flatCalculator || []);
+        this.initFlatCalculator(flat && flat.calculatorFlat || []);
         this.id = flat && flat.id as string;
         this.title = flat && flat.title as string;
         this.price = flat && flat.price as number;
@@ -242,12 +242,12 @@ export class Flat {
     }
 
     public getFlatCalculator(): FlatCalculator[] {
-        return this.flatCalculator
+        return this.calculatorFlat
     }
 
     @action
-    public setFlatCalculator(flatCalculator: FlatCalculator[]): void {
-        this.flatCalculator = flatCalculator;
+    public setFlatCalculator(calculatorFlat: FlatCalculator[]): void {
+        this.calculatorFlat = calculatorFlat;
     }
 
     public getFloor(): number {
@@ -270,9 +270,9 @@ export class Flat {
 
     private initFlatCalculator(calculator: IFlatCalculator[]) {
         if (!calculator || calculator.length === 0) {
-            this.flatCalculator = [];
+            this.calculatorFlat = [];
         } else {
-            this.flatCalculator = calculator.map(item => new FlatCalculator(item));
+            this.calculatorFlat = calculator.map(item => new FlatCalculator(item));
         }
     }
 }

@@ -1,5 +1,6 @@
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {IFlat} from 'app/data/storage/flat/flat.model';
+import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
 import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {StyleProp, View, ViewStyle, StyleSheet, Text} from 'react-native';
