@@ -1,4 +1,10 @@
-import React, {forwardRef, useImperativeHandle, useRef, useState} from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import {StyleProp, StyleSheet, View, ViewStyle, Text} from 'react-native';
 
 import {observer} from 'mobx-react';
@@ -10,23 +16,34 @@ import {Colors} from 'app/assets/constants/colors/Colors';
 import {EqualIcon} from 'app/assets/Icons/EqualIcon';
 import {financialFixed} from 'app/utils/comparator';
 
-export interface SubtractionCalculatorProps {
+export interface FlatSubtractionCalculatorProps {
   containerStyle?: StyleProp<ViewStyle>;
   onTextChange: (text: number) => void;
   unitOfMeasurement?: string;
   onTextChangeMessage?: (text: string) => void;
   preliminaryData?: string;
   typeCalculator?: string;
+  onChangeCurrentData: (text: number) => void;
+  onChangePreliminaryData: (text: number) => void;
 }
 
-export interface SubtractionCalculatorRef {
+export interface FlatSubtractionCalculatorRef {
   clear: () => void;
 }
 
-export const SubtractionCalculator = observer(
-  forwardRef((props: SubtractionCalculatorProps, ref) => {
+export const FlatSubtractionCalculator = observer(
+  forwardRef((props: FlatSubtractionCalculatorProps, ref) => {
     const [currentData, setCurrentData] = useState<string>('');
-    const [preliminaryData, setPreliminaryData] = useState<string>('');
+    const [preliminaryData, setPreliminaryData] = useState<string>(
+      props.preliminaryData ? props.preliminaryData : '',
+    );
+    useEffect(() => {
+      props.onChangeCurrentData &&
+        props.onChangeCurrentData(Number(currentData));
+      props.onChangePreliminaryData &&
+        props.onChangePreliminaryData(Number(preliminaryData));
+    }, [preliminaryData, currentData]);
+
     const inputOneRef: any = useRef();
     const inputSecondRef: any = useRef();
     useImperativeHandle(ref, () => ({
@@ -71,6 +88,7 @@ export const SubtractionCalculator = observer(
           typeKeyboard={'numeric'}
           validateText={'numeric'}
           placeholderInput={Texts.PRELIMINARY_DATA}
+          defaultValue={props.preliminaryData}
         />
         <View style={style.calculationWrapper}>
           <EqualIcon />

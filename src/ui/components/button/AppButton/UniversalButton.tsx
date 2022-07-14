@@ -17,7 +17,7 @@ export const UniversalButton = (props: UniversalButtonProps) => {
     <TouchableOpacity
       disabled={props.disabled}
       style={[style.container, props.containerStyle]}
-      activeOpacity={props.activeOpacity || 1}
+      activeOpacity={0.7}
       onPress={() => (props.onPress ? props.onPress() : null)}>
       <Text style={[style.text, props.textStyle]}>{props.title}</Text>
     </TouchableOpacity>

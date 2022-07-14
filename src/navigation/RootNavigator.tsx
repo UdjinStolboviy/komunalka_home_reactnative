@@ -28,6 +28,7 @@ import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
 import {FlatsScreen} from 'app/ui/screens/flat/FlatScreen';
 import {FlatInfoScreen} from 'app/ui/screens/flat/FlatInfoScreen';
 import {FlatListUtilityBillsScreen} from 'app/ui/screens/flat/FlatListUtilityBillsScreen';
+import {FlatCalculatorScreen} from 'app/ui/screens/flat/FlatCalculatorScreen';
 
 export interface ThemeContext {
   theme?: string;
@@ -167,6 +168,11 @@ const AppStack = (props: RootNavigatorProps) => {
       <MainStack.Screen
         name={Screens._FLAT_LIST_UTILITY_BILLS}
         component={FlatListUtilityBillsScreen}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._FLAT_CALCULATOR}
+        component={FlatCalculatorScreen}
         options={{gestureEnabled: false}}
       />
     </MainStack.Navigator>

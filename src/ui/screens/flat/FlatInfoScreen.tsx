@@ -26,6 +26,21 @@ export const FlatInfoScreen = (props: any) => {
   const flatIndex = props.route.params && props.route.params.flatIndex;
   const homeIndex = props.route.params && props.route.params.homeIndex;
 
+  const onPressList = () => {
+    app.navigationService.navigate(Screens._FLAT_LIST_UTILITY_BILLS, {
+      calculatorFlat: flatStage.calculatorFlat,
+      flatIndex: flatIndex,
+      homeIndex: homeIndex,
+    });
+  };
+  const onPressCalculator = () => {
+    app.navigationService.navigate(Screens._FLAT_CALCULATOR, {
+      calculatorFlat: flatStage.calculatorFlat,
+      flatIndex: flatIndex,
+      homeIndex: homeIndex,
+    });
+  };
+
   return (
     <View style={style.container}>
       <AppHeader progress={contentProgress} title={flatStage.title} />
@@ -41,17 +56,12 @@ export const FlatInfoScreen = (props: any) => {
           />
           <UniversalButton
             title={'Список комунальних розрахунків'}
-            onPress={() =>
-              app.navigationService.navigate(Screens._FLAT_LIST_UTILITY_BILLS, {
-                calculatorFlat: flatStage.calculatorFlat,
-                flatIndex: flatIndex,
-                homeIndex: homeIndex,
-              })
-            }
+            onPress={onPressList}
             containerStyle={[style.buttonContainer, {marginTop: 25}]}
           />
           <UniversalButton
             title={'Конкулятор комунальних послуг'}
+            onPress={onPressCalculator}
             containerStyle={style.buttonContainer}
           />
           <UniversalButton
@@ -61,7 +71,10 @@ export const FlatInfoScreen = (props: any) => {
           <View style={{height: 40}} />
         </View>
       </ContentProgressScrollView>
-      <FlatBottomNavigatorBar />
+      <FlatBottomNavigatorBar
+        onPressList={onPressList}
+        onPressCalculator={onPressCalculator}
+      />
     </View>
   );
 };

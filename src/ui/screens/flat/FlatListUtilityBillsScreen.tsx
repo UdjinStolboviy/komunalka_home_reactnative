@@ -21,8 +21,6 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
   const flatIndex = props.route.params && props.route.params.flatIndex + 1;
   const homeIndex = props.route.params && props.route.params.homeIndex + 1;
 
-  console.log('FlatListUtilityBillsScreen', calculatorFlatStage);
-
   const [contentProgress, setContentProgress] = useState<number>(0);
 
   const renderItem = (item: IFlatCalculator) => {
@@ -106,5 +104,6 @@ const style = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+    color: Colors._000000,
   },
 });

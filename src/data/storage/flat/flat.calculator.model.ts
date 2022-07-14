@@ -1,7 +1,7 @@
 import { observable } from "mobx";
 
 export interface IFlatCalculator {
-    index: number;
+    index?: number;
     id: string;
     dateCalculator: string;
     currentDataElectricity: number;
