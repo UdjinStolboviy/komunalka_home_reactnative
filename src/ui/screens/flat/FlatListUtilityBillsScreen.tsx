@@ -1,5 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Keyboard} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Keyboard,
+  FlatList,
+} from 'react-native';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
@@ -11,6 +18,7 @@ import {Colors} from 'app/assets/constants/colors/Colors';
 import {Screens} from 'app/assets/constants/codes/Screens';
 import {IFlatCalculator} from 'app/data/storage/flat/flat.calculator.model';
 import {FeedList} from 'app/ui/components/Common/feed/FeedList';
+import {FlatListItemView} from './FlatListItemView';
 
 export interface IFlatListUtilityBillsScreenProps {}
 
@@ -25,6 +33,16 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
   const [contentProgress, setContentProgress] = useState<number>(0);
 
   const calculatorFlatStageRevers = calculatorFlatStage.reverse();
+  const _renderItem = ({
+    item,
+    index,
+  }: {
+    item: IFlatCalculator;
+    index: number;
+  }) => {
+    const flatCalculator = item as IFlatCalculator;
+    return <FlatListItemView item={flatCalculator} index={index} />;
+  };
 
   return (
     <View style={style.container}>
@@ -36,19 +54,21 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
           app.navigationService.navigate(Screens._CALCULATOR_TARIFF_SETTING)
         }
       />
-      <ContentProgressScrollView
-        onProgressChange={progress => setContentProgress(progress)}>
-        <View style={style.textContainer}>
-          <FeedList type={'list'} dataState={calculatorFlatStageRevers} />
-        </View>
-      </ContentProgressScrollView>
+
+      <View style={style.textContainer}>
+        <FlatList
+          data={calculatorFlatStageRevers}
+          renderItem={_renderItem}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
     </View>
   );
 });
 
 const style = StyleSheet.create({
   container: {
-    height: '100%',
+    height: '80%',
     width: '100%',
   },
   textContainer: {
