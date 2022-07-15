@@ -17,13 +17,11 @@ import {firebase} from '@react-native-firebase/database';
 import {HomeItem} from './HomeItem';
 import {Home, IHome} from 'app/data/storage/home/home.model';
 import NetInfo from '@react-native-community/netinfo';
+import {databaseFirebase} from 'app/services/firebase/firebase.database';
 
 export const MainScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
-  const reference = firebase
-    .app()
-    .database('https://komunalka-home-default-rtdb.firebaseio.com/')
-    .ref('/homes');
+  const reference = databaseFirebase('/homes');
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [homeStage, setHomeStage] = useState<IHome[]>([]);
   const [connectionNet, setConnectionNet] = useState<boolean | null>(false);

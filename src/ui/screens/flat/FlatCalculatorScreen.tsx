@@ -26,6 +26,8 @@ import {firebase} from '@react-native-firebase/database';
 import {keys} from 'mobx';
 import {DoneIcon} from 'app/assets/Icons/DoneIcon';
 import Modal from 'react-native-modal/dist/modal';
+import {databaseFirebase} from 'app/services/firebase/firebase.database';
+import {ModalDoneScreen} from '../modal/action-modal/ModalDone';
 
 export interface IFlatCalculatorScreenProps {}
 
@@ -93,6 +95,7 @@ export const FlatCalculatorScreen = observer((props: any) => {
 
   const SubtractionElectricityRef: any = useRef();
   const SubtractionWaterRef: any = useRef();
+  const modalDoneRef: any = useRef();
 
   const _closeAllPopUps = () => {
     Keyboard.dismiss();
@@ -114,10 +117,7 @@ export const FlatCalculatorScreen = observer((props: any) => {
     .reverse()
     .join('.');
 
-  const reference = firebase
-    .app()
-    .database('https://komunalka-home-default-rtdb.firebaseio.com/')
-    .ref(`homes/${homeIndex}/flats/${flatIndex}/`);
+  const reference = databaseFirebase(`homes/${homeIndex}/flats/${flatIndex}/`);
 
   const _onPressSave = () => {
     const result: IFlatCalculator = {
@@ -144,7 +144,7 @@ export const FlatCalculatorScreen = observer((props: any) => {
       resultAllCalculate: resultAllCalculate,
     };
     reference.update({calculatorFlat: [...calculatorFlatStage, result]});
-    toggleModal();
+    modalDoneRef.current && modalDoneRef.current.toggleModal();
   };
 
   const massage = `
@@ -174,32 +174,6 @@ export const FlatCalculatorScreen = observer((props: any) => {
 |  ${resultInternet} + ${garbageRemovalTariff} + 
 |  ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n 
 |____________________________\n`;
-
-  const [isModalVisible, setModalVisible] = useState<boolean>(false);
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
-
-  if (isModalVisible) {
-    setTimeout(() => {
-      toggleModal();
-    }, 1000);
-  }
-  const modalDone = () => {
-    return (
-      <Modal
-        isVisible={isModalVisible}
-        animationIn={'fadeIn'}
-        animationOut={'fadeIn'}
-        hideModalContentWhileAnimating
-        backdropColor={Colors._FFFFFF}
-        hasBackdrop>
-        <View style={style.modalWrapper}>
-          <DoneIcon />
-        </View>
-      </Modal>
-    );
-  };
 
   return (
     <View style={style.container}>
@@ -337,7 +311,7 @@ export const FlatCalculatorScreen = observer((props: any) => {
         />
         <View style={style.separator} />
       </ContentProgressScrollView>
-      {modalDone()}
+      <ModalDoneScreen ref={modalDoneRef} />
     </View>
   );
 });

@@ -10,6 +10,7 @@ import {financialFixed} from 'app/utils/comparator';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {Screens} from 'app/assets/constants/codes/Screens';
 import {IFlatCalculator} from 'app/data/storage/flat/flat.calculator.model';
+import {FeedList} from 'app/ui/components/Common/feed/FeedList';
 
 export interface IFlatListUtilityBillsScreenProps {}
 
@@ -23,46 +24,7 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
 
   const [contentProgress, setContentProgress] = useState<number>(0);
 
-  const renderItem = (item: IFlatCalculator, index: number) => {
-    const massage = `
-   Дата розрахунку: ${item.dateCalculator} 
-
-   Електроенергія: ${item.resultElectricity} кВт
-   ${item.messageElectricity}
-   ${item.electricityTariff} грн за кВт
-   ${item.resultElectricity} * ${item.electricityTariff} грн = ${item.multiplicationElectricity} грн 
-
-   Вода: ${item.resultWater} куб.м
-   ${item.messageWater}
-   ${item.waterTariff} грн за куб.м
-   ${item.resultWater} * ${item.waterTariff} грн = ${item.multiplicationWater} грн 
-
-   Інтернет: ${item.resultInternet} грн
-   Вивіз сміття: ${item.garbageRemovalTariff} грн
-
-   Комунальні: ${item.resultAllUtilityPayments} грн
-
-   Квартплата: ${item.resultRent} грн
-   Додаткові послуги: ${item.resultOtherOptions} грн
-   Коментар: ${item.comments}
-
-   Всього:  ${item.multiplicationElectricity} + ${item.multiplicationWater} + 
-    ${item.resultInternet} + ${item.garbageRemovalTariff} + 
-    ${item.resultRent} + ${item.resultOtherOptions} = ${item.resultAllCalculate} грн 
-`;
-
-    return (
-      <View key={index} style={style.textWrapper}>
-        <Text style={style.text}>{massage}</Text>
-      </View>
-    );
-  };
-
-  const renderCalculatorFlatStage = () => {
-    return calculatorFlatStage
-      .reverse()
-      .map((item: IFlatCalculator, index: number) => renderItem(item, index));
-  };
+  const calculatorFlatStageRevers = calculatorFlatStage.reverse();
 
   return (
     <View style={style.container}>
@@ -76,7 +38,9 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
       />
       <ContentProgressScrollView
         onProgressChange={progress => setContentProgress(progress)}>
-        <View style={style.textContainer}>{renderCalculatorFlatStage()}</View>
+        <View style={style.textContainer}>
+          <FeedList type={'list'} dataState={calculatorFlatStageRevers} />
+        </View>
       </ContentProgressScrollView>
     </View>
   );

@@ -6,12 +6,14 @@ import {DoneIcon} from 'app/assets/Icons/DoneIcon';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IFlat} from 'app/data/storage/flat/flat.model';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
+import {databaseFirebase} from 'app/services/firebase/firebase.database';
 import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import {ContentProgressScrollView} from 'app/ui/components/Common/Scroll/ContentProgressScrollView';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal/dist/modal';
+import {ModalDoneScreen} from '../modal/action-modal/ModalDone';
 import {FlatBottomNavigatorBar} from './FlatBottomNavigatorBar';
 import {FlatInfoView} from './FlatInfoView';
 import {ImageFlat} from './ImageFlat';
@@ -22,6 +24,7 @@ export interface IFlatInfoScreenProps {
 
 export const FlatInfoScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
+  const modalDoneRef: any = useRef();
   const [flatStage, setFlatStage] = useState<IFlat>(
     props.route.params && props.route.params.flat,
   );
@@ -48,10 +51,7 @@ export const FlatInfoScreen = (props: any) => {
     });
   };
 
-  const reference = firebase
-    .app()
-    .database('https://komunalka-home-default-rtdb.firebaseio.com/')
-    .ref(`homes/${homeIndex}/flats/${flatIndex}/`);
+  const reference = databaseFirebase(`homes/${homeIndex}/flats/${flatIndex}/`);
 
   const onPressSave = () => {
     reference.update({
@@ -74,33 +74,7 @@ export const FlatInfoScreen = (props: any) => {
       ownerEmail: flatNewStage.ownerEmail,
       floor: flatNewStage.floor,
     });
-    toggleModal();
-  };
-
-  const [isModalVisible, setModalVisible] = useState<boolean>(false);
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
-
-  if (isModalVisible) {
-    setTimeout(() => {
-      toggleModal();
-    }, 1000);
-  }
-  const modalDone = () => {
-    return (
-      <Modal
-        isVisible={isModalVisible}
-        animationIn={'fadeIn'}
-        animationOut={'fadeIn'}
-        hideModalContentWhileAnimating
-        backdropColor={Colors._FFFFFF}
-        hasBackdrop>
-        <View style={style.modalWrapper}>
-          <DoneIcon />
-        </View>
-      </Modal>
-    );
+    modalDoneRef.current && modalDoneRef.current.toggleModal();
   };
 
   return (
@@ -139,7 +113,7 @@ export const FlatInfoScreen = (props: any) => {
         onPressList={onPressList}
         onPressCalculator={onPressCalculator}
       />
-      {modalDone()}
+      <ModalDoneScreen ref={modalDoneRef} />
     </View>
   );
 };

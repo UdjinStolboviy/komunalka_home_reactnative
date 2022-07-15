@@ -1,4 +1,4 @@
-import React, {forwardRef, useImperativeHandle, useState} from 'react';
+import React, {forwardRef, useImperativeHandle, useRef, useState} from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -12,6 +12,7 @@ import {CopyButtonIcon} from 'app/assets/Icons/CopyButtonIcon';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {DoneIcon} from 'app/assets/Icons/DoneIcon';
+import {ModalDoneScreen} from '../../modal/action-modal/ModalDone';
 
 export interface CopyButtonProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -29,47 +30,19 @@ export const CopyButton = observer(
         console.log('clear');
       },
     }));
-    const [isModalVisible, setModalVisible] = useState<boolean>(false);
-    const toggleModal = () => {
-      setModalVisible(!isModalVisible);
-    };
-
-    if (isModalVisible) {
-      setTimeout(() => {
-        toggleModal();
-      }, 1000);
-    }
-    const modalDone = () => {
-      return (
-        <Modal
-          isVisible={isModalVisible}
-          animationIn={'fadeIn'}
-          animationOut={'fadeIn'}
-          hideModalContentWhileAnimating
-          backdropColor={Colors._FFFFFF}
-          hasBackdrop>
-          <View style={style.modalWrapper}>
-            <DoneIcon />
-          </View>
-        </Modal>
-      );
-    };
+    const modalDoneRef: any = useRef();
 
     const copyToClipboard = () => {
       Clipboard.setString(props.message);
-      toggleModal();
+      modalDoneRef.current && modalDoneRef.current.toggleModal();
     };
-
-    //    const fetchCopiedText = async () => {
-    //      const text = await Clipboard.getString();
-    //    };
 
     return (
       <View style={[style.container, props.containerStyle]}>
         <TouchableOpacity onPress={copyToClipboard}>
           <CopyButtonIcon />
         </TouchableOpacity>
-        {modalDone()}
+        <ModalDoneScreen ref={modalDoneRef} />
       </View>
     );
   }),

@@ -1,11 +1,9 @@
+import {ImageNotIcon} from 'app/assets/Icons/ImageNotIcon';
 import {IFlatImage} from 'app/data/storage/flat/flat.image.model';
 import React, {useState, useCallback, useRef} from 'react';
 import {Text, View, SafeAreaView, Image} from 'react-native';
 
 import Carousel from 'react-native-snap-carousel';
-
-const conImag =
-  'https://firebasestorage.googleapis.com/v0/b/komunalka-home.appspot.com/o/pic4.jpeg?alt=media&token=366974e5-c5bd-47f9-b822-86b6ae32d7af';
 
 export interface IImageFlat {
   imagStack: IFlatImage[];
@@ -13,6 +11,7 @@ export interface IImageFlat {
 
 export const ImageFlat = (props: IImageFlat) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [imageBroken, setImageBroken] = useState(false);
   const carouselItems = props.imagStack;
 
   const ref = useRef(null);
@@ -27,12 +26,25 @@ export const ImageFlat = (props: IImageFlat) => {
           marginLeft: 25,
           marginRight: 25,
         }}>
-        <Image
-          source={{
-            uri: item.url ? item.url : conImag,
-          }}
-          style={{width: '100%', height: '100%'}}
-        />
+        {item.url && !imageBroken ? (
+          <Image
+            onError={() => setImageBroken(true)}
+            source={{
+              uri: item.url,
+            }}
+            style={{width: '100%', height: '100%'}}
+          />
+        ) : (
+          <View
+            style={{
+              width: '100%',
+              height: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <ImageNotIcon />
+          </View>
+        )}
       </View>
     ),
     [],
