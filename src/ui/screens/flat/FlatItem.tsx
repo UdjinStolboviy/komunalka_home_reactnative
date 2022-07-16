@@ -47,57 +47,27 @@ export const FlatItem = (props: IFlatItemProps) => {
           {props.title}
         </Text>
         <Text numberOfLines={1} style={style.descriptionText}>
-          {`Власник: ${props.owner}`}
+          {`Власник: ${props.flat.owner}`}
         </Text>
         <Text numberOfLines={1} style={style.descriptionText}>
-          {`Орендар: ${props.occupant}`}
-        </Text>
-        <Text numberOfLines={1} style={style.descriptionText}>
-          {`Дата заселення ${props.dateSettlement}`}
+          {`Дата заселення ${props.flat.dateSettlement}`}
         </Text>
       </View>
-      <TouchableOpacity
-        style={[style.buttonFlat]}
-        activeOpacity={0.7}
-        onPress={() =>
-          app.navigationService.navigate(Screens._FLAT_INFO, {
-            flat: props.flat,
-            homeIndex: props.homeIndex,
-            flatIndex: props.flatIndex,
-          })
-        }>
-        <OpenIcon color={Colors._FFFFFF} />
-      </TouchableOpacity>
     </View>
   );
 };
 
 const style = StyleSheet.create({
   container: {
-    flex: 1,
-    borderWidth: 2,
-    borderColor: Colors._007AFF,
-    borderRadius: 30,
     marginHorizontal: '5%',
-    marginVertical: 10,
-    height: 100,
+    marginVertical: 5,
+    height: 80,
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: '2%',
-    justifyContent: 'space-between',
-  },
-  buttonFlat: {
-    width: 60,
-    height: 60,
-    borderRadius: 50,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors._007AFF,
-    marginRight: '2%',
   },
   middleWrapper: {
-    height: 100,
-    width: '60%',
     justifyContent: 'center',
   },
   mainText: {

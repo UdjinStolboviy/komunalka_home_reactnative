@@ -24,7 +24,7 @@ export interface FlatExploreCardProps {
   containerStyle?: StyleProp<ViewStyle>;
 }
 
-export const EXPLORE_CARD_WIDTH = ScreenDimensions.SCREEN_WIDTH * 0.91;
+export const EXPLORE_CARD_WIDTH = ScreenDimensions.SCREEN_WIDTH * 0.9;
 export const FlatExploreCard = observer(
   ({
     flat,
@@ -102,9 +102,18 @@ export const FlatExploreCard = observer(
               onPublishPress={_onPress}
               index={index}
               flat={flat}
+              homeIndex={homeIndex}
+              flatIndex={flatIndex}
             />
           }
-          bottomAdditionalView={<FlatBottomView index={index} flat={flat} />}
+          bottomAdditionalView={
+            <FlatBottomView
+              index={index}
+              flat={flat}
+              homeIndex={homeIndex}
+              flatIndex={flatIndex}
+            />
+          }
         />
       </View>
     );
@@ -115,19 +124,19 @@ const FlatExploreCardStyle = StyleSheet.create({
   container: {
     marginBottom: 20,
     shadowOpacity: 0.15,
-    shadowRadius: 2,
+    shadowRadius: 4,
     shadowOffset: {
       width: 0.2,
-      height: 2,
+      height: 6,
     },
     elevation: 3,
     backgroundColor: Colors._FFFFFF,
-    borderRadius: 8,
+    borderRadius: 50,
     width: EXPLORE_CARD_WIDTH,
     alignSelf: 'center',
   },
   card: {
-    borderRadius: 8,
+    borderRadius: 50,
     overflow: 'hidden',
   },
   highlightedBorder: {

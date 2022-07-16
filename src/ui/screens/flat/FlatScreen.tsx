@@ -33,11 +33,7 @@ export const FlatsScreen = (props: any) => {
     props.route.params && props.route.params.home,
   );
   const homeIndex: number = props.route.params && props.route.params.homeIndex;
-  const floor0 = 0;
-  const floor1 = 1;
-  const floor2 = 2;
-  const floor3 = 3;
-  const floor4 = 4;
+  const floor = [0, 1, 2, 3, 4];
 
   const renderFlatItemFloor = (floor: number) => {
     return homeStage.flats!.map((item: IFlat, index: number) => {
@@ -74,6 +70,10 @@ export const FlatsScreen = (props: any) => {
     }
   };
 
+  const renderFlats = () => {
+    return floor.map((item: number) => renderFlatItem(item));
+  };
+
   return (
     <View style={style.container}>
       <AppHeader
@@ -85,11 +85,7 @@ export const FlatsScreen = (props: any) => {
       />
       <ContentProgressScrollView
         onProgressChange={progress => setContentProgress(progress)}>
-        {renderFlatItem(floor0)}
-        {renderFlatItem(floor1)}
-        {renderFlatItem(floor2)}
-        {renderFlatItem(floor3)}
-        {renderFlatItem(floor4)}
+        {renderFlats()}
       </ContentProgressScrollView>
       <BottomNavigatorBar />
     </View>
