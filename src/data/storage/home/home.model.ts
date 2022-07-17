@@ -17,7 +17,7 @@ export class Home {
 
     @observable private title: string;
 
-    @observable private flats!: Flat[];
+    @observable public flats!: Flat[];
 
 
     constructor(home: IHome) {

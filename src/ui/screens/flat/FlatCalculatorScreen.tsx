@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Keyboard} from 'react-native';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
@@ -28,6 +28,7 @@ import {DoneIcon} from 'app/assets/Icons/DoneIcon';
 import Modal from 'react-native-modal/dist/modal';
 import {databaseFirebase} from 'app/services/firebase/firebase.database';
 import {ModalDoneScreen} from '../modal/action-modal/ModalDone';
+import {useFocusEffect} from '@react-navigation/native';
 
 export interface IFlatCalculatorScreenProps {}
 
@@ -118,6 +119,14 @@ export const FlatCalculatorScreen = observer((props: any) => {
     .join('.');
 
   const reference = databaseFirebase(`homes/${homeIndex}/flats/${flatIndex}/`);
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (currentDataElectricity && currentDataWater) {
+  //       console.log('useFocusEffect', currentDataElectricity, currentDataWater);
+  //     }
+  //   }, [currentDataElectricity, currentDataWater]),
+  // );
 
   const _onPressSave = () => {
     const result: IFlatCalculator = {
@@ -302,13 +311,12 @@ export const FlatCalculatorScreen = observer((props: any) => {
               containerStyle={style.inputContainer}
             />
           )}
-          <FunctionButtons massage={massage} onPressTrash={_onPressTrash} />
+          <FunctionButtons
+            massage={massage}
+            onPressTrash={_onPressTrash}
+            onSave={_onPressSave}
+          />
         </TouchableOpacity>
-        <UniversalButton
-          title={'Зберегти розрахунок'}
-          containerStyle={style.buttonContainer}
-          onPress={_onPressSave}
-        />
         <View style={style.separator} />
       </ContentProgressScrollView>
       <ModalDoneScreen ref={modalDoneRef} />
@@ -329,10 +337,7 @@ const style = StyleSheet.create({
     fontSize: 12,
     color: Colors._007AFF,
   },
-  buttonContainer: {
-    width: '90%',
-    marginLeft: 20,
-  },
+
   separator: {
     height: 60,
   },

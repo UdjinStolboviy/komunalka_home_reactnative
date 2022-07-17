@@ -42,6 +42,7 @@ export const MainScreen = (props: any) => {
         console.log('A new node has been added', snapshot.val());
         setHomeStage(snapshot.val());
         setHomeStore(snapshot.val());
+        app.storage.getHomesState().setHomes(snapshot.val());
       });
       // Stop listening for updates when no longer required
       return () => reference.off('value', onValueChange);

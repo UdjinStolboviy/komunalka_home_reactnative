@@ -17,6 +17,7 @@ import {ModalDoneScreen} from '../../modal/action-modal/ModalDone';
 export interface CopyButtonProps {
   containerStyle?: StyleProp<ViewStyle>;
   message: string;
+  onSave?: () => void;
 }
 
 export interface CopyButtonRef {
@@ -34,6 +35,7 @@ export const CopyButton = observer(
 
     const copyToClipboard = () => {
       Clipboard.setString(props.message);
+      props.onSave && props.onSave();
       modalDoneRef.current && modalDoneRef.current.toggleModal();
     };
 

@@ -27,8 +27,11 @@ export interface IFlatItemProps {
 
 export const FlatItem = (props: IFlatItemProps) => {
   const app: IAppCoreService = useAppInjection();
+  const fateful = app.storage.getHomesState();
+  const home = fateful.getHomes()[props.homeIndex];
+  const flat = home.flats[props.flatIndex];
 
-  const _renderIcon = () => {
+  function _renderIcon(): JSX.Element | null {
     switch (props.type) {
       case Type.HOME_RED:
         return <DoorIcon color={Colors._CF480E} />;
@@ -37,7 +40,7 @@ export const FlatItem = (props: IFlatItemProps) => {
       default:
         return null;
     }
-  };
+  }
 
   return (
     <View style={style.container}>

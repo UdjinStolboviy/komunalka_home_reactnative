@@ -18,6 +18,7 @@ import {Texts} from 'app/assets/constants/codes/Texts';
 export interface SharingButtonProps {
   containerStyle?: StyleProp<ViewStyle>;
   message: string;
+  onSave?: () => void;
 }
 
 export interface SharingButtonRef {
@@ -91,6 +92,7 @@ export const SharingButton = observer(
     // };
 
     const _handleShareVia = async () => {
+      props.onSave && props.onSave();
       try {
         await Share.open(options);
         // await Share.open({url: link});

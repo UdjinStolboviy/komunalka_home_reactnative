@@ -10,6 +10,7 @@ export interface FunctionButtonsProps {
   containerStyle?: StyleProp<ViewStyle>;
   massage: string;
   onPressTrash: () => void;
+  onSave?: () => void;
 }
 
 export interface FunctionButtonsRef {
@@ -29,8 +30,8 @@ export const FunctionButtons = observer(
     return (
       <View style={[style.container, props.containerStyle]}>
         <TrashButton onPressTrash={props.onPressTrash} />
-        <SharingButton message={props.massage} />
-        <CopyButton message={props.massage} />
+        <SharingButton message={props.massage} onSave={props.onSave} />
+        <CopyButton message={props.massage} onSave={props.onSave} />
       </View>
     );
   }),
