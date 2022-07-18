@@ -23,6 +23,7 @@ export interface FlatExploreCardProps {
   flatIndex: number;
   onCardOpened?: () => void;
   containerStyle?: StyleProp<ViewStyle>;
+  key?: string;
 }
 
 export const EXPLORE_CARD_WIDTH = ScreenDimensions.SCREEN_WIDTH * 0.9;

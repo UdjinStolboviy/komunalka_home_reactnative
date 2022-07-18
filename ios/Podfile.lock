@@ -376,6 +376,15 @@ PODS:
     - RNFBApp
   - RNGestureHandler (2.4.2):
     - React-Core
+  - RNImageCropPicker (0.38.0):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.38.0)
+    - TOCropViewController
+  - RNImageCropPicker/QBImagePickerController (0.38.0):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController
   - RNLocalize (2.2.2):
     - React-Core
   - RNReanimated (2.8.0):
@@ -412,6 +421,7 @@ PODS:
     - React-Core
   - RNSVG (12.3.0):
     - React-Core
+  - TOCropViewController (2.6.1)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -456,6 +466,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -479,6 +490,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - TOCropViewController
 
 EXTERNAL SOURCES:
   boost:
@@ -559,6 +571,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/database"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
   RNReanimated:
@@ -626,11 +640,13 @@ SPEC CHECKSUMS:
   RNFBApp: ac7643ca8c013ac175da0f2d2776d9a5f4eae00d
   RNFBDatabase: 3d69e28d898e6d3558184bf0f713092c3813d695
   RNGestureHandler: 61628a2c859172551aa2100d3e73d1e57878392f
+  RNImageCropPicker: ffbba608264885c241cbf3a8f78eb7aeeb978241
   RNLocalize: 95a43f85e41a966be7bc9cff2437128911c52da0
   RNReanimated: 58b57be69a237fb02ec8099d25171057638cf41a
   RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
   RNShare: 4406f61af043027b695c3a0b8f39e2c2bdacde12
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
+  TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
 
 PODFILE CHECKSUM: a8789cbc5a10b13d1b8aa71d70878e0cb8f80cbf
