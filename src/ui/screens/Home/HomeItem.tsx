@@ -54,15 +54,23 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     borderWidth: 2,
+
     borderColor: Colors._007AFF,
     borderRadius: 30,
     marginHorizontal: '5%',
     marginVertical: 10,
-    height: 100,
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: '2%',
     justifyContent: 'space-between',
+    marginBottom: 20,
+    // shadowOpacity: 0.15,
+    // shadowRadius: 4,
+    // shadowOffset: {
+    //   width: 0.2,
+    //   height: 4,
+    // },
+    // elevation: 3,
   },
   middleWrapper: {
     height: 100,

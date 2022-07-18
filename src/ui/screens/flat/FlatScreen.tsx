@@ -85,7 +85,7 @@ export const FlatsScreen = (props: any) => {
       />
       <ContentProgressScrollView
         onProgressChange={progress => setContentProgress(progress)}>
-        {renderFlats()}
+        <View style={style.wrapper}>{renderFlats()}</View>
       </ContentProgressScrollView>
       <BottomNavigatorBar />
     </View>
@@ -109,5 +109,9 @@ const style = StyleSheet.create({
   wrapperFlat: {
     width: '100%',
     height: '100%',
+  },
+  wrapper: {
+    width: '110%',
+    alignItems: 'center',
   },
 });

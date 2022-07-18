@@ -12,6 +12,7 @@ import {Colors} from 'app/assets/constants/colors/Colors';
 import {FlatCardGeneralInfo} from 'app/ui/screens/flat/flat-card/FlatCardGeneralInfo';
 import {FlatCardAdvancedInfo} from './FlatCardAdvancedInfo';
 import {FlatBottomView} from './FlatBottonView';
+import {Shadow} from 'react-native-shadow-2';
 
 export interface FlatExploreCardProps {
   index: number;
@@ -74,65 +75,65 @@ export const FlatExploreCard = observer(
     };
 
     return (
-      <View style={[FlatExploreCardStyle.container, containerStyle]}>
-        <ExpandCard
-          pressDisabled={false}
-          ref={expandRef}
-          deps={[]}
-          onCardOpened={_handleOnCardOpened}
-          onCardCloseFinished={_handleOnCardCloseFinished}
-          onAction={opened => console.log('opened', opened)}
-          containerStyle={[
-            FlatExploreCardStyle.card,
-            _getBorder(),
-            {backgroundColor: Colors._FFFFFF},
-          ]}
-          topChildren={
-            <FlatCardGeneralInfo
-              onPress={_onPress}
-              flat={flat}
-              title={title}
-              type={type}
-              homeIndex={homeIndex}
-              flatIndex={flatIndex}
-            />
-          }
-          bottomChildren={
-            <FlatCardAdvancedInfo
-              onPublishPress={_onPress}
-              index={index}
-              flat={flat}
-              homeIndex={homeIndex}
-              flatIndex={flatIndex}
-            />
-          }
-          bottomAdditionalView={
-            <FlatBottomView
-              index={index}
-              flat={flat}
-              homeIndex={homeIndex}
-              flatIndex={flatIndex}
-            />
-          }
-        />
-      </View>
+      <Shadow
+        offset={[0, 0]}
+        paintInside={false}
+        sides={['bottom']}
+        distance={15}
+        corners={['bottomRight', 'bottomLeft']}
+        viewStyle={{marginBottom: 30, width: '90%'}}>
+        <View style={[FlatExploreCardStyle.container, containerStyle]}>
+          <ExpandCard
+            pressDisabled={false}
+            ref={expandRef}
+            deps={[]}
+            onCardOpened={_handleOnCardOpened}
+            onCardCloseFinished={_handleOnCardCloseFinished}
+            onAction={opened => console.log('opened', opened)}
+            containerStyle={[
+              FlatExploreCardStyle.card,
+              _getBorder(),
+              {backgroundColor: Colors._FFFFFF},
+            ]}
+            topChildren={
+              <FlatCardGeneralInfo
+                onPress={_onPress}
+                flat={flat}
+                title={title}
+                type={type}
+                homeIndex={homeIndex}
+                flatIndex={flatIndex}
+              />
+            }
+            bottomChildren={
+              <FlatCardAdvancedInfo
+                onPublishPress={_onPress}
+                index={index}
+                flat={flat}
+                homeIndex={homeIndex}
+                flatIndex={flatIndex}
+              />
+            }
+            bottomAdditionalView={
+              <FlatBottomView
+                index={index}
+                flat={flat}
+                homeIndex={homeIndex}
+                flatIndex={flatIndex}
+              />
+            }
+          />
+        </View>
+      </Shadow>
     );
   },
 );
 
 const FlatExploreCardStyle = StyleSheet.create({
   container: {
-    marginBottom: 20,
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    shadowOffset: {
-      width: 0.2,
-      height: 6,
-    },
-    elevation: 3,
-    backgroundColor: Colors._FFFFFF,
-    borderRadius: 50,
     width: EXPLORE_CARD_WIDTH,
+    borderRadius: 50,
+
     alignSelf: 'center',
   },
   card: {

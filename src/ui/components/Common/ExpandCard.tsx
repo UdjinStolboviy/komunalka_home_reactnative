@@ -19,6 +19,7 @@ import Animated, {
   useValue,
 } from 'react-native-reanimated';
 import {observer} from 'mobx-react';
+import {Shadow} from 'react-native-shadow-2';
 
 export interface ExpandCardProps {
   topChildren?: React.ReactNode;
