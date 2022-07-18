@@ -61,7 +61,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
 
   useEffect(() => {
     if (code && code.length === 4) {
-      if (code === '1999') {
+      if (code === '1990') {
         setCodeError(false);
         setRenderedAuthStore(true);
         auth.setAuthStareRender(true);
@@ -96,7 +96,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
       <View style={styles.container}>
         <Text style={styles.header}>{'Код доступу'}</Text>
         <Text style={[styles.textDescription]}>
-          {'Введідь будь ласка цей код доступу 1999'}
+          {'Введідь будь ласка код доступу'}
         </Text>
         <CodeVerification onChangeCode={setCode} />
 
