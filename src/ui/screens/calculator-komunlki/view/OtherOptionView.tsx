@@ -72,7 +72,6 @@ export const OtherOptionView = (props: OtherOptionViewProps) => {
           key={index}
           type={'subtract'}
           onInputChange={text => {
-            console.log('text', index);
             const untilSubtractOtherValue = subtractOtherValue.splice(
               0,
               index + 1,

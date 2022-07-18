@@ -1,8 +1,6 @@
-import {firebase} from '@react-native-firebase/database';
-import {RouteProp, useRoute} from '@react-navigation/native';
 import {Screens} from 'app/assets/constants/codes/Screens';
 import {Colors} from 'app/assets/constants/colors/Colors';
-import {DoneIcon} from 'app/assets/Icons/DoneIcon';
+
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IFlat} from 'app/data/storage/flat/flat.model';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
@@ -10,9 +8,9 @@ import {databaseFirebase} from 'app/services/firebase/firebase.database';
 import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import {ContentProgressScrollView} from 'app/ui/components/Common/Scroll/ContentProgressScrollView';
+import {observer} from 'mobx-react';
 import React, {useRef, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import Modal from 'react-native-modal/dist/modal';
 import {ModalDoneScreen} from '../modal/action-modal/ModalDone';
 import {FlatBottomNavigatorBar} from './FlatBottomNavigatorBar';
 import {FlatInfoView} from './FlatInfoView';
@@ -22,7 +20,7 @@ export interface IFlatInfoScreenProps {
   flat?: IFlat;
 }
 
-export const FlatInfoScreen = (props: any) => {
+export const FlatInfoScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
   const modalDoneRef: any = useRef();
   const [flatStage, setFlatStage] = useState<IFlat>(
@@ -34,8 +32,6 @@ export const FlatInfoScreen = (props: any) => {
   const [contentProgress, setContentProgress] = useState<number>(0);
   const flatIndex = props.route.params && props.route.params.flatIndex;
   const homeIndex = props.route.params && props.route.params.homeIndex;
-
-  console.log('flatStage', flatStage);
 
   const onPressList = () => {
     app.navigationService.navigate(Screens._FLAT_LIST_UTILITY_BILLS, {
@@ -76,6 +72,7 @@ export const FlatInfoScreen = (props: any) => {
       ownerEmail: flatNewStage.ownerEmail,
       floor: flatNewStage.floor,
     });
+    app.storage.getHomesState().refreshHome();
     modalDoneRef.current && modalDoneRef.current.toggleModal();
   };
 
@@ -118,7 +115,7 @@ export const FlatInfoScreen = (props: any) => {
       <ModalDoneScreen ref={modalDoneRef} />
     </View>
   );
-};
+});
 
 const style = StyleSheet.create({
   container: {
