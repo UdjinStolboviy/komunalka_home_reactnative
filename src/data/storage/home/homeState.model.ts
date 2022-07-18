@@ -3,6 +3,7 @@ import { Home, IHome } from "./home.model";
 
 export interface IHomeState {
     homes: Home[];
+    refreshHome?: boolean;
 
 }
 
@@ -10,12 +11,14 @@ export interface IHomeState {
 export class HomeState {
 
     @observable private homes!: Home[];
+    @observable private refresh: boolean;
 
 
 
 
     constructor() {
         this.homes = [];
+        this.refresh = true;
 
     }
 
@@ -45,6 +48,11 @@ export class HomeState {
         else {
             this.homes = homes.map(item => new Home(item));
         }
+    }
+
+    @action
+    public refreshHome(): boolean {
+        return this.refresh = !this.refresh;
     }
 
 }

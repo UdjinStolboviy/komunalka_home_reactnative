@@ -38,6 +38,7 @@ export const MainScreen = (props: any) => {
 
   const saveHomeStore = () => {
     if (connectionNet) {
+      cleanStore();
       const onValueChange = reference.on('value', snapshot => {
         console.log('A new node has been added', snapshot.val());
         setHomeStage(snapshot.val());
@@ -64,6 +65,10 @@ export const MainScreen = (props: any) => {
   };
   const setHomeStore = async (home: IHome[]) => {
     await AsyncStorageFacade.save(AsyncStorageKey.HomeStore, home);
+  };
+
+  const cleanStore = async () => {
+    await AsyncStorageFacade.remove(AsyncStorageKey.HomeStore);
   };
 
   const renderHomeItem = () => {

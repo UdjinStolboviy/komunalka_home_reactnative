@@ -30,10 +30,10 @@ export class Flat {
 
     @observable private index: number;
     @observable private images!: FlatImage[];
-    @observable private calculatorFlat!: FlatCalculator[];
+    @observable public calculatorFlat!: FlatCalculator[];
     @observable private id: string;
     @observable private title: string;
-    @observable private price: number;
+    @observable public price: number;
     @observable private area: number;
     @observable private rooms: number;
     @observable private dateSettlement: string;

@@ -12,7 +12,6 @@ import {observer} from 'mobx-react';
 import {financialFixed} from 'app/utils/comparator';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {Screens} from 'app/assets/constants/codes/Screens';
-import {SubtractionCalculator} from '../calculator-komunlki/view/SubtractionCalculator';
 import {MultiplicationCalculator} from '../calculator-komunlki/view/MultiplicationCalculator';
 import {AdditionalTariffs} from '../calculator-komunlki/view/AdditionalTariffs';
 import {OtherOptionView} from '../calculator-komunlki/view/OtherOptionView';
@@ -20,29 +19,29 @@ import {ResultCalculatorView} from '../calculator-komunlki/view/ResultCalculatot
 import {FunctionButtons} from '../calculator-komunlki/view/FunctionButtons';
 import {IFlatCalculator} from 'app/data/storage/flat/flat.calculator.model';
 import {FlatSubtractionCalculator} from './calculatorFlat/FlatSubtractionCalculator';
-import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
+
 import moment from 'moment';
-import {firebase} from '@react-native-firebase/database';
-import {keys} from 'mobx';
-import {DoneIcon} from 'app/assets/Icons/DoneIcon';
-import Modal from 'react-native-modal/dist/modal';
+
 import {databaseFirebase} from 'app/services/firebase/firebase.database';
 import {ModalDoneScreen} from '../modal/action-modal/ModalDone';
-import {useFocusEffect} from '@react-navigation/native';
 
 export interface IFlatCalculatorScreenProps {}
 
 export const FlatCalculatorScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
 
-  const calculatorFlatStage: IFlatCalculator[] =
-    props.route.params && props.route.params.calculatorFlat;
-  const preResultCalculatorFlat: IFlatCalculator =
-    calculatorFlatStage.reverse()[0];
-
-  const price = props.route.params && props.route.params.price;
   const flatIndex = props.route.params && props.route.params.flatIndex;
   const homeIndex = props.route.params && props.route.params.homeIndex;
+  const price = app.storage.getHomesState().getHomes()[homeIndex].flats[
+    flatIndex
+  ].price;
+  const calculatorFlatStage: any = app.storage.getHomesState().getHomes()[
+    homeIndex
+  ].flats[flatIndex].calculatorFlat;
+  // const calculatorFlatStage: IFlatCalculator[] =
+  //   props.route.params && props.route.params.calculatorFlat;
+  const preResultCalculatorFlat: IFlatCalculator =
+    calculatorFlatStage && calculatorFlatStage[0];
 
   const calculatorState = app.storage.getCalculatorState();
   const settingAccountTariffState = app.storage.getSettingAccountTariffState();
@@ -151,38 +150,41 @@ export const FlatCalculatorScreen = observer((props: any) => {
       resultOtherOptions: resultOtherOption,
       comments: comments,
       resultAllCalculate: resultAllCalculate,
+      index: 0,
     };
-    reference.update({calculatorFlat: [...calculatorFlatStage, result]});
+    reference.update({calculatorFlat: [result, ...calculatorFlatStage]});
     modalDoneRef.current && modalDoneRef.current.toggleModal();
+    app.storage.getHomesState().refreshHome();
   };
 
   const massage = `
- _____________________________
-|        Доброго дня!
-| Порахували комунальні:
-| Електроенергія: ${resultElectricity} кВт
-| ${messageElectricity}
-| ${electricityTariff} грн за кВт
-| ${resultElectricity} * ${electricityTariff} грн = ${multiplicationElectricity} грн 
-|
-| Вода: ${resultWater} куб.м
-| ${messageWater}
-| ${waterTariff} грн за куб.м
-| ${resultWater} * ${waterTariff} грн = ${multiplicationWater} грн 
-|
-| Інтернет: ${resultInternet} грн
-| Вивіз сміття: ${garbageRemovalTariff} грн
-|
-| Комунальні: ${resultAllUtilityPayments} грн
-|
-| Квартплата: ${resultRent} грн
-| Додаткові послуги: ${resultOtherOption} грн
-| Коментар: ${comments}\n
-|
-| Всього:  ${multiplicationElectricity} + ${multiplicationWater} + 
-|  ${resultInternet} + ${garbageRemovalTariff} + 
-|  ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n 
-|____________________________\n`;
+_____________________________________
+              
+              Доброго дня!
+    Порахували комунальні:
+    Електроенергія: ${resultElectricity} кВт
+    ${messageElectricity}
+    ${electricityTariff} грн за кВт
+    ${resultElectricity} * ${electricityTariff} грн = ${multiplicationElectricity} грн 
+     
+    Вода: ${resultWater} куб.м
+    ${messageWater}
+    ${waterTariff} грн за куб.м
+    ${resultWater} * ${waterTariff} грн = ${multiplicationWater} грн 
+     
+    Інтернет: ${resultInternet} грн
+    Вивіз сміття: ${garbageRemovalTariff} грн
+     
+    Комунальні: ${resultAllUtilityPayments} грн
+     
+    Квартплата: ${resultRent} грн
+    Додаткові послуги: ${resultOtherOption} грн
+    Коментар: ${comments}\n
+     
+    Всього:  ${multiplicationElectricity} + ${multiplicationWater} + 
+    ${resultInternet} + ${garbageRemovalTariff} + 
+    ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n 
+_____________________________________\n`;
 
   return (
     <View style={style.container}>

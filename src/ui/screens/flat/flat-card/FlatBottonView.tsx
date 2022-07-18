@@ -20,6 +20,7 @@ export interface FlatBottomViewProps {
 export const FlatBottomView = observer(
   ({flat, index, homeIndex, flatIndex}: FlatBottomViewProps) => {
     const app: IAppCoreService = useAppInjection();
+    const reversCalculatorFlat = flat.calculatorFlat;
     const onPressList = () => {
       app.navigationService.navigate(Screens._FLAT_LIST_UTILITY_BILLS, {
         calculatorFlat: flat.calculatorFlat,

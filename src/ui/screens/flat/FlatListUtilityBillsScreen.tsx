@@ -23,13 +23,19 @@ export interface IFlatListUtilityBillsScreenProps {}
 export const FlatListUtilityBillsScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
 
-  const calculatorFlatStage: IFlatCalculator[] =
-    props.route.params && props.route.params.calculatorFlat;
-  const flatIndex = props.route.params && props.route.params.flatIndex + 1;
-  const homeIndex = props.route.params && props.route.params.homeIndex + 1;
+  // const calculatorFlatStage: IFlatCalculator[] =
+  //   props.route.params && props.route.params.calculatorFlat;
+  const flatIndex = props.route.params && props.route.params.flatIndex;
+  const homeIndex = props.route.params && props.route.params.homeIndex;
 
   const [contentProgress, setContentProgress] = useState<number>(0);
 
+  // const flat =;
+  // console.log('flat', flat);
+
+  const calculatorFlatStage: any = app.storage.getHomesState().getHomes()[
+    homeIndex
+  ].flats[flatIndex].calculatorFlat;
   //const calculatorFlatStageRevers = calculatorFlatStage.reverse();
   //const calculatorFlatStageRevers = calculatorFlatStage.sort(() => -1);
   const _renderItem = ({
@@ -57,6 +63,9 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
       <View style={style.textContainer}>
         <FlatList
           data={calculatorFlatStage}
+          //inverted={true}
+          key={homeIndex}
+          keyExtractor={(item: IFlatCalculator, index) => item.index}
           renderItem={_renderItem}
           showsVerticalScrollIndicator={false}
         />

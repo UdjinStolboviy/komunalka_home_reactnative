@@ -35,9 +35,11 @@ export const FlatInfoScreen = (props: any) => {
   const flatIndex = props.route.params && props.route.params.flatIndex;
   const homeIndex = props.route.params && props.route.params.homeIndex;
 
+  console.log('flatStage', flatStage);
+
   const onPressList = () => {
     app.navigationService.navigate(Screens._FLAT_LIST_UTILITY_BILLS, {
-      calculatorFlat: flatStage.calculatorFlat.reverse(),
+      calculatorFlat: flatStage.calculatorFlat,
       flatIndex: flatIndex,
       homeIndex: homeIndex,
     });
