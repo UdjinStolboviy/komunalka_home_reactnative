@@ -86,31 +86,32 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
 
   const massage = `
  _____________________________
-|        Доброго дня!
-| Порахували комунальні:
-| Електроенергія: ${resultElectricity} кВт
-| ${messageElectricity}
-| ${electricityTariff} грн за кВт
-| ${resultElectricity} * ${electricityTariff} грн = ${multiplicationElectricity} грн 
-|
-| Вода: ${resultWater} куб.м
-| ${messageWater}
-| ${waterTariff} грн за куб.м
-| ${resultWater} * ${waterTariff} грн = ${multiplicationWater} грн 
-|
-| Інтернет: ${resultInternet} грн
-| Вивіз сміття: ${garbageRemovalTariff} грн
-|
-| Комунальні: ${resultAllUtilityPayments} грн
-|
-| Квартплата: ${resultRent} грн
-| Додаткові послуги: ${resultOtherOption} грн
-| Коментар: ${comments}\n
-|
-| Всього:  ${multiplicationElectricity} + ${multiplicationWater} + 
-|  ${resultInternet} + ${garbageRemovalTariff} + 
-|  ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n 
-|____________________________\n`;
+          
+          Доброго дня!
+    Порахували комунальні:
+    Електроенергія: ${resultElectricity} кВт
+    ${messageElectricity}
+    ${electricityTariff} грн за кВт
+    ${resultElectricity} * ${electricityTariff} грн = ${multiplicationElectricity} грн 
+    
+     Вода: ${resultWater} куб.м
+     ${messageWater}
+     ${waterTariff} грн за куб.м
+     ${resultWater} * ${waterTariff} грн = ${multiplicationWater} грн 
+     
+     Інтернет: ${resultInternet} грн
+     Вивіз сміття: ${garbageRemovalTariff} грн
+     
+     Комунальні: ${resultAllUtilityPayments} грн
+     
+     Квартплата: ${resultRent} грн
+     Додаткові послуги: ${resultOtherOption} грн
+     Коментар: ${comments}\n
+     
+     Всього:  ${multiplicationElectricity} + ${multiplicationWater} + 
+     ${resultInternet} + ${garbageRemovalTariff} + 
+     ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n 
+____________________________\n`;
 
   return (
     <View style={style.container}>

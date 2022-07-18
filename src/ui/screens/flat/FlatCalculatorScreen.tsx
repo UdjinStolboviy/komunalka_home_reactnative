@@ -158,7 +158,7 @@ export const FlatCalculatorScreen = observer((props: any) => {
   };
 
   const massage = `
-_____________________________________
+________________________________
               
               Доброго дня!
     Порахували комунальні:
@@ -184,7 +184,7 @@ _____________________________________
     Всього:  ${multiplicationElectricity} + ${multiplicationWater} + 
     ${resultInternet} + ${garbageRemovalTariff} + 
     ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n 
-_____________________________________\n`;
+________________________________\n`;
 
   return (
     <View style={style.container}>
