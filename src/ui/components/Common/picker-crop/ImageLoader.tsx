@@ -12,10 +12,10 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import {IAppCoreService} from '../../../../services/core/app.core.service.interface';
 
-import {Screens} from '../../../../constants/Screens';
 import {IPickedImage} from './ImagePickerView';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
+import {Screens} from 'app/assets/constants/codes/Screens';
 
 export interface PowerfulPictureProps {
   image: string | null | undefined;
@@ -31,6 +31,7 @@ export interface PowerfulPictureProps {
   imageHeight?: number;
   loadingBackgroundColor?: string;
   children: React.ReactNode;
+  namePicture?: string;
 }
 
 export interface ImageLoaderViewRefProps {
@@ -73,28 +74,28 @@ export const ImageLoader = forwardRef((props: PowerfulPictureProps, ref) => {
   };
 
   const renderView = () => {
-    if (props.image && !imageBroken) {
-      return (
-        <View style={[{flex: 1}]}>
-          <Image
-            onLoadStart={() => setImageLoading(true)}
-            onLoadEnd={() => setImageLoading(false)}
-            onError={e => setImageBroken(true)}
-            source={{uri: props.image}}
-            style={[PowerfulPictureStyle.image, props.imageStyle]}
-          />
-          {imageLoading ? null : props.children}
-          <Loader />
-        </View>
-      );
-    } else {
-      return (
-        <View style={{flex: 1}}>
-          {props.placeholder}
-          {props.children}
-        </View>
-      );
-    }
+    // if (props.image && !imageBroken) {
+    //   return (
+    //     <View style={[{flex: 1}]}>
+    //       {/* <Image
+    //         onLoadStart={() => setImageLoading(true)}
+    //         onLoadEnd={() => setImageLoading(false)}
+    //         onError={e => setImageBroken(true)}
+    //         source={{uri: props.image}}
+    //         style={[PowerfulPictureStyle.image, props.imageStyle]}
+    //       />
+    //       {imageLoading ? null : props.children} */}
+    //       <Loader />
+    //     </View>
+    //   );
+    // } else {
+    return (
+      <View style={{flex: 1}}>
+        {props.placeholder}
+        {props.children}
+      </View>
+    );
+    // }
   };
 
   // const imageLoaderCardRef: any = useRef<ImageLoaderViewRefProps>();
@@ -132,9 +133,10 @@ export const ImageLoader = forwardRef((props: PowerfulPictureProps, ref) => {
         compressImageQuality: 0.8,
         path: 'images',
       });
+
       const newImageUri = await app.utilsService.localUrlToRemote(
         localImage.path,
-        localImage.filename || 'image',
+        `${props.namePicture}_${localImage.filename}` || 'image',
         localImage.filename || 'image/jpg',
       );
       if (newImageUri) {
@@ -144,11 +146,7 @@ export const ImageLoader = forwardRef((props: PowerfulPictureProps, ref) => {
     } catch (e) {
       setImageLoading(false);
       if (e.code === NO_PERMISSIONS_PROVIDED) {
-        app.navigationService.navigate(Screens.SCREEN_PERMISSION, {
-          text: 'No image permissions provided',
-          additionalText:
-            'When you adjust settings, the opportunity information will be saved and Powerlinx will reload',
-        });
+        app.navigationService.navigate(Screens._ACCOUNT_SETTING);
       }
       props.onLoading && props.onLoading(false);
       app.logger.info('Pick image error: ', e);

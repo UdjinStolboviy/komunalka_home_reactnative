@@ -23,8 +23,9 @@ import {IFlat} from 'app/data/storage/flat/flat.model';
 import {BottomNavigatorBar} from 'app/ui/components/Common/BottomNavigatorBar';
 import {ScreenDimensions} from 'app/assets/constants/codes/ScreenDimensions';
 import {FlatExploreCard} from './flat-card/FlatExploreCard';
+import {observer} from 'mobx-react';
 
-export const FlatsScreen = (props: any) => {
+export const FlatsScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
 
   useEffect(() => {}, []);
@@ -40,7 +41,7 @@ export const FlatsScreen = (props: any) => {
       if (item.floor === floor) {
         return (
           <FlatExploreCard
-            key={index}
+            key={item.id}
             index={index}
             flat={item}
             title={item.title}
@@ -90,7 +91,7 @@ export const FlatsScreen = (props: any) => {
       <BottomNavigatorBar />
     </View>
   );
-};
+});
 
 const style = StyleSheet.create({
   container: {

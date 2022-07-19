@@ -1,7 +1,7 @@
 import { observable } from "mobx";
 
 export interface IFlatImage {
-  index: number;
+  index?: number;
   url?: string
 }
 

@@ -4,7 +4,7 @@ import { IFlatImage, FlatImage } from "./flat.image.model";
 
 export interface IFlat {
     index: number;
-    images?: IFlatImage[];
+    images: IFlatImage[];
     calculatorFlat: IFlatCalculator[];
     id: string;
     title: string;

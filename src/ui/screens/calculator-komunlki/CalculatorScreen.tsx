@@ -94,23 +94,23 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
     ${electricityTariff} грн за кВт
     ${resultElectricity} * ${electricityTariff} грн = ${multiplicationElectricity} грн 
     
-     Вода: ${resultWater} куб.м
-     ${messageWater}
-     ${waterTariff} грн за куб.м
-     ${resultWater} * ${waterTariff} грн = ${multiplicationWater} грн 
+    Вода: ${resultWater} куб.м
+    ${messageWater}
+    ${waterTariff} грн за куб.м
+    ${resultWater} * ${waterTariff} грн = ${multiplicationWater} грн 
+    
+    Інтернет: ${resultInternet} грн
+    Вивіз сміття: ${garbageRemovalTariff} грн
      
-     Інтернет: ${resultInternet} грн
-     Вивіз сміття: ${garbageRemovalTariff} грн
+    Комунальні: ${resultAllUtilityPayments} грн
      
-     Комунальні: ${resultAllUtilityPayments} грн
+    Квартплата: ${resultRent} грн
+    Додаткові послуги: ${resultOtherOption} грн
+    Коментар: ${comments}\n
      
-     Квартплата: ${resultRent} грн
-     Додаткові послуги: ${resultOtherOption} грн
-     Коментар: ${comments}\n
-     
-     Всього:  ${multiplicationElectricity} + ${multiplicationWater} + 
-     ${resultInternet} + ${garbageRemovalTariff} + 
-     ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n 
+    Всього:  ${multiplicationElectricity} + ${multiplicationWater} + 
+    ${resultInternet} + ${garbageRemovalTariff} + 
+    ${resultRent} + ${resultOtherOption} = ${resultAllCalculate} грн\n 
 ____________________________\n`;
 
   return (

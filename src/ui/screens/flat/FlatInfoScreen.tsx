@@ -2,11 +2,16 @@ import {Screens} from 'app/assets/constants/codes/Screens';
 import {Colors} from 'app/assets/constants/colors/Colors';
 
 import {useAppInjection} from 'app/data/ioc/inversify.config';
+import {IFlatImage} from 'app/data/storage/flat/flat.image.model';
 import {IFlat} from 'app/data/storage/flat/flat.model';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {databaseFirebase} from 'app/services/firebase/firebase.database';
 import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
+import {
+  ImageLoader,
+  ImageLoaderViewRefProps,
+} from 'app/ui/components/Common/picker-crop/ImageLoader';
 import {ContentProgressScrollView} from 'app/ui/components/Common/Scroll/ContentProgressScrollView';
 import {observer} from 'mobx-react';
 import React, {useRef, useState} from 'react';
@@ -23,15 +28,19 @@ export interface IFlatInfoScreenProps {
 export const FlatInfoScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
   const modalDoneRef: any = useRef();
-  const [flatStage, setFlatStage] = useState<IFlat>(
-    props.route.params && props.route.params.flat,
-  );
+  const imageLoaderCardRef: any = useRef<ImageLoaderViewRefProps>();
+  const flatIndex = props.route.params && props.route.params.flatIndex;
+  const homeIndex = props.route.params && props.route.params.homeIndex;
+  const fateful = app.storage.getHomesState();
+  const home = fateful.getHomes()[homeIndex];
+  const flat = home.flats[flatIndex];
+  console.log('flat', flat);
+  const [flatStage, setFlatStage] = useState<IFlat>(flat);
   const [flatNewStage, setFlatNevStage] = useState<IFlat>(
     props.route.params && props.route.params.flat,
   );
   const [contentProgress, setContentProgress] = useState<number>(0);
-  const flatIndex = props.route.params && props.route.params.flatIndex;
-  const homeIndex = props.route.params && props.route.params.homeIndex;
+  const [imageLoading, setImageLoading] = useState(false);
 
   const onPressList = () => {
     app.navigationService.navigate(Screens._FLAT_LIST_UTILITY_BILLS, {
@@ -76,12 +85,68 @@ export const FlatInfoScreen = observer((props: any) => {
     modalDoneRef.current && modalDoneRef.current.toggleModal();
   };
 
+  const onImagePress = () => {
+    imageLoaderCardRef.current && imageLoaderCardRef.current.pickImage();
+  };
+
+  const Placeholder = () => {
+    return null;
+  };
+
+  const onImageChange = async (image?: string) => {
+    try {
+      const result: IFlatImage = {
+        url: image,
+      };
+      reference.update({images: [result, ...flatStage.images]});
+      modalDoneRef.current && modalDoneRef.current.toggleModal();
+      app.storage.getHomesState().refreshHome();
+      console.log('onImageChange', image);
+    } catch (e) {}
+  };
+
+  const onImageDelete = () => {
+    const result: IFlatImage[] =
+      flatStage.images && flatStage.images.splice(1, flatStage.images.length);
+    reference.update({images: [...result]});
+    modalDoneRef.current && modalDoneRef.current.toggleModal();
+    app.storage.getHomesState().refreshHome();
+  };
+
   return (
     <View style={style.container}>
       <AppHeader progress={contentProgress} title={flatStage.title} />
       <ContentProgressScrollView
         onProgressChange={progress => setContentProgress(progress)}>
         <ImageFlat imagStack={flatStage.images!} />
+        <View style={style.flatInfo}>
+          <ImageLoader
+            ref={imageLoaderCardRef}
+            locked={!props.isAdmin}
+            image={flatStage.images![0].url}
+            containerStyle={style.imageContainer}
+            loaderContainerStyle={style.placeholder}
+            loadingBackgroundColor={Colors._FFFFFF}
+            placeholder={<Placeholder />}
+            imageWidth={1000}
+            imageHeight={1000}
+            children={null}
+            onLoading={loading => setImageLoading(loading)}
+            onImageChange={onImageChange}
+            namePicture={`Home${homeIndex}_flat${flatIndex}`}
+          />
+          <UniversalButton
+            title={'Вибрати і зберегти зображення'}
+            containerStyle={[style.buttonContainer]}
+            onPress={onImagePress}
+          />
+          <UniversalButton
+            title={'Відалити остане зображення'}
+            containerStyle={[style.buttonContainer]}
+            onPress={onImageDelete}
+          />
+        </View>
+
         <View style={style.middleWrapper}>
           <FlatInfoView
             isAdmin={true}
@@ -122,6 +187,16 @@ const style = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  imageContainer: {
+    width: 1,
+    height: 1,
+  },
+  placeholder: {
+    borderWidth: 1,
+    borderColor: Colors._007AFF,
+    backgroundColor: Colors._FFFFFF,
+    borderRadius: 4,
+  },
   middleWrapper: {
     width: '100%',
     justifyContent: 'center',
@@ -141,5 +216,9 @@ const style = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  flatInfo: {
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
 });

@@ -7,14 +7,18 @@ import { ISettingAccountTariffState } from "app/data/storage/setting-account/set
 import { ICalculatorState } from "app/data/storage/calculator/calculator.model";
 import { IAuthService } from "../auth/auth.service.interface";
 import { AuthService } from "../auth/auth.service";
+import { IUtilsService } from "../utils/utils.service.interface";
+import { IRESTService } from "../http/rest.service.interface";
 
 
 
 export interface IAppCoreService {
     listenerService: IListenerService;
+    restService: IRESTService
     navigationService: INavigationService;
     storage: GlobalStorage;
     logger: ILoggerService;
     asyncStorage: IAsyncStorage;
     authService: AuthService;
+    utilsService: IUtilsService;
 }

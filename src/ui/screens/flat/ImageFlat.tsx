@@ -1,5 +1,5 @@
 import {ImageNotIcon} from 'app/assets/Icons/ImageNotIcon';
-import {IFlatImage} from 'app/data/storage/flat/flat.image.model';
+import {FlatImage, IFlatImage} from 'app/data/storage/flat/flat.image.model';
 import React, {useState, useCallback, useRef} from 'react';
 import {Text, View, SafeAreaView, Image} from 'react-native';
 

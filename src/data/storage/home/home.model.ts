@@ -17,7 +17,7 @@ export class Home {
 
     @observable private title: string;
 
-    @observable public flats!: Flat[];
+    @observable public flats!: IFlat[];
 
 
     constructor(home: IHome) {
@@ -40,19 +40,19 @@ export class Home {
         return this.title
     }
 
-    public getFlats(): Flat[] {
+    public getFlats(): IFlat[] {
         return this.flats
     }
 
-    public setFlats(flats: Flat[]): void {
+    public setFlats(flats: IFlat[]): void {
         this.flats = flats;
     }
 
-    public addFlat(flat: Flat): void {
+    public addFlat(flat: IFlat): void {
         this.flats.push(flat);
     }
 
-    public removeFlat(flat: Flat): void {
+    public removeFlat(flat: IFlat): void {
         this.flats = this.flats.filter(f => f.getId() !== flat.getId());
     }
 

@@ -16,7 +16,11 @@ import {IListenerService} from 'app/services/listener/listener.service';
 import {ListenerService} from 'app/services/listener/listen.service.impl';
 import {IAsyncStorage} from 'app/services/async-storage/async.storage.interface';
 import {AsyncStorage} from 'app/services/async-storage/async.storage';
-import { AuthService } from 'app/services/auth/auth.service';
+import {AuthService} from 'app/services/auth/auth.service';
+import {IUtilsService} from 'app/services/utils/utils.service.interface';
+import {UtilsService} from 'app/services/utils/utils.service';
+import {IRESTService} from 'app/services/http/rest.service.interface';
+import {RESTService} from 'app/services/http/rest.service';
 
 const appContainer: Container = new Container();
 appContainer
@@ -32,8 +36,16 @@ appContainer
   .to(LoggerService)
   .inSingletonScope();
 appContainer
+  .bind<IRESTService>(TYPES.RESTService)
+  .to(RESTService)
+  .inSingletonScope();
+appContainer
   .bind<IListenerService>(TYPES.ListenerService)
   .to(ListenerService)
+  .inSingletonScope();
+appContainer
+  .bind<IUtilsService>(TYPES.UtilsService)
+  .to(UtilsService)
   .inSingletonScope();
 appContainer
   .bind<IAsyncStorage>(TYPES.AsyncStorage)

@@ -65,6 +65,7 @@ export const FlatInfoView = observer((props: FlatInfoViewProps) => {
         floor: floorText,
         index: flatIndex,
         calculatorFlat: flat.calculatorFlat,
+        images: flat.images,
       })
     );
   }, [

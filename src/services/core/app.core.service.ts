@@ -9,6 +9,8 @@ import { IAsyncStorage } from "../async-storage/async.storage.interface";
 import { IListenerService } from "../listener/listener.service";
 import { ISettingAccountTariffState } from "app/data/storage/setting-account/setting.account.tariff.model";
 import { AuthService } from "../auth/auth.service";
+import { IUtilsService } from "../utils/utils.service.interface";
+import { IRESTService } from "../http/rest.service.interface";
 
 
 @injectable()
@@ -26,4 +28,7 @@ export class AppCoreService implements IAppCoreService {
     public listenerService!: IListenerService;
     @inject(TYPES.AuthService)
     public authService!: AuthService;
+    @inject(TYPES.UtilsService)
+    public utilsService!: IUtilsService;
+    @inject(TYPES.RESTService) public restService!: IRESTService;
 }
