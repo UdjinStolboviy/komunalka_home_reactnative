@@ -1,6 +1,7 @@
 import {ImageNotIcon} from 'app/assets/Icons/ImageNotIcon';
 import {FlatImage, IFlatImage} from 'app/data/storage/flat/flat.image.model';
-import React, {useState, useCallback, useRef} from 'react';
+import {observer} from 'mobx-react';
+import React, {useState, useCallback, useRef, useEffect} from 'react';
 import {Text, View, SafeAreaView, Image} from 'react-native';
 
 import Carousel from 'react-native-snap-carousel';
@@ -9,9 +10,10 @@ export interface IImageFlat {
   imagStack: IFlatImage[];
 }
 
-export const ImageFlat = (props: IImageFlat) => {
+export const ImageFlat = observer((props: IImageFlat) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [imageBroken, setImageBroken] = useState(false);
+
   const carouselItems = props.imagStack;
 
   const ref = useRef(null);
@@ -47,7 +49,7 @@ export const ImageFlat = (props: IImageFlat) => {
         )}
       </View>
     ),
-    [],
+    [carouselItems],
   );
 
   return (
@@ -69,4 +71,4 @@ export const ImageFlat = (props: IImageFlat) => {
       />
     </View>
   );
-};
+});

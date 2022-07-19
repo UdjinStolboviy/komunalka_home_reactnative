@@ -18,7 +18,7 @@ import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import {ContentProgressScrollView} from 'app/ui/components/Common/Scroll/ContentProgressScrollView';
 import {Colors} from 'app/assets/constants/colors/Colors';
-import {IHome} from 'app/data/storage/home/home.model';
+import {Home, IHome} from 'app/data/storage/home/home.model';
 import {IFlat} from 'app/data/storage/flat/flat.model';
 import {BottomNavigatorBar} from 'app/ui/components/Common/BottomNavigatorBar';
 import {ScreenDimensions} from 'app/assets/constants/codes/ScreenDimensions';
@@ -27,13 +27,16 @@ import {observer} from 'mobx-react';
 
 export const FlatsScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
-
-  useEffect(() => {}, []);
-  const [contentProgress, setContentProgress] = useState<number>(0);
-  const [homeStage, setHomeStage] = useState<IHome>(
-    props.route.params && props.route.params.home,
-  );
+  const fateful = app.storage.getHomesState();
   const homeIndex: number = props.route.params && props.route.params.homeIndex;
+  const home = fateful.getHomes()[homeIndex];
+
+  const [contentProgress, setContentProgress] = useState<number>(0);
+  const [homeStage, setHomeStage] = useState<Home>(home);
+
+  useEffect(() => {
+    setHomeStage(home);
+  }, [home]);
   const floor = [0, 1, 2, 3, 4];
 
   const renderFlatItemFloor = (floor: number) => {

@@ -13,7 +13,7 @@ export class Home {
 
     @observable private index: number;
 
-    @observable private id: string;
+    @observable public id: string;
 
     @observable private title: string;
 

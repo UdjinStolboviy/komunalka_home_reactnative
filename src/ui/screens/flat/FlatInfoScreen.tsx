@@ -14,8 +14,14 @@ import {
 } from 'app/ui/components/Common/picker-crop/ImageLoader';
 import {ContentProgressScrollView} from 'app/ui/components/Common/Scroll/ContentProgressScrollView';
 import {observer} from 'mobx-react';
-import React, {useRef, useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import {ModalDoneScreen} from '../modal/action-modal/ModalDone';
 import {FlatBottomNavigatorBar} from './FlatBottomNavigatorBar';
 import {FlatInfoView} from './FlatInfoView';
@@ -34,13 +40,15 @@ export const FlatInfoScreen = observer((props: any) => {
   const fateful = app.storage.getHomesState();
   const home = fateful.getHomes()[homeIndex];
   const flat = home.flats[flatIndex];
-  console.log('flat', flat);
   const [flatStage, setFlatStage] = useState<IFlat>(flat);
-  const [flatNewStage, setFlatNevStage] = useState<IFlat>(
-    props.route.params && props.route.params.flat,
-  );
+  const [flatNewStage, setFlatNevStage] = useState<IFlat>(flat);
   const [contentProgress, setContentProgress] = useState<number>(0);
-  const [imageLoading, setImageLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setFlatStage(flat);
+    setFlatNevStage(flat);
+  }, [flat]);
 
   const onPressList = () => {
     app.navigationService.navigate(Screens._FLAT_LIST_UTILITY_BILLS, {
@@ -61,6 +69,7 @@ export const FlatInfoScreen = observer((props: any) => {
   const reference = databaseFirebase(`homes/${homeIndex}/flats/${flatIndex}/`);
 
   const onPressSave = () => {
+    setLoading(true);
     reference.update({
       id: flatStage.id,
       title: flatStage.title,
@@ -83,7 +92,12 @@ export const FlatInfoScreen = observer((props: any) => {
     });
     app.storage.getHomesState().refreshHome();
     modalDoneRef.current && modalDoneRef.current.toggleModal();
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
+
+  console.log('flatStage', flatStage);
 
   const onImagePress = () => {
     imageLoaderCardRef.current && imageLoaderCardRef.current.pickImage();
@@ -94,6 +108,7 @@ export const FlatInfoScreen = observer((props: any) => {
   };
 
   const onImageChange = async (image?: string) => {
+    setLoading(true);
     try {
       const result: IFlatImage = {
         url: image,
@@ -101,24 +116,49 @@ export const FlatInfoScreen = observer((props: any) => {
       reference.update({images: [result, ...flatStage.images]});
       modalDoneRef.current && modalDoneRef.current.toggleModal();
       app.storage.getHomesState().refreshHome();
-      console.log('onImageChange', image);
+      setLoading(false);
     } catch (e) {}
   };
 
   const onImageDelete = () => {
+    setLoading(true);
+
     const result: IFlatImage[] =
       flatStage.images && flatStage.images.splice(1, flatStage.images.length);
     reference.update({images: [...result]});
     modalDoneRef.current && modalDoneRef.current.toggleModal();
     app.storage.getHomesState().refreshHome();
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
+
+  const Loader = useCallback(() => {
+    if (loading) {
+      return (
+        <View
+          style={[
+            style.loader,
+            props.loaderContainerStyle,
+            {display: loading ? undefined : 'none'},
+            {
+              backgroundColor: props.loadingBackgroundColor || 'transparent',
+            },
+          ]}>
+          <ActivityIndicator color={Colors._007AFF} />
+        </View>
+      );
+    } else {
+      return <ImageFlat imagStack={flatStage.images!} />;
+    }
+  }, [loading, flat.images, flatStage.images]);
 
   return (
     <View style={style.container}>
       <AppHeader progress={contentProgress} title={flatStage.title} />
       <ContentProgressScrollView
         onProgressChange={progress => setContentProgress(progress)}>
-        <ImageFlat imagStack={flatStage.images!} />
+        <Loader />
         <View style={style.flatInfo}>
           <ImageLoader
             ref={imageLoaderCardRef}
@@ -131,7 +171,7 @@ export const FlatInfoScreen = observer((props: any) => {
             imageWidth={1000}
             imageHeight={1000}
             children={null}
-            onLoading={loading => setImageLoading(loading)}
+            onLoading={loading => setLoading(loading)}
             onImageChange={onImageChange}
             namePicture={`Home${homeIndex}_flat${flatIndex}`}
           />
@@ -220,5 +260,11 @@ const style = StyleSheet.create({
   flatInfo: {
     alignItems: 'center',
     paddingHorizontal: 20,
+  },
+  loader: {
+    width: 400,
+    height: 400,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
