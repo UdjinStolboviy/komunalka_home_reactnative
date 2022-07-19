@@ -97,8 +97,6 @@ export const FlatInfoScreen = observer((props: any) => {
     }, 1000);
   };
 
-  console.log('flatStage', flatStage);
-
   const onImagePress = () => {
     imageLoaderCardRef.current && imageLoaderCardRef.current.pickImage();
   };
@@ -181,7 +179,7 @@ export const FlatInfoScreen = observer((props: any) => {
             onPress={onImagePress}
           />
           <UniversalButton
-            title={'Відалити остане зображення'}
+            title={'Відалити зображення'}
             containerStyle={[style.buttonContainer]}
             onPress={onImageDelete}
           />
