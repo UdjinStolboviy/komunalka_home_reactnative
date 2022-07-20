@@ -26,8 +26,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
   const app: IAppCoreService = useAppInjection();
   const timeState = app.storage.getTimeState();
   const timeForResendCode = app.storage.getTimeState().getTimeForResendCode();
-  const auth = app.authService.getAuthState();
-  const appStateRender = app.authService.getAuthState().getAuthStareRender();
+  const auth = app.storage;
 
   const {translate} = useContext<LocalizationContext>(localizationContext);
 
@@ -64,7 +63,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
       if (code === '1990') {
         setCodeError(false);
         setRenderedAuthStore(true);
-        auth.setAuthStareRender(true);
+        auth.setLoginUser(true);
         analyticsEvent();
         RNRestart.Restart();
       } else {

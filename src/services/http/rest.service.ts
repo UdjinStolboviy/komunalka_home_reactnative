@@ -16,7 +16,7 @@ export class RESTService implements IRESTService {
   private readonly PUT: string = 'PUT';
   private readonly PATCH: string = 'PATCH';
   private readonly DELETE: string = 'DELETE';
-  @inject(TYPES.Logger) private logger: ILoggerService;
+  @inject(TYPES.Logger) private logger!: ILoggerService;
 
 
   public async get(url: string, headers: Headers): Promise<HttpResponse> {

@@ -21,6 +21,19 @@ import {IUtilsService} from 'app/services/utils/utils.service.interface';
 import {UtilsService} from 'app/services/utils/utils.service';
 import {IRESTService} from 'app/services/http/rest.service.interface';
 import {RESTService} from 'app/services/http/rest.service';
+import {IPushNotificationService} from 'app/services/push-notification/push.notification.service.interface';
+import {PushNotificationsService} from 'app/services/push-notification/push.notifications.service';
+import {INotificationsService} from 'app/services/notification/notifications.service.interface';
+import {NotificationService} from 'app/services/notification/notification.service';
+import {IDeepLinkService} from 'app/services/deep-link/deep.link.service.interface';
+import {DeepLinkService} from 'app/services/deep-link/deep.link.service';
+import {ISessionService} from 'app/services/session/session.service.interface';
+import {SessionService} from 'app/services/session/session.service';
+import {IAuthService} from 'app/services/auth/auth.service.interface';
+import {IDBService} from 'app/services/data-base/db.service.interface';
+import {DBService} from 'app/services/data-base/db.service';
+import {IUserAccountService} from 'app/services/user-account/user.account.service.interface';
+import {UserAccountService} from 'app/services/user-account/user.account.service';
 
 const appContainer: Container = new Container();
 appContainer
@@ -44,13 +57,34 @@ appContainer
   .to(ListenerService)
   .inSingletonScope();
 appContainer
+  .bind<IAsyncStorage>(TYPES.AsyncStorage)
+  .to(AsyncStorage)
+  .inSingletonScope();
+appContainer
+  .bind<IPushNotificationService>(TYPES.PushNotificationService)
+  .to(PushNotificationsService)
+  .inSingletonScope();
+appContainer
   .bind<IUtilsService>(TYPES.UtilsService)
   .to(UtilsService)
   .inSingletonScope();
 appContainer
-  .bind<IAsyncStorage>(TYPES.AsyncStorage)
-  .to(AsyncStorage)
+  .bind<INotificationsService>(TYPES.NotificationsService)
+  .to(NotificationService)
   .inSingletonScope();
+appContainer
+  .bind<IDeepLinkService>(TYPES.DeepLinkService)
+  .to(DeepLinkService)
+  .inSingletonScope();
+appContainer
+  .bind<ISessionService>(TYPES.SessionService)
+  .to(SessionService)
+  .inSingletonScope();
+appContainer
+  .bind<IUserAccountService>(TYPES.UserAccountService)
+  .to(UserAccountService)
+  .inSingletonScope();
+appContainer.bind<IDBService>(TYPES.DBService).to(DBService).inSingletonScope();
 appContainer.bind(TYPES.Storage).to(GlobalStorage).inSingletonScope();
 appContainer.bind(TYPES.AuthService).to(AuthService).inSingletonScope();
 

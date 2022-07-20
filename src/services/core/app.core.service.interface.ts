@@ -9,10 +9,19 @@ import { IAuthService } from "../auth/auth.service.interface";
 import { AuthService } from "../auth/auth.service";
 import { IUtilsService } from "../utils/utils.service.interface";
 import { IRESTService } from "../http/rest.service.interface";
+import { IPushNotificationService } from "../push-notification/push.notification.service.interface";
+import { INotificationsService } from "../notification/notifications.service.interface";
+import { IDeepLinkService } from "../deep-link/deep.link.service.interface";
+import { ISessionService } from "../session/session.service.interface";
+import { IDBService } from "../data-base/db.service.interface";
 
 
 
 export interface IAppCoreService {
+    pushNotificationService: IPushNotificationService;
+    deepLinkService: IDeepLinkService;
+    sessionService: ISessionService;
+    notificationsService: INotificationsService;
     listenerService: IListenerService;
     restService: IRESTService
     navigationService: INavigationService;
@@ -21,4 +30,6 @@ export interface IAppCoreService {
     asyncStorage: IAsyncStorage;
     authService: AuthService;
     utilsService: IUtilsService;
+    dbService: IDBService;
+
 }
