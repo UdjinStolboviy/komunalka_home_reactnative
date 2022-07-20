@@ -1,15 +1,12 @@
-import {RouteProp, useRoute} from '@react-navigation/native';
-import {Screens} from 'app/assets/constants/codes/Screens';
 import {Type} from 'app/assets/constants/codes/Type';
 import {Colors} from 'app/assets/constants/colors/Colors';
-import {CalculatorIcon} from 'app/assets/Icons/CalculatorIcon';
+
 import {DoorIcon} from 'app/assets/Icons/DoorIcon';
-import {HomeIcon} from 'app/assets/Icons/HomeIcon';
-import {OpenIcon} from 'app/assets/Icons/OpenIcon';
+
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IFlat} from 'app/data/storage/flat/flat.model';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
-import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
+
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 

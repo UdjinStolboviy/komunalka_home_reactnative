@@ -103,6 +103,7 @@ const style = StyleSheet.create({
   },
   wrapperTextFloor: {
     alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 10,
   },
   textFloor: {
@@ -115,7 +116,7 @@ const style = StyleSheet.create({
     height: '100%',
   },
   wrapper: {
-    width: '110%',
+    width: '100%',
     alignItems: 'center',
   },
 });

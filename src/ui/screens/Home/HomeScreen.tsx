@@ -33,6 +33,7 @@ export const MainScreen = (props: any) => {
   NetInfo.fetch().then(state => {
     console.log('Connection type', state.type);
     console.log('Is connected?', state.isConnected);
+    app.storage.getHomesState().setConnectNetwork(state.isConnected);
     setConnectionNet(state.isConnected);
   });
 
@@ -57,6 +58,7 @@ export const MainScreen = (props: any) => {
         AsyncStorageKey.HomeStore,
       );
       if (result !== null) {
+        app.storage.getHomesState().setHomes(result);
         return setHomeStage(result);
       }
     } catch (error) {

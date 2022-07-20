@@ -11,11 +11,11 @@ export interface IHome {
 
 export class Home {
 
-    @observable private index: number;
+    @observable public index: number;
 
     @observable public id: string;
 
-    @observable private title: string;
+    @observable public title: string;
 
     @observable public flats!: IFlat[];
 

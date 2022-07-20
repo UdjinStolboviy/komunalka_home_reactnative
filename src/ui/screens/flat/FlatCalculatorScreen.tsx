@@ -53,6 +53,10 @@ export const FlatCalculatorScreen = observer((props: any) => {
     settingAccountTariffState.getGarbageRemovalTariff();
   const [enableComments, setEnableComments] = useState<boolean>(true);
 
+  const [connectionNet, setConnectionNet] = useState<boolean | null>(
+    app.storage.getHomesState().getConnectNetwork(),
+  );
+
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [enableOtherOptions, setEnableOtherOptions] = useState<boolean>(true);
   const [currentDataElectricity, setCurrentDataElectricity] =
@@ -128,33 +132,35 @@ export const FlatCalculatorScreen = observer((props: any) => {
   // );
 
   const _onPressSave = () => {
-    const result: IFlatCalculator = {
-      id: preResultCalculatorFlat.id,
-      dateCalculator: INITIAL_DATE,
-      currentDataElectricity: currentDataElectricity,
-      currentDataWater: currentDataWater,
-      preliminaryDataElectricity: preliminaryDataElectricity,
-      preliminaryDataWater: preliminaryDataWater,
-      resultElectricity: resultElectricity,
-      messageElectricity: messageElectricity,
-      electricityTariff: electricityTariff,
-      multiplicationElectricity: multiplicationElectricity,
-      resultWater: resultWater,
-      messageWater: messageWater,
-      waterTariff: waterTariff,
-      multiplicationWater: multiplicationWater,
-      resultInternet: resultInternet,
-      garbageRemovalTariff: garbageRemovalTariff,
-      resultAllUtilityPayments: resultAllUtilityPayments,
-      resultRent: resultRent,
-      resultOtherOptions: resultOtherOption,
-      comments: comments,
-      resultAllCalculate: resultAllCalculate,
-      index: 0,
-    };
-    reference.update({calculatorFlat: [result, ...calculatorFlatStage]});
-    modalDoneRef.current && modalDoneRef.current.toggleModal();
-    app.storage.getHomesState().refreshHome();
+    if (connectionNet) {
+      const result: IFlatCalculator = {
+        id: preResultCalculatorFlat.id,
+        dateCalculator: INITIAL_DATE,
+        currentDataElectricity: currentDataElectricity,
+        currentDataWater: currentDataWater,
+        preliminaryDataElectricity: preliminaryDataElectricity,
+        preliminaryDataWater: preliminaryDataWater,
+        resultElectricity: resultElectricity,
+        messageElectricity: messageElectricity,
+        electricityTariff: electricityTariff,
+        multiplicationElectricity: multiplicationElectricity,
+        resultWater: resultWater,
+        messageWater: messageWater,
+        waterTariff: waterTariff,
+        multiplicationWater: multiplicationWater,
+        resultInternet: resultInternet,
+        garbageRemovalTariff: garbageRemovalTariff,
+        resultAllUtilityPayments: resultAllUtilityPayments,
+        resultRent: resultRent,
+        resultOtherOptions: resultOtherOption,
+        comments: comments,
+        resultAllCalculate: resultAllCalculate,
+        index: 0,
+      };
+      reference.update({calculatorFlat: [result, ...calculatorFlatStage]});
+      modalDoneRef.current && modalDoneRef.current.toggleModal();
+      app.storage.getHomesState().refreshHome();
+    }
   };
 
   const massage = `

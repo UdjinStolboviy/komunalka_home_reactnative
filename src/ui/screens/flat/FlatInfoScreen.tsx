@@ -44,6 +44,9 @@ export const FlatInfoScreen = observer((props: any) => {
   const [flatNewStage, setFlatNevStage] = useState<IFlat>(flat);
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [loading, setLoading] = useState(false);
+  const [connectionNet, setConnectionNet] = useState<boolean | null>(
+    app.storage.getHomesState().getConnectNetwork(),
+  );
 
   useEffect(() => {
     setFlatStage(flat);
@@ -70,28 +73,31 @@ export const FlatInfoScreen = observer((props: any) => {
 
   const onPressSave = () => {
     setLoading(true);
-    reference.update({
-      id: flatStage.id,
-      title: flatStage.title,
-      price: flatNewStage.price,
-      area: flatNewStage.area,
-      rooms: flatNewStage.rooms,
-      dateSettlement: flatNewStage.dateSettlement,
-      dateEviction: flatNewStage.dateEviction,
-      description: flatNewStage.description,
-      wifiName: flatNewStage.wifiName,
-      wifiPassword: flatNewStage.wifiPassword,
-      address: flatNewStage.address,
-      occupant: flatNewStage.occupant,
-      phoneOccupant: flatNewStage.phoneOccupant,
-      emailOccupant: flatNewStage.emailOccupant,
-      owner: flatNewStage.owner,
-      ownerPhone: flatNewStage.ownerPhone,
-      ownerEmail: flatNewStage.ownerEmail,
-      floor: flatNewStage.floor,
-    });
-    app.storage.getHomesState().refreshHome();
-    modalDoneRef.current && modalDoneRef.current.toggleModal();
+    if (connectionNet) {
+      reference.update({
+        id: flatStage.id,
+        title: flatStage.title,
+        price: flatNewStage.price,
+        area: flatNewStage.area,
+        rooms: flatNewStage.rooms,
+        dateSettlement: flatNewStage.dateSettlement,
+        dateEviction: flatNewStage.dateEviction,
+        description: flatNewStage.description,
+        wifiName: flatNewStage.wifiName,
+        wifiPassword: flatNewStage.wifiPassword,
+        address: flatNewStage.address,
+        occupant: flatNewStage.occupant,
+        phoneOccupant: flatNewStage.phoneOccupant,
+        emailOccupant: flatNewStage.emailOccupant,
+        owner: flatNewStage.owner,
+        ownerPhone: flatNewStage.ownerPhone,
+        ownerEmail: flatNewStage.ownerEmail,
+        floor: flatNewStage.floor,
+      });
+      app.storage.getHomesState().refreshHome();
+      modalDoneRef.current && modalDoneRef.current.toggleModal();
+    }
+
     setTimeout(() => {
       setLoading(false);
     }, 1000);
@@ -107,25 +113,32 @@ export const FlatInfoScreen = observer((props: any) => {
 
   const onImageChange = async (image?: string) => {
     setLoading(true);
+
     try {
-      const result: IFlatImage = {
-        url: image,
-      };
-      reference.update({images: [result, ...flatStage.images]});
-      modalDoneRef.current && modalDoneRef.current.toggleModal();
-      app.storage.getHomesState().refreshHome();
+      if (connectionNet) {
+        const result: IFlatImage = {
+          url: image,
+        };
+        reference.update({images: [result, ...flatStage.images]});
+        modalDoneRef.current && modalDoneRef.current.toggleModal();
+        app.storage.getHomesState().refreshHome();
+      }
       setLoading(false);
     } catch (e) {}
   };
 
   const onImageDelete = () => {
     setLoading(true);
-
-    const result: IFlatImage[] =
-      flatStage.images && flatStage.images.splice(1, flatStage.images.length);
-    reference.update({images: [...result]});
-    modalDoneRef.current && modalDoneRef.current.toggleModal();
-    app.storage.getHomesState().refreshHome();
+    if (connectionNet) {
+      if (flatStage.images.length > 1) {
+        const result: IFlatImage[] =
+          flatStage.images &&
+          flatStage.images.splice(1, flatStage.images.length);
+        reference.update({images: [...result]});
+        modalDoneRef.current && modalDoneRef.current.toggleModal();
+        app.storage.getHomesState().refreshHome();
+      }
+    }
     setTimeout(() => {
       setLoading(false);
     }, 1000);
@@ -143,7 +156,7 @@ export const FlatInfoScreen = observer((props: any) => {
               backgroundColor: props.loadingBackgroundColor || 'transparent',
             },
           ]}>
-          <ActivityIndicator color={Colors._007AFF} />
+          <ActivityIndicator size={'large'} color={Colors._007AFF} />
         </View>
       );
     } else {
@@ -260,8 +273,8 @@ const style = StyleSheet.create({
     paddingHorizontal: 20,
   },
   loader: {
-    width: 400,
-    height: 400,
+    width: '100%',
+    height: 300,
     justifyContent: 'center',
     alignItems: 'center',
   },
