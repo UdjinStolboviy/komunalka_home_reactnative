@@ -8,7 +8,7 @@ import {appCoreService, useAppInjection} from 'app/data/ioc/inversify.config';
 import {BottomTabBar} from './BottomTabBar';
 import {Screens} from 'app/assets/constants/codes/Screens';
 import {MainScreen} from 'app/ui/screens/Home/HomeScreen';
-import {FirstScreen} from 'app/ui/screens/Home/FirstScreen';
+import {NotificationsScreen} from 'app/ui/screens/Home/NotificationsScreen';
 import {CalculatorScreen} from 'app/ui/screens/calculator-komunlki/CalculatorScreen';
 import {PersonalInfoScreen} from 'app/ui/screens/accounts/AccountSetting/PersonalInfoScreen';
 import {AccountSettingScreen} from 'app/ui/screens/accounts/AccountSetting/AccountSettingScreen';
@@ -111,8 +111,8 @@ const AppStack = (props: RootNavigatorProps) => {
         }}
       />
       <MainStack.Screen
-        name={Screens.SCREEN_FIRST}
-        component={FirstScreen}
+        name={Screens._NOTIFICATION}
+        component={NotificationsScreen}
         options={{gestureEnabled: false}}
       />
       <MainStack.Screen

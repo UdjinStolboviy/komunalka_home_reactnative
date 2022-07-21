@@ -6,7 +6,10 @@ import {BottomTabBarProps} from '@react-navigation/bottom-tabs/lib/typescript/sr
 
 import {IAppCoreService} from '../services/core/app.core.service.interface';
 import {MainScreen} from 'app/ui/screens/Home/HomeScreen';
-import {FirstScreen} from 'app/ui/screens/Home/FirstScreen';
+import {
+  FirstScreen,
+  NotificationsScreen,
+} from 'app/ui/screens/Home/NotificationsScreen';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {Screens} from 'app/assets/constants/codes/Screens';
 import {HomeIcon} from 'app/assets/Icons/HomeIcon';
@@ -118,7 +121,7 @@ export const BottomTabBar = () => {
 
       const onPress = () => {
         const routeAvailable =
-          route.name === Screens.SCREEN_FIRST ||
+          route.name === Screens._NOTIFICATION ||
           route.name === Screens.SCREEN_MAIN ||
           route.name === Screens._FLATS ||
           route.name === Screens._ACCOUNT_SETTING;
@@ -197,8 +200,8 @@ export const BottomTabBar = () => {
       }}>
       <Tab.Screen name={Screens.SCREEN_MAIN} component={MainScreen} />
       <Tab.Screen
-        name={Screens.SCREEN_FIRST}
-        component={FirstScreen}
+        name={Screens._NOTIFICATION}
+        component={NotificationsScreen}
         options={{unmountOnBlur: true}}
       />
       <Tab.Screen name={Screens._CALCULATOR} component={CalculatorScreen} />

@@ -22,7 +22,6 @@ import {databaseFirebase} from 'app/services/firebase/firebase.database';
 export const MainScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
   const reference = databaseFirebase('/homes');
-  const [contentProgress, setContentProgress] = useState<number>(0);
   const [homeStage, setHomeStage] = useState<IHome[]>([]);
   const [connectionNet, setConnectionNet] = useState<boolean | null>(false);
 
@@ -103,8 +102,7 @@ export const MainScreen = (props: any) => {
         }
       />
 
-      <ContentProgressScrollView
-        onProgressChange={progress => setContentProgress(progress)}>
+      <ContentProgressScrollView onProgressChange={progress => progress}>
         <HomePageCharts />
         {renderHomeItem()}
         <ElementItem

@@ -21,5 +21,5 @@ export class Screens {
   public static readonly _FLAT_INFO: string = 'FlatInfoScreen';
   public static readonly _FLAT_LIST_UTILITY_BILLS: string = 'FlatListUtilityBillsScreen';
   public static readonly _FLAT_CALCULATOR: string = 'FlatCalculatorScreen';
-  public static readonly SCREEN_FIRST: string = 'FirstScreen';
+  public static readonly _NOTIFICATION: string = 'NotificationsScreen';
 }

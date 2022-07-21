@@ -34,6 +34,8 @@ const CalendarScreen = (props: CalendarScreenProps) => {
     setSelected(day.dateString);
   }, []);
 
+  const marker = [];
+
   const marked = useMemo(() => {
     return {
       [selected]: {
@@ -41,24 +43,6 @@ const CalendarScreen = (props: CalendarScreenProps) => {
         disableTouchEvent: true,
         selectedColor: 'orange',
         selectedTextColor: 'red',
-      },
-      ['2022-07-22']: {
-        dotColor: 'red',
-        marked: true,
-      },
-      '2022-07-08': {
-        selected: true,
-        dots: [
-          {key: 'vacation', color: 'blue', selectedDotColor: 'red'},
-          {key: 'massage', color: 'red', selectedDotColor: 'white'},
-        ],
-      },
-      '2022-07-09': {
-        disabled: true,
-        dots: [
-          {key: 'vacation', color: 'green', selectedDotColor: 'red'},
-          {key: 'massage', color: 'red', selectedDotColor: 'green'},
-        ],
       },
     };
   }, [selected]);
