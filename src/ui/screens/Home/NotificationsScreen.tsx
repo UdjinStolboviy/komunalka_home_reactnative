@@ -92,7 +92,7 @@ export const NotificationsScreen = (props: any) => {
       <View style={style.wrapperCalendar}>
         <NotificationCalendarView datesSettlement={datesSettlementNextMonth} />
       </View>
-      <Text style={style.title}>{`Сьогодні розрахувнок`}</Text>
+      <Text style={style.title}>{`Сьогодні розрахувати`}</Text>
       <ScrollView style={style.wrapperScroll}>
         {renderNotificationList()}
       </ScrollView>
