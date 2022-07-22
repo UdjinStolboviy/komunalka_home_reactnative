@@ -86,7 +86,6 @@ export const NotificationsScreen = (props: any) => {
     });
   };
 
-  console.log('fsdfsdfksdgjsdkgjskjdg', flat);
   return (
     <View style={style.container}>
       <AppHeader title={`Нагадування`} />
