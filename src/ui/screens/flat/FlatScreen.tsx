@@ -1,14 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  SafeAreaView,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 import {Screens} from 'app/assets/constants/codes/Screens';
 import {Texts} from 'app/assets/constants/codes/Texts';
@@ -32,7 +23,7 @@ export const FlatsScreen = observer((props: any) => {
   const home = fateful.getHomes()[homeIndex];
 
   const [contentProgress, setContentProgress] = useState<number>(0);
-  const [homeStage, setHomeStage] = useState<Home>(home);
+  const [homeStage, setHomeStage] = useState<IHome>(home);
 
   useEffect(() => {
     setHomeStage(home);
@@ -44,7 +35,7 @@ export const FlatsScreen = observer((props: any) => {
       if (item.floor === floor) {
         return (
           <FlatExploreCard
-            key={item.id}
+            key={index}
             index={index}
             flat={item}
             title={item.title}
@@ -59,12 +50,12 @@ export const FlatsScreen = observer((props: any) => {
     });
   };
 
-  const renderFlatItem = (floor: number) => {
+  const renderFlatItem = (floor: number, index: number) => {
     if (renderFlatItemFloor(floor).every(item => item === null)) {
       return null;
     } else {
       return (
-        <View>
+        <View key={index}>
           <View style={style.wrapperTextFloor}>
             <Text style={style.textFloor}>{`Поверх ${floor}`}</Text>
           </View>
@@ -75,7 +66,9 @@ export const FlatsScreen = observer((props: any) => {
   };
 
   const renderFlats = () => {
-    return floor.map((item: number) => renderFlatItem(item));
+    return floor.map((item: number, index: number) =>
+      renderFlatItem(item, index),
+    );
   };
 
   return (

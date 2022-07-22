@@ -46,7 +46,7 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
     index: number;
   }) => {
     const flatCalculator = item as IFlatCalculator;
-    return <FlatListItemView item={flatCalculator} index={index} />;
+    return <FlatListItemView item={flatCalculator} index={index} key={index} />;
   };
 
   return (
@@ -63,9 +63,7 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
       <View style={style.textContainer}>
         <FlatList
           data={calculatorFlatStage}
-          //inverted={true}
-          key={homeIndex}
-          keyExtractor={(item: IFlatCalculator, index) => item.index}
+          keyExtractor={item => item.messageElectricity}
           renderItem={_renderItem}
           showsVerticalScrollIndicator={false}
         />
