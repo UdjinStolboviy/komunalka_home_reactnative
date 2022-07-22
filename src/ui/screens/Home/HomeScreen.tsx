@@ -46,6 +46,7 @@ export const MainScreen = (props: any) => {
         app.storage.getHomesState().setHomes(snapshot.val());
       });
       // Stop listening for updates when no longer required
+
       return () => reference.off('value', onValueChange);
     }
     getHomeStore();
@@ -65,11 +66,15 @@ export const MainScreen = (props: any) => {
     }
   };
   const setHomeStore = async (home: IHome[]) => {
+    app.navigationService.navigate(Screens._ACTIVITY_INDICATOR);
     await AsyncStorageFacade.save(AsyncStorageKey.HomeStore, home);
+    app.navigationService.goBack();
   };
 
   const cleanStore = async () => {
+    app.navigationService.navigate(Screens._ACTIVITY_INDICATOR);
     await AsyncStorageFacade.remove(AsyncStorageKey.HomeStore);
+    app.navigationService.goBack();
   };
 
   const renderHomeItem = () => {

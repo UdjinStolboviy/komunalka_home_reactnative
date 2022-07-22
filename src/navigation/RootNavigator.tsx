@@ -29,6 +29,7 @@ import {FlatsScreen} from 'app/ui/screens/flat/FlatScreen';
 import {FlatInfoScreen} from 'app/ui/screens/flat/FlatInfoScreen';
 import {FlatListUtilityBillsScreen} from 'app/ui/screens/flat/FlatListUtilityBillsScreen';
 import {FlatCalculatorScreen} from 'app/ui/screens/flat/FlatCalculatorScreen';
+import {ActivityIndicatorScreen} from 'app/ui/screens/common/ActivityIndicatorScreen';
 
 export interface ThemeContext {
   theme?: string;
@@ -61,7 +62,11 @@ const LightTheme = {
     notification: Colors._007AFF,
   },
 };
-
+const forFade = ({current}: any) => ({
+  cardStyle: {
+    opacity: current.progress,
+  },
+});
 export interface RootNavigatorProps {
   initialScreen: Screen;
 }
@@ -84,6 +89,15 @@ const AuthStack = (props: RootNavigatorProps) => {
         name={Screens.SCREEN_MAIN}
         component={MainScreen}
         options={{
+          gestureEnabled: false,
+        }}
+      />
+      <MainStack.Screen
+        name={Screens._ACTIVITY_INDICATOR}
+        component={ActivityIndicatorScreen}
+        options={{
+          cardStyle: {backgroundColor: 'transparent'},
+          cardStyleInterpolator: forFade,
           gestureEnabled: false,
         }}
       />
@@ -174,6 +188,15 @@ const AppStack = (props: RootNavigatorProps) => {
         name={Screens._FLAT_CALCULATOR}
         component={FlatCalculatorScreen}
         options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._ACTIVITY_INDICATOR}
+        component={ActivityIndicatorScreen}
+        options={{
+          cardStyle: {backgroundColor: 'transparent'},
+          cardStyleInterpolator: forFade,
+          gestureEnabled: false,
+        }}
       />
     </MainStack.Navigator>
   );
