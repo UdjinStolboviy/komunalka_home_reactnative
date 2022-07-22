@@ -25,6 +25,7 @@ const TYPES = {
     NetworkService: Symbol.for("NetworkService"),
     ExploreService: Symbol.for("ExploreService"),
     FeedService: Symbol.for("FeedService"),
+    NotificationsState: Symbol.for("NotificationsState"),
 };
 
 export { TYPES }

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "405815381968",
+    "project_id": "komunalka-home",
+    "storage_bucket": "komunalka-home.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405815381968:android:81c8cb832af30eb47573d5",
+        "android_client_info": {
+          "package_name": "com.komunalka_home_reactnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405815381968-8hqq7ho3p1a5392jspn9jmmtltuo3kug.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.komunalka_home_reactnative",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "405815381968-4gv4tva9qjfplitp7gen42mlkoagkn5l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQXxkYRj1RJkc5rw8247zopKagtgWMIWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405815381968-4gv4tva9qjfplitp7gen42mlkoagkn5l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

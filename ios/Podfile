@@ -1,10 +1,13 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+
+$RNFirebaseAnalyticsWithoutAdIdSupport=true
 platform :ios, '11.0'
 
 target 'komunalka_home_reactnative' do
   config = use_native_modules!
+  use_frameworks! :linkage => :static
 
   use_react_native!(
     :path => config[:reactNativePath],
@@ -12,7 +15,10 @@ target 'komunalka_home_reactnative' do
     :hermes_enabled => false
   )
 
+  
+
   target 'komunalka_home_reactnativeTests' do
+    use_frameworks! :linkage => :static
     inherit! :complete
     # Pods for testing
   end
@@ -21,7 +27,7 @@ target 'komunalka_home_reactnative' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  use_flipper!()
+  #use_flipper!()
 
   post_install do |installer|
     react_native_post_install(installer)

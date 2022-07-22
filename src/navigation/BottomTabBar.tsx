@@ -1,17 +1,22 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {Text} from 'react-native';
 import {TouchableOpacity, View} from 'react-native';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 
 import {IAppCoreService} from '../services/core/app.core.service.interface';
-import {MainScreen} from 'app/ui/screens/Main/MainScreen';
-import {FirstScreen} from 'app/ui/screens/Main/FirstScreen';
-import {SecondScreen} from 'app/ui/screens/Main/SecondScreen';
-import {EndScreen} from 'app/ui/screens/Main/EndScreen';
+import {MainScreen} from 'app/ui/screens/Home/HomeScreen';
+import {NotificationsScreen} from 'app/ui/screens/Home/NotificationsScreen';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {Screens} from 'app/assets/constants/codes/Screens';
+import {HomeIcon} from 'app/assets/Icons/HomeIcon';
+import {BellIcon} from 'app/assets/Icons/BellIcon';
+import {CalculatorIcon} from 'app/assets/Icons/CalculatorIcon';
+import {SettingIcon} from 'app/assets/Icons/SettingIcon';
+import {Colors} from 'app/assets/constants/colors/Colors';
+import {CalculatorScreen} from 'app/ui/screens/calculator-komunlki/CalculatorScreen';
+import {AccountSettingScreen} from 'app/ui/screens/accounts/AccountSetting/AccountSettingScreen';
+import {useTheme} from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,6 +30,7 @@ interface IconContainerProps {
 
 export const BottomTabBar = () => {
   const app: IAppCoreService = useAppInjection();
+  const {colors} = useTheme();
 
   const IconContainer = (props: IconContainerProps) => {
     switch (props.index) {
@@ -33,14 +39,14 @@ export const BottomTabBar = () => {
           <TouchableOpacity
             onPress={props.onPress}
             onLongPress={props.onLongPress}
-            activeOpacity={1}
+            activeOpacity={0.5}
             style={{
               height: '100%',
               width: '50%',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text>M</Text>
+            <HomeIcon color={Colors._007AFF} width={55} height={55} />
           </TouchableOpacity>
         );
       case 1:
@@ -48,14 +54,14 @@ export const BottomTabBar = () => {
           <TouchableOpacity
             onPress={props.onPress}
             onLongPress={props.onLongPress}
-            activeOpacity={1}
+            activeOpacity={0.5}
             style={{
               height: '100%',
               width: '50%',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text>1</Text>
+            <BellIcon active={props.isFocused} />
           </TouchableOpacity>
         );
       case 2:
@@ -70,7 +76,7 @@ export const BottomTabBar = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text>2</Text>
+            <CalculatorIcon />
           </TouchableOpacity>
         );
       case 3:
@@ -85,7 +91,7 @@ export const BottomTabBar = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text>3</Text>
+            <SettingIcon />
           </TouchableOpacity>
         );
       default:
@@ -112,11 +118,13 @@ export const BottomTabBar = () => {
 
       const onPress = () => {
         const routeAvailable =
-          route.name === Screens.SCREEN_FIRST ||
-          route.name === Screens.SCREEN_MAIN;
+          route.name === Screens._NOTIFICATION ||
+          route.name === Screens.SCREEN_MAIN ||
+          route.name === Screens._FLATS ||
+          route.name === Screens._ACCOUNT_SETTING;
 
         if (!routeAvailable) {
-          app.navigationService.navigate(Screens.SCREEN_SECOND);
+          app.navigationService.navigate(Screens._CALCULATOR);
           return;
         }
         const event = navigation.emit({
@@ -155,22 +163,25 @@ export const BottomTabBar = () => {
       navigationOptions.descriptors[
         navigationOptions.state.routes[navigationOptions.state.index].key
       ].options;
-    if (focusedOptions.tabBarVisible === false) return null;
+    if (focusedOptions.unmountOnBlur === false) return null;
     return (
-      <View style={{height: 58, flexDirection: 'row'}}>
-        <View style={{flexDirection: 'row', height: '100%', width: '42%'}}>
-          {renderIcon(navigationOptions, 0, 2)}
-        </View>
+      <View
+        style={{
+          height: 80,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: colors.background,
+        }}>
         <View
           style={{
+            flexDirection: 'row',
             height: '100%',
-            width: '16%',
-            alignItems: 'center',
-            paddingBottom: 100,
+            width: '50%',
           }}>
-          <Text>E</Text>
+          {renderIcon(navigationOptions, 0, 3)}
         </View>
-        <View style={{flexDirection: 'row', height: '100%', width: '42%'}}>
+        <View style={{flexDirection: 'row', height: '100%', width: '50%'}}>
           {renderIcon(navigationOptions, 2, 4)}
         </View>
       </View>
@@ -178,15 +189,23 @@ export const BottomTabBar = () => {
   };
 
   return (
-    <Tab.Navigator tabBar={renderTabBar} initialRouteName={Screens.SCREEN_MAIN}>
+    <Tab.Navigator
+      tabBar={renderTabBar}
+      initialRouteName={Screens.SCREEN_MAIN}
+      screenOptions={{
+        headerShown: false,
+      }}>
       <Tab.Screen name={Screens.SCREEN_MAIN} component={MainScreen} />
       <Tab.Screen
-        name={Screens.SCREEN_FIRST}
-        component={FirstScreen}
+        name={Screens._NOTIFICATION}
+        component={NotificationsScreen}
         options={{unmountOnBlur: true}}
       />
-      <Tab.Screen name={Screens.SCREEN_SECOND} component={SecondScreen} />
-      <Tab.Screen name={Screens.SCREEN_END} component={EndScreen} />
+      <Tab.Screen name={Screens._CALCULATOR} component={CalculatorScreen} />
+      <Tab.Screen
+        name={Screens._ACCOUNT_SETTING}
+        component={AccountSettingScreen}
+      />
     </Tab.Navigator>
   );
 };

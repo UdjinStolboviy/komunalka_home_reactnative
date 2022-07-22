@@ -17,8 +17,10 @@ import {appContainer, appCoreService} from './data/ioc/inversify.config';
 import {Screen} from './models/navigator/navigator.screen.config';
 import {RootNavigator} from './navigation/RootNavigator';
 import {Screens} from './assets/constants/codes/Screens';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import LocalizationContextWrapper from './localization/localizationProvider';
 
-const App = () => {
+const MainComponent: React.FC = () => {
   const [initialScreen, setInitialScreen] = useState<any>();
   useEffect(() => {
     SplashScreen.hide();
@@ -29,10 +31,18 @@ const App = () => {
   }, []);
 
   const defineAppContainer = () => {
-    return <RootNavigator initialScreen={initialScreen} />;
+    return (
+      <SafeAreaProvider>
+        <RootNavigator initialScreen={initialScreen} />
+      </SafeAreaProvider>
+    );
   };
 
-  return <Provider container={appContainer}>{defineAppContainer()}</Provider>;
+  return (
+    <LocalizationContextWrapper>
+      <Provider container={appContainer}>{defineAppContainer()}</Provider>
+    </LocalizationContextWrapper>
+  );
 };
 
-export default App;
+export default MainComponent;

@@ -8,4 +8,6 @@ export interface INavigationService {
 
     getRouteName(): string;
 
+    initialized: boolean;
+
 }

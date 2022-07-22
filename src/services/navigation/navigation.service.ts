@@ -4,6 +4,7 @@ import { injectable } from "inversify";
 @injectable()
 export class NavigationService implements INavigationService {
 
+    public initialized: boolean = false;
     private navigator: any;
 
     public goBack(): void {

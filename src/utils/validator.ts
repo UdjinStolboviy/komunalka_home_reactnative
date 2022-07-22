@@ -1,4 +1,5 @@
-import { Validations } from "../constants/Validations";
+import { Validations } from "app/assets/constants/codes/Validations";
+
 const urlRegex = require('url-regex');
 
 export const validateName = (name: string): boolean => {
@@ -20,18 +21,22 @@ export const validateEmail = (email: string): boolean => {
 };
 
 export const validateWebsite = (website: string): boolean => {
-  const regex = new RegExp('^(https?:\\/\\/)?'+ // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-    '(\\#[-a-z\\d_]*)?$','i');
+  const regex = new RegExp('^(https?:\\/\\/)?' + // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+    '(\\#[-a-z\\d_]*)?$', 'i');
   return regex.test(website)
 };
 
 export const validateNameWithSpaces = (name: string): boolean => {
   const nameWithSpacesRegExp = RegExp(/^[A-Za-z0-9 \"“”'‘’()[\]{}<>«»\\\/?!&@£$€¥.:;,-]{3}[*=#%+A-Za-z0-9 \"“”'‘’()[\]{}<>«»\\\/?!&@£$€¥.:;,-]{0,157}$/);
   return !!name && nameWithSpacesRegExp.test(name);
+};
+export const validateNumberWithSpaces = (text: string): boolean => {
+  const nameWithSpacesRegExp = RegExp(/^[0-9 \.]{0}[0-9 \.]{0,30}$/);
+  return !!text && nameWithSpacesRegExp.test(text);
 };
 
 export const validateCompanyName = (name: string): boolean => {
@@ -61,7 +66,7 @@ export const validateMobileNumber = (phoneNumber: string): boolean => {
 };
 
 export const validateYear = (year: string): boolean => {
-  const numberYear:number = parseInt(year, 10);
+  const numberYear: number = parseInt(year, 10);
   if (!numberYear) return false;
   const currentYear: number = new Date().getFullYear();
   return numberYear >= Validations.MIN_YEAR && numberYear <= currentYear;
