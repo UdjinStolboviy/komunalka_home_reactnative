@@ -20,7 +20,7 @@ export const NotificationsScreen = (props: any) => {
 
   const datesSettlement = [];
 
-  const datesNow = moment(Date().toString()).format('YYYY-MM');
+  const datesNow = moment(new Date()).format('YYYY-MM');
 
   for (let i = 0; i < homes.length; i++) {
     const home = homes[i];
