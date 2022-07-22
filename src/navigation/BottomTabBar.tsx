@@ -6,10 +6,7 @@ import {BottomTabBarProps} from '@react-navigation/bottom-tabs/lib/typescript/sr
 
 import {IAppCoreService} from '../services/core/app.core.service.interface';
 import {MainScreen} from 'app/ui/screens/Home/HomeScreen';
-import {
-  FirstScreen,
-  NotificationsScreen,
-} from 'app/ui/screens/Home/NotificationsScreen';
+import {NotificationsScreen} from 'app/ui/screens/Home/NotificationsScreen';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {Screens} from 'app/assets/constants/codes/Screens';
 import {HomeIcon} from 'app/assets/Icons/HomeIcon';
@@ -64,7 +61,7 @@ export const BottomTabBar = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <BellIcon />
+            <BellIcon active={props.isFocused} />
           </TouchableOpacity>
         );
       case 2:

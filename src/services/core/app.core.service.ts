@@ -17,11 +17,11 @@ import { IPushNotificationService } from "../push-notification/push.notification
 import { INotificationsService } from "../notification/notifications.service.interface";
 import { IDeepLinkService } from "../deep-link/deep.link.service.interface";
 import { ISessionService } from "../session/session.service.interface";
+import { INotificationsState, NotificationsState } from "app/data/storage/notifications/notifications.state";
 
 
 @injectable()
 export class AppCoreService implements IAppCoreService {
-
     @inject(TYPES.NavigationService)
     public navigationService!: INavigationService;
     @inject(TYPES.Storage)

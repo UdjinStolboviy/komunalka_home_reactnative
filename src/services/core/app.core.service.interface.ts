@@ -14,6 +14,7 @@ import { INotificationsService } from "../notification/notifications.service.int
 import { IDeepLinkService } from "../deep-link/deep.link.service.interface";
 import { ISessionService } from "../session/session.service.interface";
 import { IDBService } from "../data-base/db.service.interface";
+import { INotificationsState, NotificationsState } from "app/data/storage/notifications/notifications.state";
 
 
 

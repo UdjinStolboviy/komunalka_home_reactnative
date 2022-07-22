@@ -34,6 +34,10 @@ import {IDBService} from 'app/services/data-base/db.service.interface';
 import {DBService} from 'app/services/data-base/db.service';
 import {IUserAccountService} from 'app/services/user-account/user.account.service.interface';
 import {UserAccountService} from 'app/services/user-account/user.account.service';
+import {
+  INotificationsState,
+  NotificationsState,
+} from '../storage/notifications/notifications.state';
 
 const appContainer: Container = new Container();
 appContainer
@@ -84,6 +88,7 @@ appContainer
   .bind<IUserAccountService>(TYPES.UserAccountService)
   .to(UserAccountService)
   .inSingletonScope();
+
 appContainer.bind<IDBService>(TYPES.DBService).to(DBService).inSingletonScope();
 appContainer.bind(TYPES.Storage).to(GlobalStorage).inSingletonScope();
 appContainer.bind(TYPES.AuthService).to(AuthService).inSingletonScope();

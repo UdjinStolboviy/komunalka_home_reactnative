@@ -44,6 +44,7 @@ export const MainScreen = (props: any) => {
         setHomeStage(snapshot.val());
         setHomeStore(snapshot.val());
         app.storage.getHomesState().setHomes(snapshot.val());
+        app.storage.getNotificationsState().setUnreadNotificationsCount(2);
       });
       // Stop listening for updates when no longer required
 
