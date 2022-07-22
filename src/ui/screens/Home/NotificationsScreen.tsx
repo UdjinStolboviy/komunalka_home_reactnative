@@ -20,13 +20,21 @@ export const NotificationsScreen = (props: any) => {
 
   const datesSettlement = [];
 
+  const datesNow = moment(Date()).format('YYYY-MM');
+
   for (let i = 0; i < homes.length; i++) {
     const home = homes[i];
     for (let j = 0; j < home.flats.length; j++) {
       const settlement = home.flats[j].dateSettlement;
-      datesSettlement.push(settlement.split('.').reverse().join('-'));
+      datesSettlement.push(settlement.split('.')[0]);
     }
   }
+  const dateNowSettlement = datesSettlement.map(date => {
+    if (Number(date) >= 29) {
+      return datesNow + '-' + '01';
+    }
+    return datesNow + '-' + date;
+  });
 
   const addMonths = (date: string, months: number) => {
     return moment(date).add(months, 'month').format('YYYY-MM-DD');
@@ -36,19 +44,8 @@ export const NotificationsScreen = (props: any) => {
     arr.map(date => addMonths(date, months));
 
   const datesSettlementNextMonth = [
-    ...datesSettlement,
-    ...datesSettlementNext(1, datesSettlement),
-    ...datesSettlementNext(2, datesSettlement),
-    ...datesSettlementNext(3, datesSettlement),
-    ...datesSettlementNext(4, datesSettlement),
-    ...datesSettlementNext(5, datesSettlement),
-    ...datesSettlementNext(6, datesSettlement),
-    ...datesSettlementNext(7, datesSettlement),
-    ...datesSettlementNext(8, datesSettlement),
-    ...datesSettlementNext(9, datesSettlement),
-    ...datesSettlementNext(10, datesSettlement),
-    ...datesSettlementNext(11, datesSettlement),
-    ...datesSettlementNext(12, datesSettlement),
+    ...dateNowSettlement,
+    ...datesSettlementNext(1, dateNowSettlement),
   ];
 
   return (
