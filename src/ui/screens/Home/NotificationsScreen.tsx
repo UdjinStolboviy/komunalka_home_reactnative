@@ -6,7 +6,6 @@ import {
   checkNotificationFlat,
   datesSettlementCheck,
 } from 'app/utils/check-notification';
-import {checkIfStateModificationsAreAllowed} from 'mobx/dist/internal';
 import moment from 'moment';
 
 import React from 'react';
