@@ -62,8 +62,9 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
 
       <View style={style.textContainer}>
         <FlatList
+          style={style.flatList}
           data={calculatorFlatStage}
-          keyExtractor={item => item.messageElectricity}
+          keyExtractor={item => item.id.toString()}
           renderItem={_renderItem}
           showsVerticalScrollIndicator={false}
         />
@@ -95,5 +96,9 @@ const style = StyleSheet.create({
   text: {
     fontSize: 16,
     color: Colors._000000,
+  },
+  flatList: {
+    width: '100%',
+    height: '85%',
   },
 });
