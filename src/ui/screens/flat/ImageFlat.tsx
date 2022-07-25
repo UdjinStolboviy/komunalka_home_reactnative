@@ -16,7 +16,11 @@ export const ImageFlat = observer((props: IImageFlat) => {
 
   const carouselItems = props.imagStack;
 
+  useEffect(() => {}, [carouselItems]);
+
   const ref = useRef(null);
+
+  const renderNotImage = () => <ImageNotIcon />;
 
   const renderItem = useCallback(
     ({item, index}: any) => (
@@ -36,17 +40,7 @@ export const ImageFlat = observer((props: IImageFlat) => {
             }}
             style={{width: '100%', height: '100%'}}
           />
-        ) : (
-          <View
-            style={{
-              width: '100%',
-              height: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <ImageNotIcon />
-          </View>
-        )}
+        ) : null}
       </View>
     ),
     [carouselItems],
@@ -60,15 +54,19 @@ export const ImageFlat = observer((props: IImageFlat) => {
         marginTop: 15,
         marginBottom: 15,
       }}>
-      <Carousel
-        layout="tinder"
-        ref={ref}
-        data={carouselItems}
-        sliderWidth={400}
-        itemWidth={400}
-        renderItem={renderItem}
-        onSnapToItem={index => setActiveIndex(index)}
-      />
+      {carouselItems.length > 0 && carouselItems[0].url ? (
+        <Carousel
+          layout="tinder"
+          ref={ref}
+          data={carouselItems}
+          sliderWidth={400}
+          itemWidth={400}
+          renderItem={renderItem}
+          onSnapToItem={index => setActiveIndex(index)}
+        />
+      ) : (
+        renderNotImage()
+      )}
     </View>
   );
 });

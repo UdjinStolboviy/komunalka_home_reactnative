@@ -1,11 +1,14 @@
 import {Screens} from 'app/assets/constants/codes/Screens';
 import {Colors} from 'app/assets/constants/colors/Colors';
+import {AddImageIcon} from 'app/assets/Icons/AddImageIcon';
+import {DeleteImageIcon} from 'app/assets/Icons/DeleteImageIcon';
 
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IFlatImage} from 'app/data/storage/flat/flat.image.model';
 import {IFlat} from 'app/data/storage/flat/flat.model';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {databaseFirebase} from 'app/services/firebase/firebase.database';
+import {IconButtonUniversal} from 'app/ui/components/button/AppButton/IconButtonUniversal';
 import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import {
@@ -52,7 +55,7 @@ export const FlatInfoScreen = observer((props: any) => {
   useEffect(() => {
     setFlatStage(flat);
     setFlatNevStage(flat);
-  }, [flat]);
+  }, [flat, home]);
 
   const onPressList = () => {
     app.navigationService.navigate(Screens._FLAT_LIST_UTILITY_BILLS, {
@@ -122,7 +125,7 @@ export const FlatInfoScreen = observer((props: any) => {
         };
         reference.update({images: [result, ...flatStage.images]});
         modalDoneRef.current && modalDoneRef.current.toggleModal();
-        app.storage.getHomesState().refreshHome();
+        //app.storage.getHomesState().refreshHome();
       }
       setLoading(false);
     } catch (e) {}
@@ -137,7 +140,7 @@ export const FlatInfoScreen = observer((props: any) => {
           flatStage.images.splice(1, flatStage.images.length);
         reference.update({images: [...result]});
         modalDoneRef.current && modalDoneRef.current.toggleModal();
-        app.storage.getHomesState().refreshHome();
+        // app.storage.getHomesState().refreshHome();
       }
     }
     setTimeout(() => {
@@ -187,16 +190,18 @@ export const FlatInfoScreen = observer((props: any) => {
             onImageChange={onImageChange}
             namePicture={`Home${homeIndex}_flat${flatIndex}`}
           />
-          <UniversalButton
-            title={'Вибрати і зберегти зображення'}
-            containerStyle={[style.buttonContainer]}
-            onPress={onImagePress}
-          />
-          <UniversalButton
-            title={'Відалити зображення'}
-            containerStyle={[style.buttonContainer]}
-            onPress={onImageDelete}
-          />
+          <View style={style.buttonImageContent}>
+            <IconButtonUniversal
+              containerStyle={[style.buttonContainer]}
+              onPress={onImageDelete}>
+              <DeleteImageIcon />
+            </IconButtonUniversal>
+            <IconButtonUniversal
+              containerStyle={[style.buttonContainer]}
+              onPress={onImagePress}>
+              <AddImageIcon />
+            </IconButtonUniversal>
+          </View>
         </View>
 
         <View style={style.middleWrapper}>
@@ -272,11 +277,17 @@ const style = StyleSheet.create({
   flatInfo: {
     alignItems: 'center',
     paddingHorizontal: 20,
+    marginBottom: 20,
   },
   loader: {
     width: '100%',
     height: 300,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonImageContent: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-around',
   },
 });
