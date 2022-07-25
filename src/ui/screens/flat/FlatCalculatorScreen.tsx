@@ -58,6 +58,8 @@ export const FlatCalculatorScreen = observer((props: any) => {
     app.storage.getHomesState().getConnectNetwork(),
   );
 
+  const [firstPress, setFirstPress] = useState<boolean>(true);
+
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [enableOtherOptions, setEnableOtherOptions] = useState<boolean>(true);
   const [currentDataElectricity, setCurrentDataElectricity] =
@@ -161,6 +163,7 @@ export const FlatCalculatorScreen = observer((props: any) => {
       reference.update({calculatorFlat: [result, ...calculatorFlatStage]});
       modalDoneRef.current && modalDoneRef.current.toggleModal();
       app.storage.getHomesState().refreshHome();
+      setFirstPress(false);
     }
   };
 
@@ -323,7 +326,7 @@ ________________________________\n`;
           <FunctionButtons
             massage={massage}
             onPressTrash={_onPressTrash}
-            onSave={_onPressSave}
+            onSave={firstPress ? _onPressSave : () => null}
           />
         </TouchableOpacity>
         <View style={style.separator} />
