@@ -135,7 +135,7 @@ export const FlatInfoScreen = observer((props: any) => {
           flatIndex: flatIndex,
         });
         setLoading(false);
-      }, 1000);
+      }, 3000);
     } catch (e) {}
   };
 
