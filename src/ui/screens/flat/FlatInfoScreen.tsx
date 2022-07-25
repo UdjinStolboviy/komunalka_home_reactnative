@@ -127,12 +127,21 @@ export const FlatInfoScreen = observer((props: any) => {
         modalDoneRef.current && modalDoneRef.current.toggleModal();
         //app.storage.getHomesState().refreshHome();
       }
-      setLoading(false);
+      app.navigationService.goBack();
+      setTimeout(() => {
+        app.navigationService.navigate(Screens._FLAT_INFO, {
+          flat: flat,
+          homeIndex: homeIndex,
+          flatIndex: flatIndex,
+        });
+        setLoading(false);
+      }, 1000);
     } catch (e) {}
   };
 
   const onImageDelete = () => {
     setLoading(true);
+
     if (connectionNet) {
       if (flatStage.images.length > 1) {
         const result: IFlatImage[] =
