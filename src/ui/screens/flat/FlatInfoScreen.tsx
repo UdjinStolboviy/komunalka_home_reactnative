@@ -13,6 +13,7 @@ import {
   ImageLoaderViewRefProps,
 } from 'app/ui/components/Common/picker-crop/ImageLoader';
 import {ContentProgressScrollView} from 'app/ui/components/Common/Scroll/ContentProgressScrollView';
+import {uid} from 'app/utils/id-random';
 import {observer} from 'mobx-react';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
@@ -75,7 +76,7 @@ export const FlatInfoScreen = observer((props: any) => {
     setLoading(true);
     if (connectionNet) {
       reference.update({
-        id: flatStage.id + Math.random().toString(16).slice(2),
+        id: flatStage.id + uid(),
         title: flatStage.title,
         price: flatNewStage.price,
         area: flatNewStage.area,
