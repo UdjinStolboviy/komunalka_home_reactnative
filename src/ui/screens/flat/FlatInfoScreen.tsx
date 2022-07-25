@@ -76,7 +76,7 @@ export const FlatInfoScreen = observer((props: any) => {
     setLoading(true);
     if (connectionNet) {
       reference.update({
-        id: flatStage.id + uid(),
+        id: uid(),
         title: flatStage.title,
         price: flatNewStage.price,
         area: flatNewStage.area,

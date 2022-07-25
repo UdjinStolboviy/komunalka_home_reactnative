@@ -135,7 +135,7 @@ export const FlatCalculatorScreen = observer((props: any) => {
   const _onPressSave = () => {
     if (connectionNet) {
       const result: IFlatCalculator = {
-        id: preResultCalculatorFlat.id + uid(),
+        id: uid(),
         dateCalculator: INITIAL_DATE,
         currentDataElectricity: currentDataElectricity,
         currentDataWater: currentDataWater,

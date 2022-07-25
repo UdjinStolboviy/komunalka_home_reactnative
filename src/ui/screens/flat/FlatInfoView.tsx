@@ -46,7 +46,7 @@ export const FlatInfoView = observer((props: FlatInfoViewProps) => {
     return (
       props.onChangeFlat &&
       props.onChangeFlat({
-        id: flat.id + uid(),
+        id: uid(),
         title: flat.title,
         price: price,
         area: areaText,
