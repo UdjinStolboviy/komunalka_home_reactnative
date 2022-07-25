@@ -136,8 +136,8 @@ android {
         applicationId "com.komunalka_home_reactnative"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "1.2.3"
+        versionCode 4
+        versionName "1.2.4"
         vectorDrawables.useSupportLibrary = true
     }
     splits {
