@@ -2,6 +2,10 @@ import {Colors} from 'app/assets/constants/colors/Colors';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
+import {
+  checkNotificationFlat,
+  datesSettlementCheck,
+} from 'app/utils/check-notification';
 import {checkIfStateModificationsAreAllowed} from 'mobx/dist/internal';
 import moment from 'moment';
 
@@ -29,27 +33,12 @@ export const NotificationsScreen = (props: any) => {
   const notificationListLengthsText = `${notificationListLengths} Notifications`;
   const homes = app.storage.getHomesState().getHomes();
 
-  const datesSettlement = [];
-  const flat: IFlatItemNotification[] = [];
+  const datesSettlement = datesSettlementCheck(homes);
+  const flat: IFlatItemNotification[] = checkNotificationFlat(homes);
 
   const datesNow = moment(new Date()).format('YYYY-MM');
   const dayNow = moment(new Date()).format('DD');
 
-  for (let i = 0; i < homes.length; i++) {
-    const home = homes[i];
-    for (let j = 0; j < home.flats.length; j++) {
-      const settlement = home.flats[j].dateSettlement;
-      const owner = home.flats[j].owner;
-      const address = home.flats[j].address;
-      datesSettlement.push(settlement.split('.')[0]);
-      flat.push({
-        settlementDay: settlement.split('.')[0],
-        settlementDate: settlement,
-        owner: owner,
-        address: address,
-      });
-    }
-  }
   const dateNowSettlement = datesSettlement.map(date => {
     if (Number(date) >= 29) {
       return datesNow + '-' + '01';

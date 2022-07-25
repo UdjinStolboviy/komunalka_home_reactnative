@@ -25,7 +25,7 @@ export const BottomNavigatorBar = (props: any) => {
         <HomeIcon color={Colors._007AFF} width={55} height={55} />
       </TouchableOpacity>
       <TouchableOpacity
-        //onPress={() => app.navigationService.navigate(Screens.SCREEN_MAIN)}
+        onPress={() => app.navigationService.navigate(Screens._NOTIFICATION)}
         activeOpacity={0.5}
         style={{
           height: '100%',
