@@ -45,7 +45,7 @@ export const FlatInfoView = observer((props: FlatInfoViewProps) => {
     return (
       props.onChangeFlat &&
       props.onChangeFlat({
-        id: flat.id,
+        id: flat.id + Math.random().toString(16).slice(2),
         title: flat.title,
         price: price,
         area: areaText,

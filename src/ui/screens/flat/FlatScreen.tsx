@@ -35,7 +35,7 @@ export const FlatsScreen = observer((props: any) => {
       if (item.floor === floor) {
         return (
           <FlatExploreCard
-            key={index}
+            key={item.id}
             index={index}
             flat={item}
             title={item.title}

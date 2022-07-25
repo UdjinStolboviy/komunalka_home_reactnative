@@ -75,7 +75,7 @@ export const FlatInfoScreen = observer((props: any) => {
     setLoading(true);
     if (connectionNet) {
       reference.update({
-        id: flatStage.id,
+        id: flatStage.id + Math.random().toString(16).slice(2),
         title: flatStage.title,
         price: flatNewStage.price,
         area: flatNewStage.area,
