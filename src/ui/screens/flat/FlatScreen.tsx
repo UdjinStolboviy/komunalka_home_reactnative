@@ -55,7 +55,7 @@ export const FlatsScreen = observer((props: any) => {
       return null;
     } else {
       return (
-        <View key={index}>
+        <View key={index + floor}>
           <View style={style.wrapperTextFloor}>
             <Text style={style.textFloor}>{`Поверх ${floor}`}</Text>
           </View>
