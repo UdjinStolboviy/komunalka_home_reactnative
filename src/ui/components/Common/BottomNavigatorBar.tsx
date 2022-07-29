@@ -36,7 +36,7 @@ export const BottomNavigatorBar = (props: any) => {
         <BellIcon />
       </TouchableOpacity>
       <TouchableOpacity
-        //onPress={props.onPress}
+        onPress={() => app.navigationService.navigate(Screens._CALCULATOR)}
         // onLongPress={props.onLongPress}
         activeOpacity={0.5}
         style={{
@@ -48,7 +48,7 @@ export const BottomNavigatorBar = (props: any) => {
         <CalculatorIcon />
       </TouchableOpacity>
       <TouchableOpacity
-        //onPress={props.onPress}
+        onPress={() => app.navigationService.navigate(Screens._ACCOUNT_SETTING)}
         //onLongPress={props.onLongPress}
         activeOpacity={0.5}
         style={{

@@ -46,13 +46,39 @@ export const FlatInfoScreen = observer((props: any) => {
   const flat = home.flats[flatIndex];
   const [flatStage, setFlatStage] = useState<IFlat>(flat);
   const [flatNewStage, setFlatNevStage] = useState<IFlat>(flat);
+  const [images, setImages] = useState<IFlatImage[]>([]);
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [connectionNet, setConnectionNet] = useState<boolean | null>(
     app.storage.getHomesState().getConnectNetwork(),
   );
 
+  const reference = databaseFirebase(`homes/${homeIndex}/flats/${flatIndex}/`);
+  const referenceImages = databaseFirebase(
+    `homes/${homeIndex}/flats/${flatIndex}/images/`,
+  );
+
   useEffect(() => {
+    if (connectionNet) {
+      reference
+        .on('value', snapshot => {
+          const data = snapshot.val();
+          if (data) {
+            setFlatStage(data);
+            setFlatNevStage(data);
+          }
+        })
+        .bind(this);
+      referenceImages
+        .on('value', snapshot => {
+          const data = snapshot.val();
+          if (data) {
+            setImages(data);
+          }
+        })
+        .bind(this);
+    }
+    setImages(flatStage.images!);
     setFlatStage(flat);
     setFlatNevStage(flat);
   }, [flat, home]);
@@ -72,8 +98,6 @@ export const FlatInfoScreen = observer((props: any) => {
       price: flatStage.price,
     });
   };
-
-  const reference = databaseFirebase(`homes/${homeIndex}/flats/${flatIndex}/`);
 
   const onPressSave = () => {
     setLoading(true);
@@ -125,18 +149,14 @@ export const FlatInfoScreen = observer((props: any) => {
         };
         reference.update({images: [result, ...flatStage.images]});
         modalDoneRef.current && modalDoneRef.current.toggleModal();
-        //app.storage.getHomesState().refreshHome();
+        setImages([result, ...flatStage.images]);
       }
-      app.navigationService.goBack();
       setTimeout(() => {
-        app.navigationService.navigate(Screens._FLAT_INFO, {
-          flat: flat,
-          homeIndex: homeIndex,
-          flatIndex: flatIndex,
-        });
         setLoading(false);
-      }, 3000);
-    } catch (e) {}
+      }, 1000);
+    } catch (e) {
+      console.log(e, 'error upload image onImageChange');
+    }
   };
 
   const onImageDelete = () => {
@@ -173,9 +193,9 @@ export const FlatInfoScreen = observer((props: any) => {
         </View>
       );
     } else {
-      return <ImageFlat imagStack={flatStage.images!} />;
+      return <ImageFlat imagStack={images} />;
     }
-  }, [loading, flat.images, flatStage.images]);
+  }, [loading, images]);
 
   return (
     <View style={style.container}>
