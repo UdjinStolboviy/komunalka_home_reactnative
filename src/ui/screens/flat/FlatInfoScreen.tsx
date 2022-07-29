@@ -221,13 +221,13 @@ export const FlatInfoScreen = observer((props: any) => {
             namePicture={`Home${homeIndex}_flat${flatIndex}`}
           />
           <View style={style.buttonImageContent}>
-            <Shadow viewStyle={style.buttonContainer}>
+            <Shadow viewStyle={style.shadowContainer}>
               <IconButtonUniversal containerStyle={[]} onPress={onImageDelete}>
                 <DeleteImageIcon />
               </IconButtonUniversal>
             </Shadow>
 
-            <Shadow viewStyle={style.buttonContainer}>
+            <Shadow viewStyle={style.shadowContainer}>
               <IconButtonUniversal containerStyle={[]} onPress={onImagePress}>
                 <AddImageIcon />
               </IconButtonUniversal>
@@ -297,6 +297,9 @@ const style = StyleSheet.create({
     color: Colors._007AFF,
   },
   buttonContainer: {
+    marginVertical: 10,
+  },
+  shadowContainer: {
     borderRadius: 12,
   },
   modalWrapper: {
