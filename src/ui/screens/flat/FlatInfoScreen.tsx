@@ -26,6 +26,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
+import {Shadow} from 'react-native-shadow-2';
 import {ModalDoneScreen} from '../modal/action-modal/ModalDone';
 import {FlatBottomNavigatorBar} from './FlatBottomNavigatorBar';
 import {FlatInfoView} from './FlatInfoView';
@@ -220,16 +221,17 @@ export const FlatInfoScreen = observer((props: any) => {
             namePicture={`Home${homeIndex}_flat${flatIndex}`}
           />
           <View style={style.buttonImageContent}>
-            <IconButtonUniversal
-              containerStyle={[style.buttonContainer]}
-              onPress={onImageDelete}>
-              <DeleteImageIcon />
-            </IconButtonUniversal>
-            <IconButtonUniversal
-              containerStyle={[style.buttonContainer]}
-              onPress={onImagePress}>
-              <AddImageIcon />
-            </IconButtonUniversal>
+            <Shadow viewStyle={style.buttonContainer}>
+              <IconButtonUniversal containerStyle={[]} onPress={onImageDelete}>
+                <DeleteImageIcon />
+              </IconButtonUniversal>
+            </Shadow>
+
+            <Shadow viewStyle={style.buttonContainer}>
+              <IconButtonUniversal containerStyle={[]} onPress={onImagePress}>
+                <AddImageIcon />
+              </IconButtonUniversal>
+            </Shadow>
           </View>
         </View>
 
@@ -295,7 +297,7 @@ const style = StyleSheet.create({
     color: Colors._007AFF,
   },
   buttonContainer: {
-    marginVertical: 15,
+    borderRadius: 12,
   },
   modalWrapper: {
     width: '100%',
