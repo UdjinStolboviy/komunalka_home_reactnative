@@ -59,10 +59,14 @@ export const ImageFlat = observer((props: IImageFlat) => {
           layout="tinder"
           ref={ref}
           data={carouselItems}
-          sliderWidth={400}
+          sliderWidth={350}
           itemWidth={400}
           renderItem={renderItem}
           onSnapToItem={index => setActiveIndex(index)}
+          containerCustomStyle={{
+            borderRadius: 40,
+          }}
+          contentContainerCustomStyle={{marginLeft: -25}}
         />
       ) : (
         renderNotImage()
