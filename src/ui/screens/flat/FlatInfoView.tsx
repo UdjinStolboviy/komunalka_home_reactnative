@@ -198,7 +198,7 @@ const style = StyleSheet.create({
   },
   headerText: {
     fontWeight: '500',
-    fontSize: 18,
-    color: Colors._000000,
+    fontSize: 20,
+    color: Colors._007AFF_A_7,
   },
 });
