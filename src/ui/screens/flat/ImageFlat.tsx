@@ -27,10 +27,7 @@ export const ImageFlat = observer((props: IImageFlat) => {
       <View
         style={{
           backgroundColor: 'floralwhite',
-          height: 250,
-          padding: 5,
-          marginLeft: 25,
-          marginRight: 25,
+          height: 300,
         }}>
         {item.url && !imageBroken ? (
           <Image
@@ -38,7 +35,7 @@ export const ImageFlat = observer((props: IImageFlat) => {
             source={{
               uri: item.url,
             }}
-            style={{width: '100%', height: '100%'}}
+            style={{width: '87%', height: '100%', borderRadius: 20}}
           />
         ) : null}
       </View>
@@ -60,13 +57,15 @@ export const ImageFlat = observer((props: IImageFlat) => {
           ref={ref}
           data={carouselItems}
           sliderWidth={350}
+          sliderHeight={350}
           itemWidth={400}
+          itemHeight={400}
           renderItem={renderItem}
           onSnapToItem={index => setActiveIndex(index)}
           containerCustomStyle={{
-            borderRadius: 40,
+            borderRadius: 20,
           }}
-          contentContainerCustomStyle={{marginLeft: -25}}
+          contentContainerCustomStyle={{marginLeft: 0}}
         />
       ) : (
         renderNotImage()
