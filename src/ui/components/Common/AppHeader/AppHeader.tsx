@@ -143,7 +143,7 @@ const style = StyleSheet.create({
     width: '100%',
     fontWeight: '500',
     fontSize: 18,
-    color: '#000000',
+    color: Colors._007AFF_A_7,
   },
   settingsSection: {
     right: '6%',

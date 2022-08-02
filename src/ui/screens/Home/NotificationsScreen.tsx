@@ -2,10 +2,13 @@ import {Colors} from 'app/assets/constants/colors/Colors';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
-import {checkIfStateModificationsAreAllowed} from 'mobx/dist/internal';
+import {
+  checkNotificationFlat,
+  datesSettlementCheck,
+} from 'app/utils/check-notification';
 import moment from 'moment';
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -18,6 +21,19 @@ import {
   IFlatItemNotification,
 } from '../notification-component/FlatItemNotification';
 import NotificationCalendarView from '../notification-component/NotificationCalendar';
+import notifee, {
+  AndroidNotificationSetting,
+  EventType,
+  RepeatFrequency,
+  TimestampTrigger,
+  TriggerType,
+} from '@notifee/react-native';
+
+import BackgroundService from 'react-native-background-actions';
+import {
+  startTaskAction,
+  stopTaskAction,
+} from 'app/services/background-task/background.task.service';
 
 export const NotificationsScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -29,27 +45,12 @@ export const NotificationsScreen = (props: any) => {
   const notificationListLengthsText = `${notificationListLengths} Notifications`;
   const homes = app.storage.getHomesState().getHomes();
 
-  const datesSettlement = [];
-  const flat: IFlatItemNotification[] = [];
+  const datesSettlement = datesSettlementCheck(homes);
+  const flat: IFlatItemNotification[] = checkNotificationFlat(homes);
 
   const datesNow = moment(new Date()).format('YYYY-MM');
   const dayNow = moment(new Date()).format('DD');
 
-  for (let i = 0; i < homes.length; i++) {
-    const home = homes[i];
-    for (let j = 0; j < home.flats.length; j++) {
-      const settlement = home.flats[j].dateSettlement;
-      const owner = home.flats[j].owner;
-      const address = home.flats[j].address;
-      datesSettlement.push(settlement.split('.')[0]);
-      flat.push({
-        settlementDay: settlement.split('.')[0],
-        settlementDate: settlement,
-        owner: owner,
-        address: address,
-      });
-    }
-  }
   const dateNowSettlement = datesSettlement.map(date => {
     if (Number(date) >= 29) {
       return datesNow + '-' + '01';
@@ -68,6 +69,75 @@ export const NotificationsScreen = (props: any) => {
     ...dateNowSettlement,
     ...datesSettlementNext(1, dateNowSettlement),
   ];
+
+  const checkNextDate = (): number => {
+    const dateNow = Date.parse(new Date());
+    const dateNext = datesSettlementNextMonth.find(item => {
+      if (Date.parse(item) > dateNow) {
+        return item;
+      }
+    });
+    return dateNext ? Date.parse(dateNext) : 17670;
+  };
+
+  useEffect(() => {
+    showNotification();
+    checkNextDate();
+  }, []);
+
+  const showNotification = async () => {
+    const settings = await notifee.getNotificationSettings();
+    if (settings.android.alarm == AndroidNotificationSetting.ENABLED) {
+      await notifee.requestPermission();
+
+      // Create a channel (required for Android)
+      const channelId = await notifee.createChannel({
+        id: 'defaultewrwerwer',
+        name: 'Default Channel',
+      });
+      //Create timestamp trigger
+      const trigger: TimestampTrigger = {
+        type: TriggerType.TIMESTAMP,
+        timestamp: checkNextDate(), // fire in 3 hours
+        repeatFrequency: RepeatFrequency.HOURLY, // repeat once a week
+        alarmManager: {
+          allowWhileIdle: true,
+        },
+      };
+      await notifee.createTriggerNotification(
+        {
+          title: 'БУДЬ ЛАСКА ЗНІМІТЬ ДАННІ',
+          body: 'Сьогодні треба зняти данні з квртири!',
+          android: {
+            channelId: channelId,
+            pressAction: {
+              id: 'default',
+            },
+          },
+        },
+        trigger,
+      );
+    } else {
+      // Show some user information to educate them on what exact alarm permission is,
+      // and why it is necessary for your app functionality, then send them to system preferences:
+      await notifee.openAlarmPermissionSettings();
+    }
+  };
+
+  notifee.onBackgroundEvent(async ({type}) => {
+    const initialNotification = await notifee.getInitialNotification();
+    // Check if the user pressed the "Mark as read" action
+    if (initialNotification) {
+      const notification = initialNotification.notification;
+      const pressAction = initialNotification.pressAction;
+      showNotification();
+      if (notification.id) {
+        // The user pressed the "Mark as read" action
+        await notifee.cancelNotification(notification.id);
+      }
+    }
+  });
+
   const renderNotificationList = () => {
     return flat.map((item, index) => {
       if (dayNow === item.settlementDay || Number(item.settlementDay) >= 29) {

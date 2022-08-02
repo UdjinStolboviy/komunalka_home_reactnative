@@ -1,6 +1,7 @@
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {IFlat} from 'app/data/storage/flat/flat.model';
 import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
+import {uid} from 'app/utils/id-random';
 import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {StyleProp, View, ViewStyle, StyleSheet, Text} from 'react-native';
@@ -45,7 +46,7 @@ export const FlatInfoView = observer((props: FlatInfoViewProps) => {
     return (
       props.onChangeFlat &&
       props.onChangeFlat({
-        id: flat.id,
+        id: uid(),
         title: flat.title,
         price: price,
         area: areaText,
@@ -197,7 +198,7 @@ const style = StyleSheet.create({
   },
   headerText: {
     fontWeight: '500',
-    fontSize: 18,
-    color: Colors._000000,
+    fontSize: 20,
+    color: Colors._007AFF_A_7,
   },
 });

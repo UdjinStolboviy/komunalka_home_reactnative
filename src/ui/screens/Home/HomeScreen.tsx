@@ -18,9 +18,11 @@ import {HomeItem} from './HomeItem';
 import {Home, IHome} from 'app/data/storage/home/home.model';
 import NetInfo from '@react-native-community/netinfo';
 import {databaseFirebase} from 'app/services/firebase/firebase.database';
+import {checkNotificationCanter} from 'app/utils/check-notification';
 
 export const MainScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
+  const unreadNotificationsCount = app.storage.getNotificationsState();
   const reference = databaseFirebase('/homes');
   const [homeStage, setHomeStage] = useState<IHome[]>([]);
   const [connectionNet, setConnectionNet] = useState<boolean | null>(false);
@@ -44,7 +46,6 @@ export const MainScreen = (props: any) => {
         setHomeStage(snapshot.val());
         setHomeStore(snapshot.val());
         app.storage.getHomesState().setHomes(snapshot.val());
-        app.storage.getNotificationsState().setUnreadNotificationsCount(2);
       });
       // Stop listening for updates when no longer required
 
@@ -60,6 +61,8 @@ export const MainScreen = (props: any) => {
       );
       if (result !== null) {
         app.storage.getHomesState().setHomes(result);
+        const canterResult = checkNotificationCanter(result);
+        unreadNotificationsCount.setUnreadNotificationsCount(canterResult);
         return setHomeStage(result);
       }
     } catch (error) {
@@ -68,6 +71,8 @@ export const MainScreen = (props: any) => {
   };
   const setHomeStore = async (home: IHome[]) => {
     app.navigationService.navigate(Screens._ACTIVITY_INDICATOR);
+    const canterResult = checkNotificationCanter(home);
+    unreadNotificationsCount.setUnreadNotificationsCount(canterResult);
     await AsyncStorageFacade.save(AsyncStorageKey.HomeStore, home);
     app.navigationService.goBack();
   };

@@ -24,6 +24,7 @@ import moment from 'moment';
 
 import {databaseFirebase} from 'app/services/firebase/firebase.database';
 import {ModalDoneScreen} from '../modal/action-modal/ModalDone';
+import {uid} from 'app/utils/id-random';
 
 export interface IFlatCalculatorScreenProps {}
 
@@ -56,6 +57,8 @@ export const FlatCalculatorScreen = observer((props: any) => {
   const [connectionNet, setConnectionNet] = useState<boolean | null>(
     app.storage.getHomesState().getConnectNetwork(),
   );
+
+  const [firstPress, setFirstPress] = useState<boolean>(true);
 
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [enableOtherOptions, setEnableOtherOptions] = useState<boolean>(true);
@@ -134,7 +137,7 @@ export const FlatCalculatorScreen = observer((props: any) => {
   const _onPressSave = () => {
     if (connectionNet) {
       const result: IFlatCalculator = {
-        id: preResultCalculatorFlat.id,
+        id: uid(),
         dateCalculator: INITIAL_DATE,
         currentDataElectricity: currentDataElectricity,
         currentDataWater: currentDataWater,
@@ -160,6 +163,7 @@ export const FlatCalculatorScreen = observer((props: any) => {
       reference.update({calculatorFlat: [result, ...calculatorFlatStage]});
       modalDoneRef.current && modalDoneRef.current.toggleModal();
       app.storage.getHomesState().refreshHome();
+      setFirstPress(false);
     }
   };
 
@@ -322,7 +326,7 @@ ________________________________\n`;
           <FunctionButtons
             massage={massage}
             onPressTrash={_onPressTrash}
-            onSave={_onPressSave}
+            onSave={firstPress ? _onPressSave : () => null}
           />
         </TouchableOpacity>
         <View style={style.separator} />

@@ -4,28 +4,27 @@ import React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {Shadow} from 'react-native-shadow-2';
 
-export interface UniversalButtonProps {
-  title: string;
+export interface IconButtonUniversalProps {
   containerStyle?: object;
   textStyle?: object;
   activeOpacity?: number;
   onPress?: () => void;
   disabled?: boolean;
+  children: React.ReactNode;
 }
 
-export const UniversalButton = (props: UniversalButtonProps) => {
+export const IconButtonUniversal = (props: IconButtonUniversalProps) => {
   return (
     <Shadow
-      viewStyle={[style.container]}
-      containerViewStyle={[props.containerStyle]}
+      viewStyle={style.shadowContainer}
       startColor={Colors._007AFF_A}
       distance={4}>
       <TouchableOpacity
         disabled={props.disabled}
-        style={[]}
+        style={[style.container, props.containerStyle]}
         activeOpacity={0.7}
         onPress={() => (props.onPress ? props.onPress() : null)}>
-        <Text style={[style.text, props.textStyle]}>{props.title}</Text>
+        {props.children}
       </TouchableOpacity>
     </Shadow>
   );
@@ -33,18 +32,25 @@ export const UniversalButton = (props: UniversalButtonProps) => {
 
 const style = StyleSheet.create({
   container: {
-    width: '100%',
+    width: '20%',
     height: 48,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors._007AFF_A_1,
   },
   text: {
-    color: Colors._007AFF,
+    color: Colors._FFFFFF,
     fontWeight: '400',
     fontSize: 18,
     lineHeight: 21,
   },
-  shadowContainer: {},
+  shadowContainer: {
+    borderWidth: 2,
+    height: 70,
+    width: 70,
+    borderRadius: 40,
+    borderColor: Colors._007AFF,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

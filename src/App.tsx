@@ -27,6 +27,7 @@ const MainComponent: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    appCoreService.listenerService.setupListeners();
     setInitialScreen(new Screen(Screens.STACK_AUTH));
   }, []);
 

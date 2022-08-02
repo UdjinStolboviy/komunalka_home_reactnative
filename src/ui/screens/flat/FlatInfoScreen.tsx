@@ -1,11 +1,14 @@
 import {Screens} from 'app/assets/constants/codes/Screens';
 import {Colors} from 'app/assets/constants/colors/Colors';
+import {AddImageIcon} from 'app/assets/Icons/AddImageIcon';
+import {DeleteImageIcon} from 'app/assets/Icons/DeleteImageIcon';
 
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IFlatImage} from 'app/data/storage/flat/flat.image.model';
 import {IFlat} from 'app/data/storage/flat/flat.model';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {databaseFirebase} from 'app/services/firebase/firebase.database';
+import {IconButtonUniversal} from 'app/ui/components/button/AppButton/IconButtonUniversal';
 import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import {
@@ -13,6 +16,7 @@ import {
   ImageLoaderViewRefProps,
 } from 'app/ui/components/Common/picker-crop/ImageLoader';
 import {ContentProgressScrollView} from 'app/ui/components/Common/Scroll/ContentProgressScrollView';
+import {uid} from 'app/utils/id-random';
 import {observer} from 'mobx-react';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
@@ -22,6 +26,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
+import {Shadow} from 'react-native-shadow-2';
 import {ModalDoneScreen} from '../modal/action-modal/ModalDone';
 import {FlatBottomNavigatorBar} from './FlatBottomNavigatorBar';
 import {FlatInfoView} from './FlatInfoView';
@@ -42,16 +47,42 @@ export const FlatInfoScreen = observer((props: any) => {
   const flat = home.flats[flatIndex];
   const [flatStage, setFlatStage] = useState<IFlat>(flat);
   const [flatNewStage, setFlatNevStage] = useState<IFlat>(flat);
+  const [images, setImages] = useState<IFlatImage[]>([]);
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [connectionNet, setConnectionNet] = useState<boolean | null>(
     app.storage.getHomesState().getConnectNetwork(),
   );
 
+  const reference = databaseFirebase(`homes/${homeIndex}/flats/${flatIndex}/`);
+  const referenceImages = databaseFirebase(
+    `homes/${homeIndex}/flats/${flatIndex}/images/`,
+  );
+
   useEffect(() => {
+    if (connectionNet) {
+      reference
+        .on('value', snapshot => {
+          const data = snapshot.val();
+          if (data) {
+            setFlatStage(data);
+            setFlatNevStage(data);
+          }
+        })
+        .bind(this);
+      referenceImages
+        .on('value', snapshot => {
+          const data = snapshot.val();
+          if (data) {
+            setImages(data);
+          }
+        })
+        .bind(this);
+    }
+    setImages(flatStage.images!);
     setFlatStage(flat);
     setFlatNevStage(flat);
-  }, [flat]);
+  }, [flat, home]);
 
   const onPressList = () => {
     app.navigationService.navigate(Screens._FLAT_LIST_UTILITY_BILLS, {
@@ -69,13 +100,11 @@ export const FlatInfoScreen = observer((props: any) => {
     });
   };
 
-  const reference = databaseFirebase(`homes/${homeIndex}/flats/${flatIndex}/`);
-
   const onPressSave = () => {
     setLoading(true);
     if (connectionNet) {
       reference.update({
-        id: flatStage.id,
+        id: uid(),
         title: flatStage.title,
         price: flatNewStage.price,
         area: flatNewStage.area,
@@ -121,14 +150,19 @@ export const FlatInfoScreen = observer((props: any) => {
         };
         reference.update({images: [result, ...flatStage.images]});
         modalDoneRef.current && modalDoneRef.current.toggleModal();
-        app.storage.getHomesState().refreshHome();
+        setImages([result, ...flatStage.images]);
       }
-      setLoading(false);
-    } catch (e) {}
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    } catch (e) {
+      console.log(e, 'error upload image onImageChange');
+    }
   };
 
   const onImageDelete = () => {
     setLoading(true);
+
     if (connectionNet) {
       if (flatStage.images.length > 1) {
         const result: IFlatImage[] =
@@ -136,7 +170,7 @@ export const FlatInfoScreen = observer((props: any) => {
           flatStage.images.splice(1, flatStage.images.length);
         reference.update({images: [...result]});
         modalDoneRef.current && modalDoneRef.current.toggleModal();
-        app.storage.getHomesState().refreshHome();
+        // app.storage.getHomesState().refreshHome();
       }
     }
     setTimeout(() => {
@@ -160,9 +194,9 @@ export const FlatInfoScreen = observer((props: any) => {
         </View>
       );
     } else {
-      return <ImageFlat imagStack={flatStage.images!} />;
+      return <ImageFlat imagStack={images} />;
     }
-  }, [loading, flat.images, flatStage.images]);
+  }, [loading, images]);
 
   return (
     <View style={style.container}>
@@ -186,16 +220,15 @@ export const FlatInfoScreen = observer((props: any) => {
             onImageChange={onImageChange}
             namePicture={`Home${homeIndex}_flat${flatIndex}`}
           />
-          <UniversalButton
-            title={'Вибрати і зберегти зображення'}
-            containerStyle={[style.buttonContainer]}
-            onPress={onImagePress}
-          />
-          <UniversalButton
-            title={'Відалити зображення'}
-            containerStyle={[style.buttonContainer]}
-            onPress={onImageDelete}
-          />
+          <View style={style.buttonImageContent}>
+            <IconButtonUniversal containerStyle={[]} onPress={onImageDelete}>
+              <DeleteImageIcon />
+            </IconButtonUniversal>
+
+            <IconButtonUniversal containerStyle={[]} onPress={onImagePress}>
+              <AddImageIcon />
+            </IconButtonUniversal>
+          </View>
         </View>
 
         <View style={style.middleWrapper}>
@@ -260,8 +293,9 @@ const style = StyleSheet.create({
     color: Colors._007AFF,
   },
   buttonContainer: {
-    marginVertical: 15,
+    marginVertical: 10,
   },
+
   modalWrapper: {
     width: '100%',
     height: '100%',
@@ -271,11 +305,17 @@ const style = StyleSheet.create({
   flatInfo: {
     alignItems: 'center',
     paddingHorizontal: 20,
+    marginBottom: 20,
   },
   loader: {
     width: '100%',
     height: 300,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonImageContent: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-around',
   },
 });

@@ -23,5 +23,8 @@ export class Colors {
   public static readonly _CF480E: string = '#CF480E';
   public static readonly _EBF4FC: string = '#EBF4FC';
   public static readonly _34C759: string = '#34C759';
+  public static readonly _007AFF_A: string = 'rgba(0, 122, 255, 0.5)';
+  public static readonly _007AFF_A_7: string = 'rgba(0, 122, 255, 0.7)';
+  public static readonly _007AFF_A_1: string = 'rgba(0, 122, 255, 0.1)';
 
 }

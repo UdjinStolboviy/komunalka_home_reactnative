@@ -16,17 +16,18 @@ export const ImageFlat = observer((props: IImageFlat) => {
 
   const carouselItems = props.imagStack;
 
+  useEffect(() => {}, [carouselItems]);
+
   const ref = useRef(null);
+
+  const renderNotImage = () => <ImageNotIcon />;
 
   const renderItem = useCallback(
     ({item, index}: any) => (
       <View
         style={{
           backgroundColor: 'floralwhite',
-          height: 250,
-          padding: 5,
-          marginLeft: 25,
-          marginRight: 25,
+          height: 300,
         }}>
         {item.url && !imageBroken ? (
           <Image
@@ -34,19 +35,9 @@ export const ImageFlat = observer((props: IImageFlat) => {
             source={{
               uri: item.url,
             }}
-            style={{width: '100%', height: '100%'}}
+            style={{width: '87%', height: '100%', borderRadius: 20}}
           />
-        ) : (
-          <View
-            style={{
-              width: '100%',
-              height: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <ImageNotIcon />
-          </View>
-        )}
+        ) : null}
       </View>
     ),
     [carouselItems],
@@ -60,15 +51,25 @@ export const ImageFlat = observer((props: IImageFlat) => {
         marginTop: 15,
         marginBottom: 15,
       }}>
-      <Carousel
-        layout="tinder"
-        ref={ref}
-        data={carouselItems}
-        sliderWidth={400}
-        itemWidth={400}
-        renderItem={renderItem}
-        onSnapToItem={index => setActiveIndex(index)}
-      />
+      {carouselItems.length > 0 && carouselItems[0].url ? (
+        <Carousel
+          layout="tinder"
+          ref={ref}
+          data={carouselItems}
+          sliderWidth={350}
+          sliderHeight={350}
+          itemWidth={400}
+          itemHeight={400}
+          renderItem={renderItem}
+          onSnapToItem={index => setActiveIndex(index)}
+          containerCustomStyle={{
+            borderRadius: 20,
+          }}
+          contentContainerCustomStyle={{marginLeft: 0}}
+        />
+      ) : (
+        renderNotImage()
+      )}
     </View>
   );
 });
