@@ -8,7 +8,7 @@ import {
 } from 'app/utils/check-notification';
 import moment from 'moment';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -21,6 +21,11 @@ import {
   IFlatItemNotification,
 } from '../notification-component/FlatItemNotification';
 import NotificationCalendarView from '../notification-component/NotificationCalendar';
+
+import BackgroundService from 'react-native-background-actions';
+import { startTaskAction, stopTaskAction } from 'app/services/background-task/background.task.service';
+
+
 
 export const NotificationsScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -37,6 +42,8 @@ export const NotificationsScreen = (props: any) => {
 
   const datesNow = moment(new Date()).format('YYYY-MM');
   const dayNow = moment(new Date()).format('DD');
+
+ 
 
   const dateNowSettlement = datesSettlement.map(date => {
     if (Number(date) >= 29) {

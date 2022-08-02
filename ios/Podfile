@@ -17,6 +17,8 @@ target 'komunalka_home_reactnative' do
 
   
 
+  pod 'react-native-background-actions', :path => '../node_modules/react-native-background-actions'
+
   target 'komunalka_home_reactnativeTests' do
     use_frameworks! :linkage => :static
     inherit! :complete
