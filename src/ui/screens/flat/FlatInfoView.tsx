@@ -178,13 +178,13 @@ export const FlatInfoView = observer((props: FlatInfoViewProps) => {
       />
       <TitleFlatView
         isAdmin={props.isAdmin}
-        title={'Телефон власника квартири'}
+        title={'Телефон власника'}
         description={ownerPhone}
         onChange={text => setOwnerPhone(text)}
       />
       <TitleFlatView
         isAdmin={props.isAdmin}
-        title={'Електрона адреса власника квартири'}
+        title={'Електрона адреса власника'}
         description={ownerEmail}
         onChange={text => setOwnerEmail(text)}
       />

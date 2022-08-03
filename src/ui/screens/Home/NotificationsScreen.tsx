@@ -73,7 +73,7 @@ export const NotificationsScreen = (props: any) => {
   const checkNextDate = (): number => {
     const dateNow = Date.parse(new Date());
     const dateNext = datesSettlementNextMonth.find(item => {
-      if (Date.parse(item) > dateNow) {
+      if (Date.parse(item) >= dateNow) {
         return item;
       }
     });
@@ -98,8 +98,8 @@ export const NotificationsScreen = (props: any) => {
       //Create timestamp trigger
       const trigger: TimestampTrigger = {
         type: TriggerType.TIMESTAMP,
-        timestamp: checkNextDate(), // fire in 3 hours
-        repeatFrequency: RepeatFrequency.HOURLY, // repeat once a week
+        timestamp: checkNextDate(),
+        repeatFrequency: RepeatFrequency.WEEKLY, // repeat once a week
         alarmManager: {
           allowWhileIdle: true,
         },
@@ -127,6 +127,7 @@ export const NotificationsScreen = (props: any) => {
   notifee.onBackgroundEvent(async ({type}) => {
     const initialNotification = await notifee.getInitialNotification();
     // Check if the user pressed the "Mark as read" action
+    showNotification();
     if (initialNotification) {
       const notification = initialNotification.notification;
       const pressAction = initialNotification.pressAction;
