@@ -78,7 +78,6 @@ const FlatBottomViewStyle = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginBottom: 0,
-    paddingHorizontal: '5%',
   },
   card: {},
   buttonWrapper: {

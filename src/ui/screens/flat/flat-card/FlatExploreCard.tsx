@@ -78,15 +78,11 @@ export const FlatExploreCard = observer(
       <Shadow
         offset={[0, 0]}
         paintInside={false}
-        sides={['bottom']}
-        distance={15}
-        corners={['bottomRight', 'bottomLeft']}
-        containerViewStyle={{
-          marginLeft: '10%',
-        }}
+        distance={8}
+        containerViewStyle={{}}
         viewStyle={{
           marginBottom: 30,
-          width: '90%',
+          width: '100%',
         }}>
         <View style={[FlatExploreCardStyle.container, containerStyle]}>
           <ExpandCard
