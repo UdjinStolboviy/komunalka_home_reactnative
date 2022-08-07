@@ -34,6 +34,7 @@ import {
   startTaskAction,
   stopTaskAction,
 } from 'app/services/background-task/background.task.service';
+import {uid} from 'app/utils/id-random';
 
 export const NotificationsScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -70,35 +71,73 @@ export const NotificationsScreen = (props: any) => {
     ...datesSettlementNext(1, dateNowSettlement),
   ];
 
+  // const onDisplayNotification = async () => {
+  //   // Request permissions (required for iOS)
+  //   await notifee.requestPermission();
+
+  //   // Create a channel (required for Android)
+  //   const channelId = await notifee.createChannel({
+  //     id: 'defaultewrwerwer',
+  //     name: 'Default Channel',
+  //   });
+
+  //   // Display a notification
+  //   await notifee.displayNotification({
+  //     title: 'БУДЬ ЛАСКА ЗНІМІТЬ ДАННІ',
+  //     body: 'Сьогодні треба зняти данні з квртири!',
+  //     android: {
+  //       channelId: channelId,
+  //       // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+  //       // pressAction is needed if you want the notification to open the app when pressed
+  //       pressAction: {
+  //         id: 'default',
+  //       },
+  //     },
+  //   });
+  // };
+
   const checkNextDate = (): number => {
-    const dateNow = Date.parse(new Date());
-    const dateNext = datesSettlementNextMonth.find(item => {
-      if (Date.parse(item) >= dateNow) {
-        return item;
-      }
-    });
-    return dateNext ? Date.parse(dateNext) : 17670;
+    const dateNow = new Date(Date.now()).getTime();
+
+    const dateNextPre = datesSettlementNextMonth.map(
+      date => date + 'T09:00:21.583Z',
+    );
+
+    const dateNextPre2 = dateNextPre.map(date => new Date(date).getTime());
+    const dateNextResult = dateNextPre2.sort((a, b) => a - b);
+
+    const getNumber = (arr: number[], number: number) =>
+      number < 0
+        ? arr.filter(cur => cur < number)[0]
+        : arr.filter(cur => cur > number)[0];
+
+    return getNumber(dateNextResult, dateNow)
+      ? getNumber(dateNextResult, dateNow)
+      : dateNow + 60000;
   };
 
   useEffect(() => {
     showNotification();
-    checkNextDate();
+    //checkNextDate();
   }, []);
 
   const showNotification = async () => {
+    const date = new Date(Date.now());
     const settings = await notifee.getNotificationSettings();
     if (settings.android.alarm == AndroidNotificationSetting.ENABLED) {
       await notifee.requestPermission();
 
       // Create a channel (required for Android)
       const channelId = await notifee.createChannel({
-        id: 'defaultewrwerwer',
+        id: uid(),
         name: 'Default Channel',
       });
       //Create timestamp trigger
       const trigger: TimestampTrigger = {
         type: TriggerType.TIMESTAMP,
         timestamp: checkNextDate(),
+        //timestamp: date.getTime() + 60000,
+        // 1659687613331
         repeatFrequency: RepeatFrequency.WEEKLY, // repeat once a week
         alarmManager: {
           allowWhileIdle: true,
@@ -125,13 +164,31 @@ export const NotificationsScreen = (props: any) => {
   };
 
   notifee.onBackgroundEvent(async ({type}) => {
+    // console.log('Background event:', type);
+    // console.log(' event:', new Date(Date.now()).getTime() + 60000);
+    // const sleep = (time: any) =>
+    //   new Promise<void>(resolve => setTimeout(() => resolve(), time));
+    // const veryIntensiveTask = async () => {
+    //   // Example of an infinite loop task
+    //   const delay: number = 1000;
+    //   await new Promise(async resolve => {
+    //     for (let i = 0; BackgroundService.isRunning(); i++) {
+    //       console.log(`Task ${i}`);
+    //       onDisplayNotification();
+    //       await sleep(delay);
+    //     }
+    //   });
+    // };
+    //veryIntensiveTask();
     const initialNotification = await notifee.getInitialNotification();
     // Check if the user pressed the "Mark as read" action
-    showNotification();
+
+    // showNotification();
     if (initialNotification) {
       const notification = initialNotification.notification;
       const pressAction = initialNotification.pressAction;
       showNotification();
+      //veryIntensiveTask();
       if (notification.id) {
         // The user pressed the "Mark as read" action
         await notifee.cancelNotification(notification.id);
@@ -163,7 +220,9 @@ export const NotificationsScreen = (props: any) => {
       <View style={style.wrapperCalendar}>
         <NotificationCalendarView datesSettlement={datesSettlementNextMonth} />
       </View>
-      <Text style={style.title}>{`Сьогодні розрахувати`}</Text>
+      <Text
+        // onPress={onDisplayNotification}
+        style={style.title}>{`Сьогодні розрахувати`}</Text>
       <ScrollView style={style.wrapperScroll}>
         {renderNotificationList()}
       </ScrollView>
