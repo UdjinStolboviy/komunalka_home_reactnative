@@ -26,5 +26,11 @@ export class Colors {
   public static readonly _007AFF_A: string = 'rgba(0, 122, 255, 0.5)';
   public static readonly _007AFF_A_7: string = 'rgba(0, 122, 255, 0.7)';
   public static readonly _007AFF_A_1: string = 'rgba(0, 122, 255, 0.1)';
+  public static readonly _0D2750: string = '#0D2750';
+  public static readonly _ECF0F3: string = '#ECF0F3';
+  public static readonly _D1D9E6: string = '#D1D9E6';
+  public static readonly _D1D9E6_A_9: string = 'rgba(209, 217, 230, 1)';
+  public static readonly _D1D9E6_A_2: string = 'rgba(209, 217, 230, 0.1)';
+
 
 }

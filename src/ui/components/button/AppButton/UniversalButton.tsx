@@ -18,7 +18,9 @@ export const UniversalButton = (props: UniversalButtonProps) => {
     <Shadow
       viewStyle={[style.container]}
       containerViewStyle={[props.containerStyle]}
-      startColor={Colors._007AFF_A}
+      // offset={[5, 10]}
+      // startColor={Colors._D1D9E6_A_9}
+      //paintInside={true}
       distance={4}>
       <TouchableOpacity
         disabled={props.disabled}
