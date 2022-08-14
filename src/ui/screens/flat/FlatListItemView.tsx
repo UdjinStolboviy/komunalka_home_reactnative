@@ -33,7 +33,7 @@ export const FlatListItemView = (props: FlatListItemViewProps) => {
 
    Всього:  ${props.item.multiplicationElectricity} + ${props.item.multiplicationWater} + 
     ${props.item.resultInternet} + ${props.item.garbageRemovalTariff} + 
-    ${props.item.resultRent} + ${props.item.resultOtherOptions} = ${props.item.resultAllCalculate} грн 
+    ${props.item.resultRent} + ${props.item.resultOtherOptions} = ${Math.ceil(props.item.resultAllCalculate)} грн 
 `;
 
   return (

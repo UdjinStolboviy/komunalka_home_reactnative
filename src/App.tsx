@@ -27,7 +27,7 @@ let MyHeadlessTask = async (event: { taskId: any; timeout: any; }) => {
   let taskId = event.taskId;
   let isTimeout = event.timeout;  // <-- true when your background-time has expired.
   if (isTimeout) {
-    // This task has exceeded its allowed running-time.
+    // This task has exceeded its allowed running-time
     // You must stop what you're doing immediately finish(taskId)
     console.log('[BackgroundFetch] Headless TIMEOUT:', taskId);
     BackgroundFetch.finish(taskId);
