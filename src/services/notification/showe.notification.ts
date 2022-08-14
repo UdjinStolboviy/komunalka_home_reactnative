@@ -16,27 +16,11 @@ import { IHome } from 'app/data/storage/home/home.model';
 import { AsyncStorageFacade, AsyncStorageKey } from 'app/data/async-storege';
 import { useState } from 'react';
 
-export const showsNotification = () => {
-    const [homeStage, setHomeStage] = useState<IHome[]>([]);
-
-    const getHomeStore = async () => {
-        try {
-            const result: IHome[] | null = await AsyncStorageFacade.get(
-                AsyncStorageKey.HomeStore,
-            );
-            if (result !== null) {
-
-                setHomeStage(result);
-            }
-        } catch (error) {
-            console.log(error, 'error getHomeStore');
-        }
-    };
-
-    getHomeStore();
+export const showsNotification = (homes: IHome[]) => {
 
 
-    const datesSettlement = datesSettlementCheck(homeStage);
+
+    const datesSettlement = datesSettlementCheck(homes);
     const datesNow = moment(new Date()).format('YYYY-MM');
     const dayNow = moment(new Date()).format('DD');
 
@@ -82,7 +66,7 @@ export const showsNotification = () => {
 
 
 
-    const showNotification = async () => {
+    const showingNotification = async () => {
         const date = new Date(Date.now());
         const settings = await notifee.getNotificationSettings();
         if (settings.android.alarm == AndroidNotificationSetting.ENABLED) {
@@ -96,8 +80,8 @@ export const showsNotification = () => {
             //Create timestamp trigger
             const trigger: TimestampTrigger = {
                 type: TriggerType.TIMESTAMP,
+                //timestamp: checkNextDate(),
                 timestamp: checkNextDate(),
-                //timestamp: date.getTime() + 60000,
                 // 1659687613331
                 repeatFrequency: RepeatFrequency.WEEKLY, // repeat once a week
                 alarmManager: {
@@ -124,21 +108,22 @@ export const showsNotification = () => {
         }
     };
 
-    notifee.onBackgroundEvent(async ({ type }) => {
+    return showingNotification();
+    // notifee.onBackgroundEvent(async ({ type }) => {
 
-        const initialNotification = await notifee.getInitialNotification();
+    //     const initialNotification = await notifee.getInitialNotification();
 
-        if (initialNotification) {
-            const notification = initialNotification.notification;
-            const pressAction = initialNotification.pressAction;
-            showNotification();
+    //     if (initialNotification) {
+    //         const notification = initialNotification.notification;
+    //         const pressAction = initialNotification.pressAction;
+    //         showingNotification();
 
-            if (notification.id) {
-                // The user pressed the "Mark as read" action
-                await notifee.cancelNotification(notification.id);
-            }
-        }
-    });
+    //         if (notification.id) {
+    //             // The user pressed the "Mark as read" action
+    //             await notifee.cancelNotification(notification.id);
+    //         }
+    //     }
+    // });
 
 
 }

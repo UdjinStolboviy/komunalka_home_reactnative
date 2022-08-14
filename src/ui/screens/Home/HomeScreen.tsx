@@ -19,8 +19,9 @@ import {Home, IHome} from 'app/data/storage/home/home.model';
 import NetInfo from '@react-native-community/netinfo';
 import {databaseFirebase} from 'app/services/firebase/firebase.database';
 import {checkNotificationCanter} from 'app/utils/check-notification';
+import { observer } from 'mobx-react';
 
-export const MainScreen = (props: any) => {
+export const MainScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
   const unreadNotificationsCount = app.storage.getNotificationsState();
   const reference = databaseFirebase('/homes');
@@ -128,7 +129,7 @@ export const MainScreen = (props: any) => {
       </ContentProgressScrollView>
     </View>
   );
-};
+});
 
 const style = StyleSheet.create({
   container: {

@@ -1,5 +1,7 @@
 import {Colors} from 'app/assets/constants/colors/Colors';
+import { AsyncStorageFacade, AsyncStorageKey } from 'app/data/async-storege';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
+import { IHome } from 'app/data/storage/home/home.model';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import { showsNotification } from 'app/services/notification/showe.notification';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
@@ -24,32 +26,32 @@ import {
 } from '../notification-component/FlatItemNotification';
 import NotificationCalendarView from '../notification-component/NotificationCalendar';
 
-let MyHeadlessTask = async (event: HeadlessEvent) => {
-  // Get task id from event {}:
-  let taskId = event.taskId;
-  let isTimeout = event.timeout;  // <-- true when your background-time has expired.
-  if (isTimeout) {
-    // This task has exceeded its allowed running-time.
-    // You must stop what you're doing immediately finish(taskId)
-    console.log('[BackgroundFetch] Headless TIMEOUT:', taskId);
-    BackgroundFetch.finish(taskId);
-    return;
-  }
-  console.log('[BackgroundFetch HeadlessTask] start: ', taskId);
+// let MyHeadlessTask = async (event: HeadlessEvent) => {
+//   // Get task id from event {}:
+//   let taskId = event.taskId;
+//   let isTimeout = event.timeout;  // <-- true when your background-time has expired.
+//   if (isTimeout) {
+//     // This task has exceeded its allowed running-time.
+//     // You must stop what you're doing immediately finish(taskId)
+//     console.log('[BackgroundFetch] Headless TIMEOUT:', taskId);
+//     BackgroundFetch.finish(taskId);
+//     return;
+//   }
+//   console.log('[BackgroundFetch HeadlessTask] start: ', taskId);
 
-  // Perform an example HTTP request.
-  // Important:  await asychronous tasks when using HeadlessJS.
-    await showsNotification();
-  console.log('[BackgroundFetch HeadlessTask] response: ');
+//   // Perform an example HTTP request.
+//   // Important:  await asychronous tasks when using HeadlessJS.
+//     await showsNotification();
+//   console.log('[BackgroundFetch HeadlessTask] response: ');
 
-  // Required:  Signal to native code that your task is complete.
-  // If you don't do this, your app could be terminated and/or assigned
-  // battery-blame for consuming too much time in background.
-  BackgroundFetch.finish(taskId);
-}
+//   // Required:  Signal to native code that your task is complete.
+//   // If you don't do this, your app could be terminated and/or assigned
+//   // battery-blame for consuming too much time in background.
+//   BackgroundFetch.finish(taskId);
+// }
 
-// Register your BackgroundFetch HeadlessTask
-BackgroundFetch.registerHeadlessTask(MyHeadlessTask);
+// // Register your BackgroundFetch HeadlessTask
+// BackgroundFetch.registerHeadlessTask(MyHeadlessTask);
 
 
 export const NotificationsScreen = (props: any) => {
@@ -89,21 +91,26 @@ export const NotificationsScreen = (props: any) => {
 
  useEffect(() => {
    configureBackgroundFetch();
+   showsNotification(homes);
   }, []);
 
   const configureBackgroundFetch = () =>{
     BackgroundFetch.configure(
       {
-        minimumFetchInterval: 600, // <-- minutes (15 is minimum allowed)
+        minimumFetchInterval: 59, // <-- minutes (15 is minimum allowed)
         stopOnTerminate: false, // <-- Android-only,
         startOnBoot: true, // <-- Android-only
         enableHeadless: true,
         requiresCharging: false,
         requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE,
       },
-      () => async (taskId: any) => {
+       async (taskId: any) => {
       console.log("[js] Received background-fetch event: ", taskId);
-      showsNotification();
+       const result: IHome[] | null = await AsyncStorageFacade.get(
+        AsyncStorageKey.HomeStore,
+      );
+      if (result !== null) {
+        showsNotification(result);}
       // Required: Signal completion of your task to native code
       // If you fail to do this, the OS can terminate your app
       // or assign battery-blame for consuming too much background-time
