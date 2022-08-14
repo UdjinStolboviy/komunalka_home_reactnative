@@ -1,6 +1,7 @@
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
+import { showsNotification } from 'app/services/notification/showe.notification';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import {
   checkNotificationFlat,
@@ -16,25 +17,40 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
+import BackgroundFetch, { HeadlessEvent } from 'react-native-background-fetch';
 import {
   FlatItemNotification,
   IFlatItemNotification,
 } from '../notification-component/FlatItemNotification';
 import NotificationCalendarView from '../notification-component/NotificationCalendar';
-import notifee, {
-  AndroidNotificationSetting,
-  EventType,
-  RepeatFrequency,
-  TimestampTrigger,
-  TriggerType,
-} from '@notifee/react-native';
 
-import BackgroundService from 'react-native-background-actions';
-import {
-  startTaskAction,
-  stopTaskAction,
-} from 'app/services/background-task/background.task.service';
-import {uid} from 'app/utils/id-random';
+let MyHeadlessTask = async (event: HeadlessEvent) => {
+  // Get task id from event {}:
+  let taskId = event.taskId;
+  let isTimeout = event.timeout;  // <-- true when your background-time has expired.
+  if (isTimeout) {
+    // This task has exceeded its allowed running-time.
+    // You must stop what you're doing immediately finish(taskId)
+    console.log('[BackgroundFetch] Headless TIMEOUT:', taskId);
+    BackgroundFetch.finish(taskId);
+    return;
+  }
+  console.log('[BackgroundFetch HeadlessTask] start: ', taskId);
+
+  // Perform an example HTTP request.
+  // Important:  await asychronous tasks when using HeadlessJS.
+    await showsNotification();
+  console.log('[BackgroundFetch HeadlessTask] response: ');
+
+  // Required:  Signal to native code that your task is complete.
+  // If you don't do this, your app could be terminated and/or assigned
+  // battery-blame for consuming too much time in background.
+  BackgroundFetch.finish(taskId);
+}
+
+// Register your BackgroundFetch HeadlessTask
+BackgroundFetch.registerHeadlessTask(MyHeadlessTask);
+
 
 export const NotificationsScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -71,130 +87,32 @@ export const NotificationsScreen = (props: any) => {
     ...datesSettlementNext(1, dateNowSettlement),
   ];
 
-  // const onDisplayNotification = async () => {
-  //   // Request permissions (required for iOS)
-  //   await notifee.requestPermission();
-
-  //   // Create a channel (required for Android)
-  //   const channelId = await notifee.createChannel({
-  //     id: 'defaultewrwerwer',
-  //     name: 'Default Channel',
-  //   });
-
-  //   // Display a notification
-  //   await notifee.displayNotification({
-  //     title: 'БУДЬ ЛАСКА ЗНІМІТЬ ДАННІ',
-  //     body: 'Сьогодні треба зняти данні з квртири!',
-  //     android: {
-  //       channelId: channelId,
-  //       // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
-  //       // pressAction is needed if you want the notification to open the app when pressed
-  //       pressAction: {
-  //         id: 'default',
-  //       },
-  //     },
-  //   });
-  // };
-
-  const checkNextDate = (): number => {
-    const dateNow = new Date(Date.now()).getTime();
-
-    const dateNextPre = datesSettlementNextMonth.map(
-      date => date + 'T09:00:21.583Z',
-    );
-
-    const dateNextPre2 = dateNextPre.map(date => new Date(date).getTime());
-    const dateNextResult = dateNextPre2.sort((a, b) => a - b);
-
-    const getNumber = (arr: number[], number: number) =>
-      number < 0
-        ? arr.filter(cur => cur < number)[0]
-        : arr.filter(cur => cur > number)[0];
-
-    return getNumber(dateNextResult, dateNow)
-      ? getNumber(dateNextResult, dateNow)
-      : dateNow + 60000;
-  };
-
-  useEffect(() => {
-    showNotification();
-    //checkNextDate();
+ useEffect(() => {
+   configureBackgroundFetch();
   }, []);
 
-  const showNotification = async () => {
-    const date = new Date(Date.now());
-    const settings = await notifee.getNotificationSettings();
-    if (settings.android.alarm == AndroidNotificationSetting.ENABLED) {
-      await notifee.requestPermission();
-
-      // Create a channel (required for Android)
-      const channelId = await notifee.createChannel({
-        id: uid(),
-        name: 'Default Channel',
-      });
-      //Create timestamp trigger
-      const trigger: TimestampTrigger = {
-        type: TriggerType.TIMESTAMP,
-        timestamp: checkNextDate(),
-        //timestamp: date.getTime() + 60000,
-        // 1659687613331
-        repeatFrequency: RepeatFrequency.WEEKLY, // repeat once a week
-        alarmManager: {
-          allowWhileIdle: true,
-        },
-      };
-      await notifee.createTriggerNotification(
-        {
-          title: 'БУДЬ ЛАСКА ЗНІМІТЬ ДАННІ',
-          body: 'Сьогодні треба зняти данні з квртири!',
-          android: {
-            channelId: channelId,
-            pressAction: {
-              id: 'default',
-            },
-          },
-        },
-        trigger,
-      );
-    } else {
-      // Show some user information to educate them on what exact alarm permission is,
-      // and why it is necessary for your app functionality, then send them to system preferences:
-      await notifee.openAlarmPermissionSettings();
-    }
-  };
-
-  notifee.onBackgroundEvent(async ({type}) => {
-    // console.log('Background event:', type);
-    // console.log(' event:', new Date(Date.now()).getTime() + 60000);
-    // const sleep = (time: any) =>
-    //   new Promise<void>(resolve => setTimeout(() => resolve(), time));
-    // const veryIntensiveTask = async () => {
-    //   // Example of an infinite loop task
-    //   const delay: number = 1000;
-    //   await new Promise(async resolve => {
-    //     for (let i = 0; BackgroundService.isRunning(); i++) {
-    //       console.log(`Task ${i}`);
-    //       onDisplayNotification();
-    //       await sleep(delay);
-    //     }
-    //   });
-    // };
-    //veryIntensiveTask();
-    const initialNotification = await notifee.getInitialNotification();
-    // Check if the user pressed the "Mark as read" action
-
-    // showNotification();
-    if (initialNotification) {
-      const notification = initialNotification.notification;
-      const pressAction = initialNotification.pressAction;
-      showNotification();
-      //veryIntensiveTask();
-      if (notification.id) {
-        // The user pressed the "Mark as read" action
-        await notifee.cancelNotification(notification.id);
-      }
-    }
-  });
+  const configureBackgroundFetch = () =>{
+    BackgroundFetch.configure(
+      {
+        minimumFetchInterval: 600, // <-- minutes (15 is minimum allowed)
+        stopOnTerminate: false, // <-- Android-only,
+        startOnBoot: true, // <-- Android-only
+        enableHeadless: true,
+        requiresCharging: false,
+        requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE,
+      },
+      () => async (taskId: any) => {
+      console.log("[js] Received background-fetch event: ", taskId);
+      showsNotification();
+      // Required: Signal completion of your task to native code
+      // If you fail to do this, the OS can terminate your app
+      // or assign battery-blame for consuming too much background-time
+      BackgroundFetch.finish(taskId);
+      },
+      error => {
+        console.log('[js] RNBackgroundFetch failed to start');
+        console.log(error);
+      },)}; 
 
   const renderNotificationList = () => {
     return flat.map((item, index) => {
