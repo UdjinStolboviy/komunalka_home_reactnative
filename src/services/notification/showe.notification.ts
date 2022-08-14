@@ -81,7 +81,8 @@ export const showsNotification = (homes: IHome[]) => {
             const trigger: TimestampTrigger = {
                 type: TriggerType.TIMESTAMP,
                 //timestamp: checkNextDate(),
-                timestamp: checkNextDate(),
+                //timestamp: checkNextDate(),
+                timestamp: date.getTime() + 6000,
                 // 1659687613331
                 repeatFrequency: RepeatFrequency.WEEKLY, // repeat once a week
                 alarmManager: {
@@ -108,7 +109,13 @@ export const showsNotification = (homes: IHome[]) => {
         }
     };
 
-    return showingNotification();
+    if (dayNow === moment(checkNextDate()).format('DD')) {
+        return showingNotification();
+    } else {
+        return null;
+    }
+
+    //return showingNotification();
     // notifee.onBackgroundEvent(async ({ type }) => {
 
     //     const initialNotification = await notifee.getInitialNotification();
