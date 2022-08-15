@@ -42,6 +42,7 @@ export const MainScreen = observer((props: any) => {
 
   const saveHomeStore = () => {
     if (connectionNet) {
+     
       cleanStore();
       const onValueChange = reference.on('value', snapshot => {
         console.log('A new node has been added', snapshot.val());
@@ -51,7 +52,7 @@ export const MainScreen = observer((props: any) => {
         app.storage.getHomesState().setHomes(snapshot.val());
       });
       // Stop listening for updates when no longer required
-
+       
       return () => reference.off('value', onValueChange);
     }
     getHomeStore();
@@ -73,18 +74,16 @@ export const MainScreen = observer((props: any) => {
     }
   };
   const setHomeStore = async (home: IHome[]) => {
-    app.navigationService.navigate(Screens._ACTIVITY_INDICATOR);
+   app.navigationService.navigate(Screens._ACTIVITY_INDICATOR);
     const canterResult = checkNotificationCanter(home);
     unreadNotificationsCount.setUnreadNotificationsCount(canterResult);
     await AsyncStorageFacade.save(AsyncStorageKey.HomeStore, home);
-    app.navigationService.goBack();
+   app.navigationService.goBack();
   };
 
    const setNextDateStore = async (home: IHome[]) => {
-    app.navigationService.navigate(Screens._ACTIVITY_INDICATOR);
     const checkDateResult = checkDateNextNotification(home);
     await AsyncStorageFacade.saveString(AsyncStorageKey.CheckDateNextStore, checkDateResult);
-    app.navigationService.goBack();
   };
 
   const cleanStore = async () => {
