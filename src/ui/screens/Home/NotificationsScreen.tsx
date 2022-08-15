@@ -4,6 +4,7 @@ import {useAppInjection} from 'app/data/ioc/inversify.config';
 import { IHome } from 'app/data/storage/home/home.model';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import { showsNotification } from 'app/services/notification/showe.notification';
+import { checkDateNextNotification } from 'app/services/utils/check.date.next.notification';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import {
   checkNotificationFlat,
@@ -70,6 +71,8 @@ export const NotificationsScreen = (props: any) => {
   const datesNow = moment(new Date()).format('YYYY-MM');
   const dayNow = moment(new Date()).format('DD');
 
+  const dataNotification = checkDateNextNotification(homes);
+
   const dateNowSettlement = datesSettlement.map(date => {
     if (Number(date) >= 29) {
       return datesNow + '-' + '01';
@@ -91,7 +94,7 @@ export const NotificationsScreen = (props: any) => {
 
  useEffect(() => {
    configureBackgroundFetch();
-   showsNotification(homes);
+   showsNotification(dataNotification);
   }, []);
 
   const configureBackgroundFetch = () =>{
@@ -106,8 +109,8 @@ export const NotificationsScreen = (props: any) => {
       },
        async (taskId: any) => {
       console.log("[js] Received background-fetch event: ", taskId);
-       const result: IHome[] | null = await AsyncStorageFacade.get(
-        AsyncStorageKey.HomeStore,
+       const result: string | null = await AsyncStorageFacade.getString(
+        AsyncStorageKey.CheckDateNextStore,
       );
       if (result !== null) {
         showsNotification(result);}

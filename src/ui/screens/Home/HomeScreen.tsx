@@ -20,6 +20,7 @@ import NetInfo from '@react-native-community/netinfo';
 import {databaseFirebase} from 'app/services/firebase/firebase.database';
 import {checkNotificationCanter} from 'app/utils/check-notification';
 import { observer } from 'mobx-react';
+import { checkDateNextNotification } from 'app/services/utils/check.date.next.notification';
 
 export const MainScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -46,6 +47,7 @@ export const MainScreen = observer((props: any) => {
         console.log('A new node has been added', snapshot.val());
         setHomeStage(snapshot.val());
         setHomeStore(snapshot.val());
+        setNextDateStore(snapshot.val());
         app.storage.getHomesState().setHomes(snapshot.val());
       });
       // Stop listening for updates when no longer required
@@ -75,6 +77,13 @@ export const MainScreen = observer((props: any) => {
     const canterResult = checkNotificationCanter(home);
     unreadNotificationsCount.setUnreadNotificationsCount(canterResult);
     await AsyncStorageFacade.save(AsyncStorageKey.HomeStore, home);
+    app.navigationService.goBack();
+  };
+
+   const setNextDateStore = async (home: IHome[]) => {
+    app.navigationService.navigate(Screens._ACTIVITY_INDICATOR);
+    const checkDateResult = checkDateNextNotification(home);
+    await AsyncStorageFacade.saveString(AsyncStorageKey.CheckDateNextStore, checkDateResult);
     app.navigationService.goBack();
   };
 
