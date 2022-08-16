@@ -91,8 +91,6 @@ export const NotificationsScreen = (props: any) => {
     ...datesSettlementNext(1, dateNowSettlement),
   ];
 
-  console.log('datesSettlementNextMonth------', dataNotification);
-
   useEffect(() => {
     configureBackgroundFetch();
     showsNotification(dataNotification);
