@@ -42,8 +42,8 @@ export const checkDateNextNotification = (homes: IHome[]) => {
 
     const getNumber = (arr: number[], number: number) =>
         number < 0
-            ? arr.filter(cur => cur < number)[0]
-            : arr.filter(cur => cur > number)[0];
+            ? arr.filter(cur => cur <= number)[-1]
+            : arr.filter(cur => cur >= number)[-1];
 
     const result = getNumber(dateNextResult, dateNow)
         ? getNumber(dateNextResult, dateNow)

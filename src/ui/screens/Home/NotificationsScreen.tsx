@@ -1,10 +1,10 @@
 import {Colors} from 'app/assets/constants/colors/Colors';
-import { AsyncStorageFacade, AsyncStorageKey } from 'app/data/async-storege';
+import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
-import { IHome } from 'app/data/storage/home/home.model';
+import {IHome} from 'app/data/storage/home/home.model';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
-import { showsNotification } from 'app/services/notification/showe.notification';
-import { checkDateNextNotification } from 'app/services/utils/check.date.next.notification';
+import {showsNotification} from 'app/services/notification/showe.notification';
+import {checkDateNextNotification} from 'app/services/utils/check.date.next.notification';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import {
   checkNotificationFlat,
@@ -20,7 +20,7 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import BackgroundFetch, { HeadlessEvent } from 'react-native-background-fetch';
+import BackgroundFetch, {HeadlessEvent} from 'react-native-background-fetch';
 import {
   FlatItemNotification,
   IFlatItemNotification,
@@ -53,7 +53,6 @@ import NotificationCalendarView from '../notification-component/NotificationCale
 
 // // Register your BackgroundFetch HeadlessTask
 // BackgroundFetch.registerHeadlessTask(MyHeadlessTask);
-
 
 export const NotificationsScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -92,37 +91,42 @@ export const NotificationsScreen = (props: any) => {
     ...datesSettlementNext(1, dateNowSettlement),
   ];
 
- useEffect(() => {
-   configureBackgroundFetch();
-   showsNotification(dataNotification);
+  console.log('datesSettlementNextMonth------', dataNotification);
+
+  useEffect(() => {
+    configureBackgroundFetch();
+    showsNotification(dataNotification);
   }, []);
 
-  const configureBackgroundFetch = () =>{
+  const configureBackgroundFetch = () => {
     BackgroundFetch.configure(
       {
-        minimumFetchInterval: 59, // <-- minutes (15 is minimum allowed)
+        minimumFetchInterval: 260, // <-- minutes (15 is minimum allowed)
         stopOnTerminate: false, // <-- Android-only,
         startOnBoot: true, // <-- Android-only
         enableHeadless: true,
         requiresCharging: false,
         requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE,
       },
-       async (taskId: any) => {
-      console.log("[js] Received background-fetch event: ", taskId);
-       const result: string | null = await AsyncStorageFacade.getString(
-        AsyncStorageKey.CheckDateNextStore,
-      );
-      if (result !== null) {
-        showsNotification(result);}
-      // Required: Signal completion of your task to native code
-      // If you fail to do this, the OS can terminate your app
-      // or assign battery-blame for consuming too much background-time
-      BackgroundFetch.finish(taskId);
+      async (taskId: any) => {
+        console.log('[js] Received background-fetch event: ', taskId);
+        const result: string | null = await AsyncStorageFacade.getString(
+          AsyncStorageKey.CheckDateNextStore,
+        );
+        if (result !== null) {
+          showsNotification(result);
+        }
+        // Required: Signal completion of your task to native code
+        // If you fail to do this, the OS can terminate your app
+        // or assign battery-blame for consuming too much background-time
+        BackgroundFetch.finish(taskId);
       },
       error => {
         console.log('[js] RNBackgroundFetch failed to start');
         console.log(error);
-      },)}; 
+      },
+    );
+  };
 
   const renderNotificationList = () => {
     return flat.map((item, index) => {
