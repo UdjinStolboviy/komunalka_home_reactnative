@@ -35,18 +35,19 @@ export const FlatItemNotification = (props: IFlatItemNotification) => {
 
 const style = StyleSheet.create({
   container: {
-    height: 110,
+    height: 120,
     width: '100%',
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: Colors._007AFF,
-    borderRadius: 10,
+    borderRadius: 14,
     marginBottom: 10,
     jastifyContent: 'center',
+    alignItems: 'center',
     padding: 10,
   },
   text: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
+    color: Colors._007AFF,
   },
 });

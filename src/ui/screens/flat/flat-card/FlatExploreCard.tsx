@@ -78,13 +78,12 @@ export const FlatExploreCard = observer(
       <Shadow
         offset={[0, 0]}
         paintInside={false}
-        sides={['bottom']}
-        distance={15}
-        corners={['bottomRight', 'bottomLeft']}
-        containerViewStyle={{
-          marginLeft: '10%',
-        }}
-        viewStyle={{marginBottom: 30, width: '90%'}}>
+        distance={8}
+        containerViewStyle={{}}
+        viewStyle={{
+          marginBottom: 30,
+          width: '100%',
+        }}>
         <View style={[FlatExploreCardStyle.container, containerStyle]}>
           <ExpandCard
             pressDisabled={false}
@@ -93,11 +92,7 @@ export const FlatExploreCard = observer(
             onCardOpened={_handleOnCardOpened}
             onCardCloseFinished={_handleOnCardCloseFinished}
             onAction={opened => console.log('opened', opened)}
-            containerStyle={[
-              FlatExploreCardStyle.card,
-              _getBorder(),
-              {backgroundColor: Colors._FFFFFF},
-            ]}
+            containerStyle={[FlatExploreCardStyle.card, _getBorder()]}
             topChildren={
               <FlatCardGeneralInfo
                 onPress={_onPress}
@@ -136,7 +131,6 @@ const FlatExploreCardStyle = StyleSheet.create({
   container: {
     width: EXPLORE_CARD_WIDTH,
     borderRadius: 50,
-
     alignSelf: 'center',
   },
   card: {

@@ -20,6 +20,7 @@ import {Screens} from './assets/constants/codes/Screens';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import LocalizationContextWrapper from './localization/localizationProvider';
 
+
 const MainComponent: React.FC = () => {
   const [initialScreen, setInitialScreen] = useState<any>();
   useEffect(() => {

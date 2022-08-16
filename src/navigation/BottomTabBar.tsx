@@ -17,6 +17,7 @@ import {Colors} from 'app/assets/constants/colors/Colors';
 import {CalculatorScreen} from 'app/ui/screens/calculator-komunlki/CalculatorScreen';
 import {AccountSettingScreen} from 'app/ui/screens/accounts/AccountSetting/AccountSettingScreen';
 import {useTheme} from '@react-navigation/native';
+import { observer } from 'mobx-react';
 
 const Tab = createBottomTabNavigator();
 
@@ -28,7 +29,7 @@ interface IconContainerProps {
   isFocused: boolean;
 }
 
-export const BottomTabBar = () => {
+export const BottomTabBar = observer(() => {
   const app: IAppCoreService = useAppInjection();
   const {colors} = useTheme();
 
@@ -208,4 +209,4 @@ export const BottomTabBar = () => {
       />
     </Tab.Navigator>
   );
-};
+});

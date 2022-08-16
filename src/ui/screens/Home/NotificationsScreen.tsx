@@ -1,6 +1,10 @@
 import {Colors} from 'app/assets/constants/colors/Colors';
+import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
+import {IHome} from 'app/data/storage/home/home.model';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
+import {showsNotification} from 'app/services/notification/showe.notification';
+import {checkDateNextNotification} from 'app/services/utils/check.date.next.notification';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import {
   checkNotificationFlat,
@@ -16,24 +20,39 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
+import BackgroundFetch, {HeadlessEvent} from 'react-native-background-fetch';
 import {
   FlatItemNotification,
   IFlatItemNotification,
 } from '../notification-component/FlatItemNotification';
 import NotificationCalendarView from '../notification-component/NotificationCalendar';
-import notifee, {
-  AndroidNotificationSetting,
-  EventType,
-  RepeatFrequency,
-  TimestampTrigger,
-  TriggerType,
-} from '@notifee/react-native';
 
-import BackgroundService from 'react-native-background-actions';
-import {
-  startTaskAction,
-  stopTaskAction,
-} from 'app/services/background-task/background.task.service';
+// let MyHeadlessTask = async (event: HeadlessEvent) => {
+//   // Get task id from event {}:
+//   let taskId = event.taskId;
+//   let isTimeout = event.timeout;  // <-- true when your background-time has expired.
+//   if (isTimeout) {
+//     // This task has exceeded its allowed running-time.
+//     // You must stop what you're doing immediately finish(taskId)
+//     console.log('[BackgroundFetch] Headless TIMEOUT:', taskId);
+//     BackgroundFetch.finish(taskId);
+//     return;
+//   }
+//   console.log('[BackgroundFetch HeadlessTask] start: ', taskId);
+
+//   // Perform an example HTTP request.
+//   // Important:  await asychronous tasks when using HeadlessJS.
+//     await showsNotification();
+//   console.log('[BackgroundFetch HeadlessTask] response: ');
+
+//   // Required:  Signal to native code that your task is complete.
+//   // If you don't do this, your app could be terminated and/or assigned
+//   // battery-blame for consuming too much time in background.
+//   BackgroundFetch.finish(taskId);
+// }
+
+// // Register your BackgroundFetch HeadlessTask
+// BackgroundFetch.registerHeadlessTask(MyHeadlessTask);
 
 export const NotificationsScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -50,6 +69,8 @@ export const NotificationsScreen = (props: any) => {
 
   const datesNow = moment(new Date()).format('YYYY-MM');
   const dayNow = moment(new Date()).format('DD');
+
+  const dataNotification = checkDateNextNotification(homes);
 
   const dateNowSettlement = datesSettlement.map(date => {
     if (Number(date) >= 29) {
@@ -70,73 +91,40 @@ export const NotificationsScreen = (props: any) => {
     ...datesSettlementNext(1, dateNowSettlement),
   ];
 
-  const checkNextDate = (): number => {
-    const dateNow = Date.parse(new Date());
-    const dateNext = datesSettlementNextMonth.find(item => {
-      if (Date.parse(item) > dateNow) {
-        return item;
-      }
-    });
-    return dateNext ? Date.parse(dateNext) : 17670;
-  };
-
   useEffect(() => {
-    showNotification();
-    checkNextDate();
+    configureBackgroundFetch();
+    showsNotification(dataNotification);
   }, []);
 
-  const showNotification = async () => {
-    const settings = await notifee.getNotificationSettings();
-    if (settings.android.alarm == AndroidNotificationSetting.ENABLED) {
-      await notifee.requestPermission();
-
-      // Create a channel (required for Android)
-      const channelId = await notifee.createChannel({
-        id: 'defaultewrwerwer',
-        name: 'Default Channel',
-      });
-      //Create timestamp trigger
-      const trigger: TimestampTrigger = {
-        type: TriggerType.TIMESTAMP,
-        timestamp: checkNextDate(), // fire in 3 hours
-        repeatFrequency: RepeatFrequency.HOURLY, // repeat once a week
-        alarmManager: {
-          allowWhileIdle: true,
-        },
-      };
-      await notifee.createTriggerNotification(
-        {
-          title: 'БУДЬ ЛАСКА ЗНІМІТЬ ДАННІ',
-          body: 'Сьогодні треба зняти данні з квртири!',
-          android: {
-            channelId: channelId,
-            pressAction: {
-              id: 'default',
-            },
-          },
-        },
-        trigger,
-      );
-    } else {
-      // Show some user information to educate them on what exact alarm permission is,
-      // and why it is necessary for your app functionality, then send them to system preferences:
-      await notifee.openAlarmPermissionSettings();
-    }
+  const configureBackgroundFetch = () => {
+    BackgroundFetch.configure(
+      {
+        minimumFetchInterval: 260, // <-- minutes (15 is minimum allowed)
+        stopOnTerminate: false, // <-- Android-only,
+        startOnBoot: true, // <-- Android-only
+        enableHeadless: true,
+        requiresCharging: false,
+        requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE,
+      },
+      async (taskId: any) => {
+        console.log('[js] Received background-fetch event: ', taskId);
+        const result: string | null = await AsyncStorageFacade.getString(
+          AsyncStorageKey.CheckDateNextStore,
+        );
+        if (result !== null) {
+          showsNotification(result);
+        }
+        // Required: Signal completion of your task to native code
+        // If you fail to do this, the OS can terminate your app
+        // or assign battery-blame for consuming too much background-time
+        BackgroundFetch.finish(taskId);
+      },
+      error => {
+        console.log('[js] RNBackgroundFetch failed to start');
+        console.log(error);
+      },
+    );
   };
-
-  notifee.onBackgroundEvent(async ({type}) => {
-    const initialNotification = await notifee.getInitialNotification();
-    // Check if the user pressed the "Mark as read" action
-    if (initialNotification) {
-      const notification = initialNotification.notification;
-      const pressAction = initialNotification.pressAction;
-      showNotification();
-      if (notification.id) {
-        // The user pressed the "Mark as read" action
-        await notifee.cancelNotification(notification.id);
-      }
-    }
-  });
 
   const renderNotificationList = () => {
     return flat.map((item, index) => {
@@ -162,7 +150,9 @@ export const NotificationsScreen = (props: any) => {
       <View style={style.wrapperCalendar}>
         <NotificationCalendarView datesSettlement={datesSettlementNextMonth} />
       </View>
-      <Text style={style.title}>{`Сьогодні розрахувати`}</Text>
+      <Text
+        // onPress={onDisplayNotification}
+        style={style.title}>{`Сьогодні розрахувати`}</Text>
       <ScrollView style={style.wrapperScroll}>
         {renderNotificationList()}
       </ScrollView>

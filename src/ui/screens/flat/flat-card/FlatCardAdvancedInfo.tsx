@@ -88,8 +88,8 @@ export const FlatCardAdvancedInfo = observer(
 const FlatCardAdvancedInfoStyle = StyleSheet.create({
   container: {
     width: '100%',
-    height: 620,
-    marginTop: 30,
+    height: 700,
+    marginTop: 50,
     paddingLeft: 20,
     paddingRight: 20,
   },

@@ -77,9 +77,7 @@ const FlatBottomViewStyle = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: Colors._FFFFFF,
     marginBottom: 0,
-    paddingHorizontal: '5%',
   },
   card: {},
   buttonWrapper: {

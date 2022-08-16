@@ -19,8 +19,10 @@ import {Home, IHome} from 'app/data/storage/home/home.model';
 import NetInfo from '@react-native-community/netinfo';
 import {databaseFirebase} from 'app/services/firebase/firebase.database';
 import {checkNotificationCanter} from 'app/utils/check-notification';
+import { observer } from 'mobx-react';
+import { checkDateNextNotification } from 'app/services/utils/check.date.next.notification';
 
-export const MainScreen = (props: any) => {
+export const MainScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
   const unreadNotificationsCount = app.storage.getNotificationsState();
   const reference = databaseFirebase('/homes');
@@ -40,15 +42,17 @@ export const MainScreen = (props: any) => {
 
   const saveHomeStore = () => {
     if (connectionNet) {
+     
       cleanStore();
       const onValueChange = reference.on('value', snapshot => {
         console.log('A new node has been added', snapshot.val());
         setHomeStage(snapshot.val());
         setHomeStore(snapshot.val());
+        setNextDateStore(snapshot.val());
         app.storage.getHomesState().setHomes(snapshot.val());
       });
       // Stop listening for updates when no longer required
-
+       
       return () => reference.off('value', onValueChange);
     }
     getHomeStore();
@@ -70,11 +74,16 @@ export const MainScreen = (props: any) => {
     }
   };
   const setHomeStore = async (home: IHome[]) => {
-    app.navigationService.navigate(Screens._ACTIVITY_INDICATOR);
+   app.navigationService.navigate(Screens._ACTIVITY_INDICATOR);
     const canterResult = checkNotificationCanter(home);
     unreadNotificationsCount.setUnreadNotificationsCount(canterResult);
     await AsyncStorageFacade.save(AsyncStorageKey.HomeStore, home);
-    app.navigationService.goBack();
+   app.navigationService.goBack();
+  };
+
+   const setNextDateStore = async (home: IHome[]) => {
+    const checkDateResult = checkDateNextNotification(home);
+    await AsyncStorageFacade.saveString(AsyncStorageKey.CheckDateNextStore, checkDateResult);
   };
 
   const cleanStore = async () => {
@@ -128,7 +137,7 @@ export const MainScreen = (props: any) => {
       </ContentProgressScrollView>
     </View>
   );
-};
+});
 
 const style = StyleSheet.create({
   container: {
