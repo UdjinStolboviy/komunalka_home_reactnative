@@ -1,10 +1,9 @@
 import {Colors} from 'app/assets/constants/colors/Colors';
-import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
+
 import {useAppInjection} from 'app/data/ioc/inversify.config';
-import {IHome} from 'app/data/storage/home/home.model';
+
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
-import {showsNotification} from 'app/services/notification/showe.notification';
-import {checkDateNextNotification} from 'app/services/utils/check.date.next.notification';
+
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import {
   checkNotificationFlat,
@@ -20,48 +19,19 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import BackgroundFetch, {HeadlessEvent} from 'react-native-background-fetch';
+
 import {
   FlatItemNotification,
   IFlatItemNotification,
 } from '../notification-component/FlatItemNotification';
 import NotificationCalendarView from '../notification-component/NotificationCalendar';
 
-// let MyHeadlessTask = async (event: HeadlessEvent) => {
-//   // Get task id from event {}:
-//   let taskId = event.taskId;
-//   let isTimeout = event.timeout;  // <-- true when your background-time has expired.
-//   if (isTimeout) {
-//     // This task has exceeded its allowed running-time.
-//     // You must stop what you're doing immediately finish(taskId)
-//     console.log('[BackgroundFetch] Headless TIMEOUT:', taskId);
-//     BackgroundFetch.finish(taskId);
-//     return;
-//   }
-//   console.log('[BackgroundFetch HeadlessTask] start: ', taskId);
 
-//   // Perform an example HTTP request.
-//   // Important:  await asychronous tasks when using HeadlessJS.
-//     await showsNotification();
-//   console.log('[BackgroundFetch HeadlessTask] response: ');
-
-//   // Required:  Signal to native code that your task is complete.
-//   // If you don't do this, your app could be terminated and/or assigned
-//   // battery-blame for consuming too much time in background.
-//   BackgroundFetch.finish(taskId);
-// }
-
-// // Register your BackgroundFetch HeadlessTask
-// BackgroundFetch.registerHeadlessTask(MyHeadlessTask);
 
 export const NotificationsScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
-  const notification = app.storage.getNotificationsState();
-  const notificationList = notification.getNotifications();
-  const notificationListLength = notificationList.length;
-  const notificationListLengths =
-    notificationListLength > 0 ? notificationListLength : 0;
-  const notificationListLengthsText = `${notificationListLengths} Notifications`;
+  
+  
   const homes = app.storage.getHomesState().getHomes();
 
   const datesSettlement = datesSettlementCheck(homes);
@@ -70,7 +40,7 @@ export const NotificationsScreen = (props: any) => {
   const datesNow = moment(new Date()).format('YYYY-MM');
   const dayNow = moment(new Date()).format('DD');
 
-  const dataNotification = checkDateNextNotification(homes);
+  
 
   const dateNowSettlement = datesSettlement.map(date => {
     if (Number(date) >= 29) {
@@ -91,40 +61,8 @@ export const NotificationsScreen = (props: any) => {
     ...datesSettlementNext(1, dateNowSettlement),
   ];
 
-  useEffect(() => {
-    configureBackgroundFetch();
-    showsNotification(dataNotification);
-  }, []);
+  
 
-  const configureBackgroundFetch = () => {
-    BackgroundFetch.configure(
-      {
-        minimumFetchInterval: 260, // <-- minutes (15 is minimum allowed)
-        stopOnTerminate: false, // <-- Android-only,
-        startOnBoot: true, // <-- Android-only
-        enableHeadless: true,
-        requiresCharging: false,
-        requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE,
-      },
-      async (taskId: any) => {
-        console.log('[js] Received background-fetch event: ', taskId);
-        const result: string | null = await AsyncStorageFacade.getString(
-          AsyncStorageKey.CheckDateNextStore,
-        );
-        if (result !== null) {
-          showsNotification(result);
-        }
-        // Required: Signal completion of your task to native code
-        // If you fail to do this, the OS can terminate your app
-        // or assign battery-blame for consuming too much background-time
-        BackgroundFetch.finish(taskId);
-      },
-      error => {
-        console.log('[js] RNBackgroundFetch failed to start');
-        console.log(error);
-      },
-    );
-  };
 
   const renderNotificationList = () => {
     return flat.map((item, index) => {
