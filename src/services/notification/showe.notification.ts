@@ -62,27 +62,30 @@ export const showsNotification = (checkDateNextNotification: string) => {
     };
 
     if (dayNow === checkDateNextNotification) {
-        return showingNotification();
+
+
+        showingNotification();
+        return notifee.onBackgroundEvent(async ({ type }) => {
+
+            const initialNotification = await notifee.getInitialNotification();
+
+            if (initialNotification) {
+                const notification = initialNotification.notification;
+                const pressAction = initialNotification.pressAction;
+                showingNotification();
+
+                if (notification.id) {
+                    // The user pressed the "Mark as read" action
+                    await notifee.cancelNotification(notification.id);
+                }
+            }
+        });
     } else {
         return null;
     }
 
-    //return showingNotification();
-    // notifee.onBackgroundEvent(async ({ type }) => {
+    // return showingNotification();
 
-    //     const initialNotification = await notifee.getInitialNotification();
-
-    //     if (initialNotification) {
-    //         const notification = initialNotification.notification;
-    //         const pressAction = initialNotification.pressAction;
-    //         showingNotification();
-
-    //         if (notification.id) {
-    //             // The user pressed the "Mark as read" action
-    //             await notifee.cancelNotification(notification.id);
-    //         }
-    //     }
-    // });
 
 
 }

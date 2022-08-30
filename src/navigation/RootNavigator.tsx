@@ -30,6 +30,7 @@ import {FlatInfoScreen} from 'app/ui/screens/flat/FlatInfoScreen';
 import {FlatListUtilityBillsScreen} from 'app/ui/screens/flat/FlatListUtilityBillsScreen';
 import {FlatCalculatorScreen} from 'app/ui/screens/flat/FlatCalculatorScreen';
 import {ActivityIndicatorScreen} from 'app/ui/screens/common/ActivityIndicatorScreen';
+import { BecTask } from 'app/services/background-task/background.fetch.task';
 
 export interface ThemeContext {
   theme?: string;
@@ -189,6 +190,11 @@ const AppStack = (props: RootNavigatorProps) => {
         component={FlatCalculatorScreen}
         options={{gestureEnabled: false}}
       />
+      {/* <MainStack.Screen
+        name={Screens._TEST}
+        component={BecTask}
+        options={{gestureEnabled: false}}
+      /> */}
       <MainStack.Screen
         name={Screens._ACTIVITY_INDICATOR}
         component={ActivityIndicatorScreen}

@@ -23,6 +23,7 @@ import { observer } from 'mobx-react';
 import { checkDateNextNotification } from 'app/services/utils/check.date.next.notification';
 import BackgroundFetch from 'react-native-background-fetch';
 import { showsNotification } from 'app/services/notification/showe.notification';
+import { BecTask, becTask } from 'app/services/background-task/background.fetch.task';
 
 // let MyHeadlessTask = async (event: HeadlessEvent) => {
 //   // Get task id from event {}:
@@ -67,41 +68,41 @@ export const MainScreen = observer((props: any) => {
     saveHomeStore();
   }, [connectionNet]);
 
-  useEffect(() => {
-    configureBackgroundFetch();
-    showsNotification(dataNotification);
-  }, []);
+  // useEffect(() => {
+  //   configureBackgroundFetch();
+  //   showsNotification(dataNotification);
+  // }, []);
 
 
-  const configureBackgroundFetch = () => {
-    BackgroundFetch.configure(
-      {
-        minimumFetchInterval: 15, // <-- minutes (15 is minimum allowed)
-        stopOnTerminate: false, // <-- Android-only,
-        startOnBoot: true, // <-- Android-only
-        enableHeadless: true,
-        requiresCharging: false,
-        requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE,
-      },
-      async (taskId: any) => {
-        console.log('[js] Received background-fetch event: ', taskId);
-        const result: string | null = await AsyncStorageFacade.getString(
-          AsyncStorageKey.CheckDateNextStore,
-        );
-        if (result !== null) {
-          showsNotification(result);
-        }
-        // Required: Signal completion of your task to native code
-        // If you fail to do this, the OS can terminate your app
-        // or assign battery-blame for consuming too much background-time
-        BackgroundFetch.finish(taskId);
-      },
-      error => {
-        console.log('[js] RNBackgroundFetch failed to start');
-        console.log(error);
-      },
-    );
-  };
+  // const configureBackgroundFetch = () => {
+  //   BackgroundFetch.configure(
+  //     {
+  //       minimumFetchInterval: 15, // <-- minutes (15 is minimum allowed)
+  //       stopOnTerminate: false, // <-- Android-only,
+  //       startOnBoot: true, // <-- Android-only
+  //       enableHeadless: true,
+  //       requiresCharging: false,
+  //       requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE,
+  //     },
+  //     async (taskId: any) => {
+  //       console.log('[js] Received background-fetch event: ', taskId);
+  //       const result: string | null = await AsyncStorageFacade.getString(
+  //         AsyncStorageKey.CheckDateNextStore,
+  //       );
+  //       if (result !== null) {
+  //         showsNotification(result);
+  //       }
+  //       // Required: Signal completion of your task to native code
+  //       // If you fail to do this, the OS can terminate your app
+  //       // or assign battery-blame for consuming too much background-time
+  //       BackgroundFetch.finish(taskId);
+  //     },
+  //     error => {
+  //       console.log('[js] RNBackgroundFetch failed to start');
+  //       console.log(error);
+  //     },
+  //   );
+  // };
 
   NetInfo.fetch().then(state => {
     console.log('Connection type', state.type);
@@ -194,6 +195,12 @@ export const MainScreen = observer((props: any) => {
 
       <ContentProgressScrollView onProgressChange={progress => progress}>
         <HomePageCharts />
+        {/* <TouchableOpacity onPress={() => {
+            //setRenderedAuthStore(false);
+            app.navigationService.navigate(Screens._TEST);
+          }}>
+          <Text style={{color: Colors._000000}}>TEST-TEST</Text>
+        </TouchableOpacity> */}
         {renderHomeItem()}
         <ElementItem
           title={Type.CALCULATOR}
@@ -204,6 +211,7 @@ export const MainScreen = observer((props: any) => {
             app.navigationService.navigate(Screens._CALCULATOR);
           }}
         />
+        <BecTask/>
       </ContentProgressScrollView>
     </View>
   );
