@@ -2,27 +2,39 @@ import { observable } from "mobx";
 
 export class AuthUser {
 
-  private readonly DEFAULT_ID: number = 1;
-  @observable private id: number;
-  @observable private accessToken: string;
-  @observable private loginType: string;
 
-  constructor(accessToken: string, loginType: string) {
-    this.id = this.DEFAULT_ID;
-    this.accessToken = accessToken;
-    this.loginType = loginType;
+  @observable private uid: string;
+  @observable private displayName: string;
+  @observable private email: string;
+  @observable private photoURL: string;
+  @observable private isAnonymous: boolean;
+
+  constructor(uid: string, displayName: string, email: string, photoURL: string, isAnonymous: boolean) {
+    this.uid = uid || "";
+    this.displayName = displayName || "";
+    this.email = email || "";
+    this.photoURL = photoURL || "";
+    this.isAnonymous = isAnonymous || false;
   }
 
-  public getId(): number {
-    return this.id
+  public getUid(): string {
+    return this.uid
   }
 
-  public getAccessToken(): string {
-    return this.accessToken
+  public getDisplayName(): string {
+    return this.displayName
   }
 
-  public getLoginType(): string {
-    return this.loginType
+  public getEmail(): string {
+    return this.email
+  }
+
+  public getPhotoURL(): string {
+    return this.photoURL
+  }
+
+  public getIsAnonymous(): boolean {
+    return this.isAnonymous
   }
 
 }

@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {TouchableOpacity, View, StyleSheet, Text} from 'react-native';
+import {TouchableOpacity, View, StyleSheet, Text, Button} from 'react-native';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {observer} from 'mobx-react';
 import analytics from '@react-native-firebase/analytics';
+import auth from '@react-native-firebase/auth';
 
 import {
   localizationContext,
@@ -19,6 +20,13 @@ import {AttentionCircleIcon} from 'app/assets/Icons/AttentionCircleIcon';
 import RNRestart from 'react-native-restart';
 import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
 import SplashScreen from 'react-native-splash-screen';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {AuthUser} from 'app/data/storage/auth/auth.user.model';
+
+GoogleSignin.configure({
+  webClientId:
+    '405815381968-4gv4tva9qjfplitp7gen42mlkoagkn5l.apps.googleusercontent.com',
+});
 
 const RESEND_INTERVAL = 59;
 
@@ -26,11 +34,11 @@ export const Confirm: React.FC = observer(({route}: any) => {
   const app: IAppCoreService = useAppInjection();
   const timeState = app.storage.getTimeState();
   const timeForResendCode = app.storage.getTimeState().getTimeForResendCode();
-  const auth = app.storage;
+  const authStore = app.storage;
 
   const {translate} = useContext<LocalizationContext>(localizationContext);
 
-  // const {email} = route.params;
+  const COD = '1990';
 
   const [code, setCode] = useState<string>('');
   const [codeError, setCodeError] = useState<boolean>(false);
@@ -38,6 +46,9 @@ export const Confirm: React.FC = observer(({route}: any) => {
   const [remainingTime, setRemainingTime] = useState<string>('');
 
   const [time, setTime] = React.useState(RESEND_INTERVAL);
+
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
 
   useEffect(() => {
     timeState.setTimeForResendCode(
@@ -60,10 +71,10 @@ export const Confirm: React.FC = observer(({route}: any) => {
 
   useEffect(() => {
     if (code && code.length === 4) {
-      if (code === '1990') {
+      if (code === COD && user) {
         setCodeError(false);
         setRenderedAuthStore(true);
-        auth.setLoginUser(true);
+        authStore.setLoginUser(true);
         analyticsEvent();
         RNRestart.Restart();
       } else {
@@ -71,12 +82,15 @@ export const Confirm: React.FC = observer(({route}: any) => {
         setCodeError(true);
       }
     }
-  }, [code, codeError]);
+  }, [code, codeError, user]);
 
   const analyticsEvent = async () => {
     await analytics().logEvent('confirm_code_screen_view');
   };
 
+  const setUserStore = async (user: AuthUser) => {
+    await AsyncStorageFacade.save(AsyncStorageKey.AuthUserStore, user);
+  };
   const setRenderedAuthStore = async (code: boolean) => {
     await AsyncStorageFacade.saveBoolean(
       AsyncStorageKey.RenderedAuthStore,
@@ -90,6 +104,58 @@ export const Confirm: React.FC = observer(({route}: any) => {
     );
   };
 
+  async function onGoogleButtonPress() {
+    // Get the users ID token
+    const {idToken} = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  }
+
+  const GoogleSignIn = () => {
+    return (
+      <TouchableOpacity
+        style={[
+          styles.googleButton,
+          code === COD ? null : {backgroundColor: Colors._BDBDBD},
+        ]}
+        onPress={() =>
+          code === COD
+            ? onGoogleButtonPress().then(() =>
+                console.log('Signed in with Google!'),
+              )
+            : null
+        }>
+        <Text style={styles.googleButtonText}>Sign in with Google</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    setUserStore(
+      new AuthUser(
+        user?.uid,
+        user?.displayName,
+        user?.email,
+        user?.photoURL,
+        user?.isAnonymous,
+      ),
+    );
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  console.log('user', user);
+
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
@@ -99,7 +165,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
         </Text>
         <CodeVerification onChangeCode={setCode} />
 
-        {codeError && (
+        {code !== COD && (
           <View style={styles.errorBox}>
             <AttentionCircleIcon />
             <Text style={styles.errorMsg}>{'Невірний код'}</Text>
@@ -114,6 +180,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
             <Text style={styles.buttonLike}>{'Обновити'}</Text>
           </TouchableOpacity>
         )}
+        <GoogleSignIn />
         <View style={{flex: 1}} />
       </View>
     </KeyboardAwareScrollView>
@@ -127,6 +194,19 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  googleButton: {
+    backgroundColor: '#4285F4',
+    width: '100%',
+    height: 50,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
+  },
+  googleButtonText: {
+    color: '#fff',
+    fontSize: 16,
   },
   loginContainer: {
     flex: 1,

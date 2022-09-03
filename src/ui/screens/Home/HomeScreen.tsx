@@ -23,10 +23,8 @@ import {observer} from 'mobx-react';
 import {checkDateNextNotification} from 'app/services/utils/check.date.next.notification';
 import BackgroundFetch from 'react-native-background-fetch';
 import {showsNotification} from 'app/services/notification/showe.notification';
-import {
-  BecTask,
-  becTask,
-} from 'app/services/background-task/background.fetch.task';
+import {BecTask} from 'app/services/background-task/background.fetch.task';
+import {AuthUser} from 'app/data/storage/auth/auth.user.model';
 
 // let MyHeadlessTask = async (event: HeadlessEvent) => {
 //   // Get task id from event {}:
@@ -55,11 +53,12 @@ import {
 // // Register your BackgroundFetch HeadlessTask
 // BackgroundFetch.registerHeadlessTask(MyHeadlessTask);
 
-export const MainScreen = observer((props: any) => {
+export const MainScreen = observer(() => {
   const app: IAppCoreService = useAppInjection();
   const unreadNotificationsCount = app.storage.getNotificationsState();
   const reference = databaseFirebase('/homes');
   const [homeStage, setHomeStage] = useState<IHome[]>([]);
+  const [userStage, setUserStage] = useState<AuthUser>();
   const [connectionNet, setConnectionNet] = useState<boolean | null>(false);
   const notification = app.storage.getNotificationsState();
   const notificationList = notification.getNotifications();
@@ -69,42 +68,14 @@ export const MainScreen = observer((props: any) => {
   const dataNotification = checkDateNextNotification(homeStage);
   useEffect(() => {
     saveHomeStore();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connectionNet]);
 
   useEffect(() => {
+    console.log('HAHAHA', app.storage.getAuthUser());
     // configureBackgroundFetch();
     // showsNotification(dataNotification, homeStage);
   }, []);
-
-  // const configureBackgroundFetch = () => {
-  //   BackgroundFetch.configure(
-  //     {
-  //       minimumFetchInterval: 15, // <-- minutes (15 is minimum allowed)
-  //       stopOnTerminate: false, // <-- Android-only,
-  //       startOnBoot: true, // <-- Android-only
-  //       enableHeadless: true,
-  //       requiresCharging: false,
-  //       requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE,
-  //     },
-  //     async (taskId: any) => {
-  //       console.log('[js] Received background-fetch event: ', taskId);
-  //       const result: string | null = await AsyncStorageFacade.getString(
-  //         AsyncStorageKey.CheckDateNextStore,
-  //       );
-  //       if (result !== null) {
-  //         showsNotification(result);
-  //       }
-  //       // Required: Signal completion of your task to native code
-  //       // If you fail to do this, the OS can terminate your app
-  //       // or assign battery-blame for consuming too much background-time
-  //       BackgroundFetch.finish(taskId);
-  //     },
-  //     error => {
-  //       console.log('[js] RNBackgroundFetch failed to start');
-  //       console.log(error);
-  //     },
-  //   );
-  // };
 
   NetInfo.fetch().then(state => {
     console.log('Connection type', state.type);
@@ -121,6 +92,7 @@ export const MainScreen = observer((props: any) => {
         setHomeStage(snapshot.val());
         setHomeStore(snapshot.val());
         setNextDateStore(snapshot.val());
+        getUserStore();
         app.storage.getHomesState().setHomes(snapshot.val());
       });
       // Stop listening for updates when no longer required
@@ -128,6 +100,22 @@ export const MainScreen = observer((props: any) => {
       return () => reference.off('value', onValueChange);
     }
     getHomeStore();
+    getUserStore();
+  };
+
+  const getUserStore = async (): Promise<void> => {
+    try {
+      const result: AuthUser | null = await AsyncStorageFacade.get(
+        AsyncStorageKey.AuthUserStore,
+      );
+      if (result !== null) {
+        app.storage.setAuthUser(result);
+
+        return setUserStage(result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getHomeStore = async (): Promise<void> => {
