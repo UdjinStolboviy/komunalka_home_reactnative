@@ -8,8 +8,8 @@
  * @format
  */
 
-import { AsyncStorageFacade, AsyncStorageKey } from 'app/data/async-storege';
-import { IHome } from 'app/data/storage/home/home.model';
+import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
+import {IHome} from 'app/data/storage/home/home.model';
 import React from 'react';
 import {
   SafeAreaView,
@@ -20,87 +20,89 @@ import {
   View,
   Switch,
   Button,
-  Alert
+  Alert,
 } from 'react-native';
 
-import BackgroundFetch from "react-native-background-fetch";
-
-
+import BackgroundFetch from 'react-native-background-fetch';
 
 /// Util class for handling fetch-event peristence in AsyncStorage.
-import Event from "../../utils/Event";
-import { showsNotification } from '../notification/showe.notification';
-
+import Event from '../../utils/Event';
+import {showsNotification} from '../notification/showe.notification';
 
 export const BecTask = () => {
-
   const [enabled, setEnabled] = React.useState(false);
   const [status, setStatus] = React.useState(-1);
   const [events, setEvents] = React.useState<Event[]>([]);
 
   React.useEffect(() => {
-    console.log('start')
-    initBackgroundFetch()
+    console.log('start');
+    initBackgroundFetch();
     loadEvents();
   }, []);
 
   /// Configure BackgroundFetch.
   ///
   const initBackgroundFetch = async () => {
-    const status:number = await BackgroundFetch.configure({
-      minimumFetchInterval: 15,      // <-- minutes (15 is minimum allowed)
-      stopOnTerminate: false,
-      enableHeadless: true,
-      startOnBoot: true,
-      // Android options
-      forceAlarmManager: false,      // <-- Set true to bypass JobScheduler.
-      requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE, // Default
-      requiresCharging: false,       // Default
-      requiresDeviceIdle: false,     // Default
-      requiresBatteryNotLow: false,  // Default
-      requiresStorageNotLow: false,  // Default
-    }, async (taskId:string) => {
-      console.log('[BackgroundFetch] taskId', taskId);
-      // Create an Event record.
-       // Do your background work...
+    const status: number = await BackgroundFetch.configure(
+      {
+        minimumFetchInterval: 240, // <-- minutes (15 is minimum allowed)
+        stopOnTerminate: false,
+        enableHeadless: true,
+        startOnBoot: true,
+        // Android options
+        forceAlarmManager: false, // <-- Set true to bypass JobScheduler.
+        requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE, // Default
+        requiresCharging: false, // Default
+        requiresDeviceIdle: false, // Default
+        requiresBatteryNotLow: false, // Default
+        requiresStorageNotLow: false, // Default
+      },
+      async (taskId: string) => {
+        console.log('[BackgroundFetch] taskId', taskId);
+        // Create an Event record.
+        // Do your background work...
         const result: string | null = await AsyncStorageFacade.getString(
           AsyncStorageKey.CheckDateNextStore,
         );
         const resultHomes: IHome[] | null = await AsyncStorageFacade.get(
           AsyncStorageKey.HomeStore,
         );
-        if (result && resultHomes ) {
-          console.log('dhdjhjfhjfdhdjhf',result, resultHomes)
+        if (result && resultHomes) {
+          console.log('dhdjhjfhjfdhdjhf', result, resultHomes);
           showsNotification(result, resultHomes);
         }
-      const event = await Event.create(taskId, false);
-      // Update state.
-      setEvents((prev) => [...prev, event]);
-      // Finish.
-      BackgroundFetch.finish(taskId);
-    }, (taskId:string) => {
-      // Oh No!  Our task took too long to complete and the OS has signalled
-      // that this task must be finished immediately.
-      console.log('[Fetch] TIMEOUT taskId:', taskId);
-      BackgroundFetch.finish(taskId);
-    });
+        const event = await Event.create(taskId, false);
+        // Update state.
+        setEvents(prev => [...prev, event]);
+        // Finish.
+        BackgroundFetch.finish(taskId);
+      },
+      (taskId: string) => {
+        // Oh No!  Our task took too long to complete and the OS has signalled
+        // that this task must be finished immediately.
+        console.log('[Fetch] TIMEOUT taskId:', taskId);
+        BackgroundFetch.finish(taskId);
+      },
+    );
     setStatus(status);
     setEnabled(true);
-  }
+  };
 
   /// Load persisted events from AsyncStorage.
   ///
   const loadEvents = () => {
-    Event.all().then((data: any) => {
-      return setEvents(data);
-    }).catch((error) => {
-      Alert.alert('Error', 'Failed to load data from AsyncStorage: ' + error);
-    });
-  }
+    Event.all()
+      .then((data: any) => {
+        return setEvents(data);
+      })
+      .catch(error => {
+        Alert.alert('Error', 'Failed to load data from AsyncStorage: ' + error);
+      });
+  };
 
   /// Toggle BackgroundFetch ON/OFF
   ///
-  const onClickToggleEnabled = (value:boolean) => {
+  const onClickToggleEnabled = (value: boolean) => {
     setEnabled(value);
 
     if (value) {
@@ -108,12 +110,12 @@ export const BecTask = () => {
     } else {
       BackgroundFetch.stop();
     }
-  }
+  };
 
   /// [Status] button handler.
   ///
   const onClickStatus = () => {
-    BackgroundFetch.status().then((status:number) => {
+    BackgroundFetch.status().then((status: number) => {
       let statusConst = '';
       switch (status) {
         case BackgroundFetch.STATUS_AVAILABLE:
@@ -128,7 +130,7 @@ export const BecTask = () => {
       }
       Alert.alert('BackgroundFetch.status()', `${statusConst} (${status})`);
     });
-  }
+  };
 
   /// [scheduleTask] button handler.
   /// Schedules a custom-task to fire in 5000ms
@@ -137,27 +139,25 @@ export const BecTask = () => {
     BackgroundFetch.scheduleTask({
       taskId: 'com.transistorsoft.customtask',
       delay: 5000,
-      forceAlarmManager: true
-    }).then(() => {
-      Alert.alert('scheduleTask', 'Scheduled task with delay: 5000ms');
-    }).catch((error) => {
-      Alert.alert('scheduleTask ERROR', error);
-    });
-  }
+      forceAlarmManager: true,
+    })
+      .then(() => {
+        Alert.alert('scheduleTask', 'Scheduled task with delay: 5000ms');
+      })
+      .catch(error => {
+        Alert.alert('scheduleTask ERROR', error);
+      });
+  };
 
   /// Clear the Events list.
   ///
   const onClickClear = () => {
     Event.destroyAll();
     setEvents([]);
-  }
+  };
 
   /// Fetch events renderer.
   ///
-  
 
-  return (
-   <Text></Text>
-  );
+  return <Text></Text>;
 };
-
