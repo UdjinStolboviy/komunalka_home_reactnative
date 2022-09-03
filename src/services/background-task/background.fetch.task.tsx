@@ -9,6 +9,7 @@
  */
 
 import { AsyncStorageFacade, AsyncStorageKey } from 'app/data/async-storege';
+import { IHome } from 'app/data/storage/home/home.model';
 import React from 'react';
 import {
   SafeAreaView,
@@ -38,6 +39,7 @@ export const BecTask = () => {
   const [events, setEvents] = React.useState<Event[]>([]);
 
   React.useEffect(() => {
+    console.log('start')
     initBackgroundFetch()
     loadEvents();
   }, []);
@@ -64,8 +66,12 @@ export const BecTask = () => {
         const result: string | null = await AsyncStorageFacade.getString(
           AsyncStorageKey.CheckDateNextStore,
         );
-        if (result) {
-          showsNotification(result);
+        const resultHomes: IHome[] | null = await AsyncStorageFacade.get(
+          AsyncStorageKey.HomeStore,
+        );
+        if (result && resultHomes ) {
+          console.log('dhdjhjfhjfdhdjhf',result, resultHomes)
+          showsNotification(result, resultHomes);
         }
       const event = await Event.create(taskId, false);
       // Update state.

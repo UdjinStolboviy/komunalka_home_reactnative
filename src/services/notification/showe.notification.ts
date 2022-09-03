@@ -5,17 +5,47 @@ import notifee, {
     TimestampTrigger,
     TriggerType,
 } from '@notifee/react-native';
+import { IHome } from 'app/data/storage/home/home.model';
+import { checkNotificationCanter } from 'app/utils/check-notification';
 import { uid } from 'app/utils/id-random';
 
 import moment from 'moment';
 
 
-export const showsNotification = (checkDateNextNotification: string) => {
+export const showsNotification = (checkDateNextNotification: string, homes: IHome[]) => {
+    const canterResult = checkNotificationCanter(homes);
 
-
-
+    //notifee.setBadgeCount(canterResult).then(() => console.log('Badge count set!'));
 
     const dayNow = moment(new Date()).format('DD');
+
+    async function onDisplayNotification() {
+        // Request permissions (required for iOS)
+        await notifee.requestPermission()
+
+        // Create a channel (required for Android)
+        const channelId = await notifee.createChannel({
+            id: uid(),
+            name: 'Default Channel',
+        });
+
+        // Display a notification
+        await notifee.displayNotification({
+            title: 'Notification Title',
+            body: 'Main body content of the notification',
+            android: {
+                channelId,
+                smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+                // pressAction is needed if you want the notification to open the app when pressed
+                pressAction: {
+                    id: 'default',
+                },
+            },
+        });
+        notifee.setBadgeCount(1).then(() => console.log('Badge count set!'));
+        await notifee.incrementBadgeCount(canterResult);
+    }
+
 
 
     const showingNotification = async () => {
@@ -61,27 +91,32 @@ export const showsNotification = (checkDateNextNotification: string) => {
         }
     };
 
-    if (dayNow === checkDateNextNotification) {
+    console.log('day', dayNow, checkDateNextNotification, canterResult)
+    if (canterResult >= 1) {
+
 
 
         showingNotification();
-        return notifee.onBackgroundEvent(async ({ type }) => {
+        onDisplayNotification();
 
-            const initialNotification = await notifee.getInitialNotification();
 
-            if (initialNotification) {
-                const notification = initialNotification.notification;
-                const pressAction = initialNotification.pressAction;
-                showingNotification();
+        //     return notifee.onBackgroundEvent(async ({ type }) => {
+        //         showingNotification();
+        //         const initialNotification = await notifee.getInitialNotification();
 
-                if (notification.id) {
-                    // The user pressed the "Mark as read" action
-                    await notifee.cancelNotification(notification.id);
-                }
-            }
-        });
-    } else {
-        return null;
+        //         if (initialNotification) {
+        //             const notification = initialNotification.notification;
+        //             const pressAction = initialNotification.pressAction;
+        //             //showingNotification();
+
+        //             if (notification.id) {
+        //                 // The user pressed the "Mark as read" action
+        //                 await notifee.cancelNotification(notification.id);
+        //             }
+        //         }
+        //     });
+        // } else {
+        //     return null;
     }
 
     // return showingNotification();
