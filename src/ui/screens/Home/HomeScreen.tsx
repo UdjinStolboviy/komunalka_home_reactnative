@@ -139,7 +139,7 @@ export const MainScreen = observer((props: any) => {
         app.storage.getHomesState().setHomes(result);
         const canterResult = checkNotificationCanter(result);
         unreadNotificationsCount.setUnreadNotificationsCount(canterResult);
-        showsNotification(dataNotification, homeStage);
+        showsNotification(dataNotification, homeStage, canterResult);
         return setHomeStage(result);
       }
     } catch (error) {
@@ -150,7 +150,7 @@ export const MainScreen = observer((props: any) => {
     app.navigationService.navigate(Screens._ACTIVITY_INDICATOR);
     const canterResult = checkNotificationCanter(home);
     unreadNotificationsCount.setUnreadNotificationsCount(canterResult);
-    showsNotification(dataNotification, homeStage);
+    showsNotification(dataNotification, homeStage, canterResult);
     await AsyncStorageFacade.save(AsyncStorageKey.HomeStore, home);
     app.navigationService.goBack();
   };

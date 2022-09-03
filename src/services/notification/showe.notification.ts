@@ -12,8 +12,8 @@ import { uid } from 'app/utils/id-random';
 import moment from 'moment';
 
 
-export const showsNotification = (checkDateNextNotification: string, homes: IHome[]) => {
-    const canterResult = checkNotificationCanter(homes);
+export const showsNotification = (checkDateNextNotification: string, homes: IHome[], canterResultNew: number) => {
+    const canterResult = canterResultNew;
 
     //notifee.setBadgeCount(canterResult).then(() => console.log('Badge count set!'));
 
@@ -92,7 +92,7 @@ export const showsNotification = (checkDateNextNotification: string, homes: IHom
     };
 
     console.log('day', dayNow, checkDateNextNotification, canterResult)
-    if (canterResult >= 1) {
+    if (canterResult >= 1 || dayNow === checkDateNextNotification) {
 
 
 
