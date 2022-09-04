@@ -30,7 +30,7 @@ import {FlatInfoScreen} from 'app/ui/screens/flat/FlatInfoScreen';
 import {FlatListUtilityBillsScreen} from 'app/ui/screens/flat/FlatListUtilityBillsScreen';
 import {FlatCalculatorScreen} from 'app/ui/screens/flat/FlatCalculatorScreen';
 import {ActivityIndicatorScreen} from 'app/ui/screens/common/ActivityIndicatorScreen';
-import { BecTask } from 'app/services/background-task/background.fetch.task';
+import {BecTask} from 'app/services/background-task/background.fetch.task';
 
 export interface ThemeContext {
   theme?: string;

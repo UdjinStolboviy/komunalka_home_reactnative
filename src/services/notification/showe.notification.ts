@@ -92,7 +92,7 @@ export const showsNotification = (checkDateNextNotification: string, homes: IHom
     };
 
     console.log('day', dayNow, checkDateNextNotification, canterResult)
-    if (canterResult >= 1 || dayNow === checkDateNextNotification) {
+    if (canterResult >= 1) {
 
 
 

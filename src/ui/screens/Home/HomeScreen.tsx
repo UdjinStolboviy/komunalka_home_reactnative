@@ -25,6 +25,8 @@ import BackgroundFetch from 'react-native-background-fetch';
 import {showsNotification} from 'app/services/notification/showe.notification';
 import {BecTask} from 'app/services/background-task/background.fetch.task';
 import {AuthUser} from 'app/data/storage/auth/auth.user.model';
+import {UserDescription} from '../auth/userShowe/UserDescriptions';
+import auth from '@react-native-firebase/auth';
 
 // let MyHeadlessTask = async (event: HeadlessEvent) => {
 //   // Get task id from event {}:
@@ -56,9 +58,10 @@ import {AuthUser} from 'app/data/storage/auth/auth.user.model';
 export const MainScreen = observer(() => {
   const app: IAppCoreService = useAppInjection();
   const unreadNotificationsCount = app.storage.getNotificationsState();
-  const reference = databaseFirebase('/homes');
+
   const [homeStage, setHomeStage] = useState<IHome[]>([]);
-  const [userStage, setUserStage] = useState<AuthUser>();
+  const [userStage, setUserStage] = useState<any>();
+  const [user, setUser] = useState<any>();
   const [connectionNet, setConnectionNet] = useState<boolean | null>(false);
   const notification = app.storage.getNotificationsState();
   const notificationList = notification.getNotifications();
@@ -66,16 +69,20 @@ export const MainScreen = observer(() => {
   const notificationListLengths =
     notificationListLength > 0 ? notificationListLength : 0;
   const dataNotification = checkDateNextNotification(homeStage);
+
   useEffect(() => {
     saveHomeStore();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connectionNet]);
 
   useEffect(() => {
-    console.log('HAHAHA', userStage);
     // configureBackgroundFetch();
     // showsNotification(dataNotification, homeStage);
   }, []);
+
+  function onAuthStateChanged(user) {
+    setUser(user);
+  }
 
   NetInfo.fetch().then(state => {
     console.log('Connection type', state.type);
@@ -85,14 +92,22 @@ export const MainScreen = observer(() => {
   });
 
   const saveHomeStore = () => {
+    getUserStore();
+    if (userStage === undefined) {
+      return;
+    }
+    console.log('HAHAHA-------', userStage.uid);
+    const reference = databaseFirebase(`/storage/users/${useState.uid}/homes`);
     if (connectionNet) {
       cleanStore();
+
       const onValueChange = reference.on('value', snapshot => {
-        console.log('A new node has been added', snapshot.val());
+        console.log('A new node has been added------', snapshot.val());
+
         setHomeStage(snapshot.val());
         setHomeStore(snapshot.val());
         setNextDateStore(snapshot.val());
-        getUserStore();
+
         app.storage.getHomesState().setHomes(snapshot.val());
       });
       // Stop listening for updates when no longer required
@@ -103,9 +118,9 @@ export const MainScreen = observer(() => {
     getUserStore();
   };
 
-  const getUserStore = async (): Promise<void> => {
+  const getUserStore = async (): Promise<any> => {
     try {
-      const result: AuthUser | null = await AsyncStorageFacade.get(
+      const result: any | null = await AsyncStorageFacade.get(
         AsyncStorageKey.AuthUserStore,
       );
       if (result !== null) {
@@ -195,6 +210,7 @@ export const MainScreen = observer(() => {
           }}>
           <Text style={{color: Colors._000000}}>TEST-TEST</Text>
         </TouchableOpacity> */}
+        {userStage ? <UserDescription user={userStage} /> : null}
         {renderHomeItem()}
         <ElementItem
           title={Type.CALCULATOR}
