@@ -72,7 +72,7 @@ export const MainScreen = observer(() => {
   }, [connectionNet]);
 
   useEffect(() => {
-    console.log('HAHAHA', app.storage.getAuthUser());
+    console.log('HAHAHA', userStage);
     // configureBackgroundFetch();
     // showsNotification(dataNotification, homeStage);
   }, []);

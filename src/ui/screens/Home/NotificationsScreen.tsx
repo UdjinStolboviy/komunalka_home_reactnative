@@ -26,12 +26,9 @@ import {
 } from '../notification-component/FlatItemNotification';
 import NotificationCalendarView from '../notification-component/NotificationCalendar';
 
-
-
 export const NotificationsScreen = (props: any) => {
   const app: IAppCoreService = useAppInjection();
-  
-  
+
   const homes = app.storage.getHomesState().getHomes();
 
   const datesSettlement = datesSettlementCheck(homes);
@@ -39,8 +36,6 @@ export const NotificationsScreen = (props: any) => {
 
   const datesNow = moment(new Date()).format('YYYY-MM');
   const dayNow = moment(new Date()).format('DD');
-
-  
 
   const dateNowSettlement = datesSettlement.map(date => {
     if (Number(date) >= 29) {
@@ -61,12 +56,9 @@ export const NotificationsScreen = (props: any) => {
     ...datesSettlementNext(1, dateNowSettlement),
   ];
 
-  
-
-
   const renderNotificationList = () => {
     return flat.map((item, index) => {
-      if (dayNow === item.settlementDay || Number(item.settlementDay) >= 29) {
+      if (dayNow === item.settlementDay) {
         return (
           <FlatItemNotification
             key={index}

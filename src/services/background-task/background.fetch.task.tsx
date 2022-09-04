@@ -10,6 +10,7 @@
 
 import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
 import {IHome} from 'app/data/storage/home/home.model';
+import {checkNotificationCanter} from 'app/utils/check-notification';
 import React from 'react';
 import {
   SafeAreaView,
@@ -68,8 +69,8 @@ export const BecTask = () => {
           AsyncStorageKey.HomeStore,
         );
         if (result && resultHomes) {
-          console.log('dhdjhjfhjfdhdjhf', result, resultHomes);
-          showsNotification(result, resultHomes);
+          const canterResult = checkNotificationCanter(resultHomes);
+          showsNotification(result, resultHomes, canterResult);
         }
         const event = await Event.create(taskId, false);
         // Update state.

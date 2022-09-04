@@ -55,7 +55,7 @@ export const checkNotificationCanter = (homes: IHome[]) => {
         }
     }
     flat.map((item, index) => {
-        if (dayNow === item.settlementDay || Number(item.settlementDay) >= 29) {
+        if (dayNow === item.settlementDay) {
             canterNotification = canterNotification + 1;
         } else {
             null;
