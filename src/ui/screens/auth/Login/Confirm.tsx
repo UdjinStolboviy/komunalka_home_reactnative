@@ -46,6 +46,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
   const [remainingTime, setRemainingTime] = useState<string>('');
 
   const [time, setTime] = React.useState(RESEND_INTERVAL);
+  const [renderAuth, setRenderAuth] = useState(false);
 
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
@@ -70,19 +71,49 @@ export const Confirm: React.FC = observer(({route}: any) => {
   }, [time]);
 
   useEffect(() => {
+    getRenderedAuthStore();
+    if (renderAuth) {
+      return app.navigationService.navigate(Screens.SCREEN_MAIN, {
+        //title: `${Texts.FLAT} ${item.title}`,
+        user: user,
+        userUid: user.uid,
+      });
+    }
     if (code && code.length === 4) {
       if (code === COD && user) {
         setCodeError(false);
         setRenderedAuthStore(true);
-        authStore.setLoginUser(true);
+        authStore.setLoginUser();
         analyticsEvent();
-        RNRestart.Restart();
+        app.navigationService.navigate(Screens.SCREEN_MAIN, {
+          //title: `${Texts.FLAT} ${item.title}`,
+          user: user,
+          userUid: user.uid,
+        });
+        // RNRestart.Restart();
       } else {
         setRenderedAuthStore(false);
         setCodeError(true);
       }
     }
   }, [code, codeError, user]);
+
+  useEffect(() => {
+    getRenderedAuthStore();
+  }, []);
+
+  const getRenderedAuthStore = async (): Promise<void> => {
+    try {
+      const result = await AsyncStorageFacade.getBoolean(
+        AsyncStorageKey.RenderedAuthStore,
+      );
+      if (result !== null) {
+        return setRenderAuth(result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const analyticsEvent = async () => {
     await analytics().logEvent('confirm_code_screen_view');

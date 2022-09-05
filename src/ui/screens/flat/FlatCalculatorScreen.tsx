@@ -193,7 +193,9 @@ ________________________________
      
     Всього:  ${multiplicationElectricity} + ${multiplicationWater} + 
     ${resultInternet} + ${garbageRemovalTariff} + 
-    ${resultRent} + ${resultOtherOption} = ${Math.ceil(resultAllCalculate)} грн\n 
+    ${resultRent} + ${resultOtherOption} = ${Math.ceil(
+    resultAllCalculate,
+  )} грн\n 
 ________________________________\n`;
 
   return (

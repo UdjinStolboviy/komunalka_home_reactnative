@@ -109,7 +109,7 @@ const AuthStack = (props: RootNavigatorProps) => {
 const AppStack = (props: RootNavigatorProps) => {
   return (
     <MainStack.Navigator
-      //initialRouteName={props.initialScreen.getName()}
+      initialRouteName={Screens._CONFIRM}
       screenOptions={{
         headerShown: false,
       }}>
@@ -117,6 +117,11 @@ const AppStack = (props: RootNavigatorProps) => {
         name={Screens.STACK_TAB}
         component={BottomTabBar}
         options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._CONFIRM}
+        component={Confirm}
+        options={{title: 'Main_SingUp'}}
       />
       <MainStack.Screen
         name={Screens.SCREEN_MAIN}
@@ -209,25 +214,9 @@ const AppStack = (props: RootNavigatorProps) => {
 };
 export const RootNavigator: React.FC<any> = observer(
   (props: RootNavigatorProps) => {
-    const [renderAuth, setRenderAuth] = useState(false);
-    useEffect(() => {
-      getRenderedAuthStore();
-    }, [props.initialScreen]);
+    useEffect(() => {}, [props.initialScreen]);
     const [theme, setTheme] = useState('Light');
     const themeData = {theme, setTheme};
-
-    const getRenderedAuthStore = async (): Promise<void> => {
-      try {
-        const result = await AsyncStorageFacade.getBoolean(
-          AsyncStorageKey.RenderedAuthStore,
-        );
-        if (result !== null) {
-          return setRenderAuth(result);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
 
     if (props.initialScreen) {
       return (
@@ -248,17 +237,11 @@ export const RootNavigator: React.FC<any> = observer(
                 },
                 headerShown: false,
               }}>
-              {renderAuth ? (
-                <MainStack.Screen
-                  name={Screens.STACK_APP}
-                  component={AppStack}
-                />
-              ) : (
-                <MainStack.Screen
-                  name={Screens.STACK_AUTH}
-                  component={AuthStack}
-                />
-              )}
+              <MainStack.Screen
+                name={Screens.STACK_APP}
+                component={AppStack}
+                //initialScreen={props.initialScreen}
+              />
             </MainStack.Navigator>
           </NavigationContainer>
         </ThemeContext.Provider>

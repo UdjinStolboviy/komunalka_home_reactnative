@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { action, observable } from "mobx";
+import { action, observable, runInAction } from "mobx";
 import { NotificationsState } from "./notifications/notifications.state";
 import { AnimationsState } from "./animation/animations.state";
 import { NavigationState } from "./navigation/navigation.state.model";
@@ -55,8 +55,10 @@ export class GlobalStorage {
     }
 
     @action
-    public setLoginUser(loginUser: boolean) {
-        this.loginUser = loginUser;
+    public setLoginUser() {
+        runInAction(() => {
+            this.loginUser = true;
+        });
     }
 
     public getLoginUser() {

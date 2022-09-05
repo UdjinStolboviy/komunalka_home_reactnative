@@ -13,24 +13,31 @@ import {Provider} from 'inversify-react';
 
 import SplashScreen from 'react-native-splash-screen';
 
-import {appContainer, appCoreService} from './data/ioc/inversify.config';
+import {
+  appContainer,
+  appCoreService,
+  useAppInjection,
+} from './data/ioc/inversify.config';
 import {Screen} from './models/navigator/navigator.screen.config';
 import {RootNavigator} from './navigation/RootNavigator';
 import {Screens} from './assets/constants/codes/Screens';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import LocalizationContextWrapper from './localization/localizationProvider';
+import {observer} from 'mobx-react';
+import {IAppCoreService} from './services/core/app.core.service.interface';
 
-
-const MainComponent: React.FC = () => {
+const MainComponent: React.FC = observer(() => {
   const [initialScreen, setInitialScreen] = useState<any>();
+  const app: IAppCoreService = useAppInjection();
+
   useEffect(() => {
     SplashScreen.hide();
   }, []);
 
   useEffect(() => {
     appCoreService.listenerService.setupListeners();
-    setInitialScreen(new Screen(Screens.STACK_AUTH));
-  }, []);
+    setInitialScreen(new Screen(Screens._CONFIRM));
+  }, [app.storage.getLoginUser()]);
 
   const defineAppContainer = () => {
     return (
@@ -45,6 +52,6 @@ const MainComponent: React.FC = () => {
       <Provider container={appContainer}>{defineAppContainer()}</Provider>
     </LocalizationContextWrapper>
   );
-};
+});
 
 export default MainComponent;
