@@ -8,6 +8,7 @@ import Svg, {SvgProps, Path} from 'react-native-svg';
 import {Colors} from '../constants/colors/Colors';
 export interface BellIconIconProps {
   active?: boolean;
+  countNotification?: number;
 }
 
 export const BellIcon = observer((props: BellIconIconProps) => {
@@ -16,11 +17,11 @@ export const BellIcon = observer((props: BellIconIconProps) => {
     .getNotificationsState()
     .getUnreadNotificationsCount();
 
-  useEffect(() => {}, [unreadNotificationsCount]);
+  useEffect(() => {}, [unreadNotificationsCount, props.countNotification]);
 
   const _formatMessagesCount = () => {
-    if (unreadNotificationsCount < 10) {
-      return unreadNotificationsCount;
+    if (props.countNotification || unreadNotificationsCount < 10) {
+      return props.countNotification || unreadNotificationsCount;
     } else {
       return '9+';
     }

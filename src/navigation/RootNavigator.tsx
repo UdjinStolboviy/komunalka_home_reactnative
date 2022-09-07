@@ -107,9 +107,27 @@ const AuthStack = (props: RootNavigatorProps) => {
 };
 
 const AppStack = (props: RootNavigatorProps) => {
+  const [renderAuth, setRenderAuth] = useState(false);
+  useEffect(() => {
+    getRenderedAuthStore();
+  }, []);
+
+  const getRenderedAuthStore = async (): Promise<void> => {
+    try {
+      const result = await AsyncStorageFacade.getBoolean(
+        AsyncStorageKey.RenderedAuthStore,
+      );
+      if (result !== null) {
+        return setRenderAuth(result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <MainStack.Navigator
-      initialRouteName={Screens._CONFIRM}
+      initialRouteName={renderAuth ? Screens.SCREEN_MAIN : Screens._CONFIRM}
       screenOptions={{
         headerShown: false,
       }}>
@@ -214,9 +232,25 @@ const AppStack = (props: RootNavigatorProps) => {
 };
 export const RootNavigator: React.FC<any> = observer(
   (props: RootNavigatorProps) => {
-    useEffect(() => {}, [props.initialScreen]);
+    const [renderAuth, setRenderAuth] = useState(true);
+    useEffect(() => {
+      getRenderedAuthStore();
+    }, []);
     const [theme, setTheme] = useState('Light');
     const themeData = {theme, setTheme};
+
+    const getRenderedAuthStore = async (): Promise<void> => {
+      try {
+        const result = await AsyncStorageFacade.getBoolean(
+          AsyncStorageKey.RenderedAuthStore,
+        );
+        if (result !== null) {
+          return setRenderAuth(result);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
     if (props.initialScreen) {
       return (
@@ -237,11 +271,7 @@ export const RootNavigator: React.FC<any> = observer(
                 },
                 headerShown: false,
               }}>
-              <MainStack.Screen
-                name={Screens.STACK_APP}
-                component={AppStack}
-                initialScreen={props.initialScreen}
-              />
+              <MainStack.Screen name={Screens.STACK_APP} component={AppStack} />
             </MainStack.Navigator>
           </NavigationContainer>
         </ThemeContext.Provider>

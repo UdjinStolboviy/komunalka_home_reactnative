@@ -9,7 +9,11 @@ import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
-export const BottomNavigatorBar = (props: any) => {
+export interface IBottomNavigatorBarProps {
+  countNotification?: number;
+}
+
+export const BottomNavigatorBar = (props: IBottomNavigatorBarProps) => {
   const app: IAppCoreService = useAppInjection();
   return (
     <View style={style.container}>
@@ -33,7 +37,7 @@ export const BottomNavigatorBar = (props: any) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <BellIcon />
+        <BellIcon countNotification={props.countNotification} />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => app.navigationService.navigate(Screens._CALCULATOR)}
@@ -70,5 +74,5 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
 });

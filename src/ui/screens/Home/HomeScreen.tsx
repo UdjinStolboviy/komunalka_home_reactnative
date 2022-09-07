@@ -27,6 +27,7 @@ import {BecTask} from 'app/services/background-task/background.fetch.task';
 import {AuthUser} from 'app/data/storage/auth/auth.user.model';
 import {UserDescription} from '../auth/userShowe/UserDescriptions';
 import auth from '@react-native-firebase/auth';
+import {BottomNavigatorBar} from 'app/ui/components/Common/BottomNavigatorBar';
 
 // let MyHeadlessTask = async (event: HeadlessEvent) => {
 //   // Get task id from event {}:
@@ -62,7 +63,7 @@ export const MainScreen = observer((props: any) => {
   const reference = databaseFirebase(`/storage/users/${userUid}/homes`);
   const [homeStage, setHomeStage] = useState<IHome[]>([]);
   const [userStage, setUserStage] = useState<any>();
-  const [user, setUser] = useState<any>();
+  const [countNotification, setCountNotification] = useState<number>(0);
   const [connectionNet, setConnectionNet] = useState<boolean | null>(false);
   const notification = app.storage.getNotificationsState();
   const notificationList = notification.getNotifications();
@@ -71,7 +72,7 @@ export const MainScreen = observer((props: any) => {
     notificationListLength > 0 ? notificationListLength : 0;
   const dataNotification = checkDateNextNotification(homeStage);
 
-  console.log('dataNotification-------------', userUid);
+  console.log('dataNotification-------------', countNotification);
 
   useEffect(() => {
     saveHomeStore();
@@ -135,6 +136,7 @@ export const MainScreen = observer((props: any) => {
         app.storage.getHomesState().setHomes(result);
         const canterResult = checkNotificationCanter(result);
         unreadNotificationsCount.setUnreadNotificationsCount(canterResult);
+        setCountNotification(canterResult);
         showsNotification(dataNotification, homeStage, canterResult);
         return setHomeStage(result);
       }
@@ -146,6 +148,7 @@ export const MainScreen = observer((props: any) => {
     app.navigationService.navigate(Screens._ACTIVITY_INDICATOR);
     const canterResult = checkNotificationCanter(home);
     unreadNotificationsCount.setUnreadNotificationsCount(canterResult);
+    setCountNotification(canterResult);
     showsNotification(dataNotification, homeStage, canterResult);
     await AsyncStorageFacade.save(AsyncStorageKey.HomeStore, home);
     app.navigationService.goBack();
@@ -214,8 +217,10 @@ export const MainScreen = observer((props: any) => {
             app.navigationService.navigate(Screens._CALCULATOR);
           }}
         />
+
         <BecTask />
       </ContentProgressScrollView>
+      <BottomNavigatorBar countNotification={countNotification} />
     </View>
   );
 });
