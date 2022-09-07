@@ -196,8 +196,6 @@ export const Confirm: React.FC = observer(({route}: any) => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  console.log('user', user);
-
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>

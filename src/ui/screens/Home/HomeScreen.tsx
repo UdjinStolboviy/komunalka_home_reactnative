@@ -28,6 +28,7 @@ import {AuthUser} from 'app/data/storage/auth/auth.user.model';
 import {UserDescription} from '../auth/userShowe/UserDescriptions';
 import auth from '@react-native-firebase/auth';
 import {BottomNavigatorBar} from 'app/ui/components/Common/BottomNavigatorBar';
+import {IUser} from '../auth/Login/Confirm';
 
 // let MyHeadlessTask = async (event: HeadlessEvent) => {
 //   // Get task id from event {}:
@@ -60,6 +61,7 @@ export const MainScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
   const unreadNotificationsCount = app.storage.getNotificationsState();
   const userUid: string = props.route.params && props.route.params.userUid;
+  const userNew: IUser = props.route.params && props.route.params.user;
   const reference = databaseFirebase(`/storage/users/${userUid}/homes`);
   const [homeStage, setHomeStage] = useState<IHome[]>([]);
   const [userStage, setUserStage] = useState<any>();
@@ -71,8 +73,6 @@ export const MainScreen = observer((props: any) => {
   const notificationListLengths =
     notificationListLength > 0 ? notificationListLength : 0;
   const dataNotification = checkDateNextNotification(homeStage);
-
-  console.log('dataNotification-------------', countNotification);
 
   useEffect(() => {
     saveHomeStore();
@@ -96,13 +96,58 @@ export const MainScreen = observer((props: any) => {
       cleanStore();
 
       const onValueChange = reference.on('value', snapshot => {
-        console.log('A new node has been added------', snapshot.val());
+        console.log(
+          '==========A new node has been added------',
+          snapshot.val(),
+        );
 
-        setHomeStage(snapshot.val());
-        setHomeStore(snapshot.val());
-        setNextDateStore(snapshot.val());
+        if (snapshot.val()) {
+          setHomeStage(snapshot.val());
+          setHomeStore(snapshot.val());
+          setNextDateStore(snapshot.val());
 
-        app.storage.getHomesState().setHomes(snapshot.val());
+          app.storage.getHomesState().setHomes(snapshot.val());
+        } else {
+          const home = {
+            id: 'home1',
+            title: 'HOME1',
+            flats: [
+              {
+                address: 'address',
+                area: 100,
+                calculatorFlat: [],
+                dateEviction: 'dateEviction',
+                dateSettlement: 'dateSettlement',
+                description: 'description',
+                emailOccupant: 'emailOccupant',
+                floor: 1,
+                id: 'flat1',
+                images: [],
+                occupant: 'occupant',
+                owner: 'owner',
+                ownerEmail: 'ownerEmail',
+                ownerPhone: 'ownerPhone',
+                phoneOccupant: 'phoneOccupant',
+                price: 100,
+                rooms: 1,
+                title: 'flat1',
+                wifiName: 'wifiName',
+                wifiPassword: 'wifiPassword',
+              },
+            ],
+          };
+          const user = {
+            displayName: userNew.displayName,
+            email: userNew.email,
+            homes: [home],
+            photoURL: userNew.photoURL,
+            uid: userUid,
+          };
+          databaseFirebase(`/storage/users`)
+            .child(userUid)
+            .set(user)
+            .then(() => console.log('Data updated.'));
+        }
       });
       // Stop listening for updates when no longer required
 
