@@ -240,7 +240,7 @@ export const RootNavigator: React.FC<any> = observer(
               <MainStack.Screen
                 name={Screens.STACK_APP}
                 component={AppStack}
-                //initialScreen={props.initialScreen}
+                initialScreen={props.initialScreen}
               />
             </MainStack.Navigator>
           </NavigationContainer>
