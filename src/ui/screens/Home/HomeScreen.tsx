@@ -55,10 +55,11 @@ import auth from '@react-native-firebase/auth';
 // // Register your BackgroundFetch HeadlessTask
 // BackgroundFetch.registerHeadlessTask(MyHeadlessTask);
 
-export const MainScreen = observer(() => {
+export const MainScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
   const unreadNotificationsCount = app.storage.getNotificationsState();
-
+  const userUid: string = props.route.params && props.route.params.userUid;
+  const reference = databaseFirebase(`/storage/users/${userUid}/homes`);
   const [homeStage, setHomeStage] = useState<IHome[]>([]);
   const [userStage, setUserStage] = useState<any>();
   const [user, setUser] = useState<any>();
@@ -70,19 +71,15 @@ export const MainScreen = observer(() => {
     notificationListLength > 0 ? notificationListLength : 0;
   const dataNotification = checkDateNextNotification(homeStage);
 
+  console.log('dataNotification-------------', userUid);
+
   useEffect(() => {
     saveHomeStore();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connectionNet]);
+  }, [connectionNet, userUid]);
 
-  useEffect(() => {
-    // configureBackgroundFetch();
-    // showsNotification(dataNotification, homeStage);
-  }, []);
-
-  function onAuthStateChanged(user) {
-    setUser(user);
-  }
+  useEffect(() => {}, [reference, userUid]);
 
   NetInfo.fetch().then(state => {
     console.log('Connection type', state.type);
@@ -93,11 +90,7 @@ export const MainScreen = observer(() => {
 
   const saveHomeStore = () => {
     getUserStore();
-    if (userStage === undefined) {
-      return;
-    }
-    console.log('HAHAHA-------', userStage.uid);
-    const reference = databaseFirebase(`/storage/users/${useState.uid}/homes`);
+
     if (connectionNet) {
       cleanStore();
 

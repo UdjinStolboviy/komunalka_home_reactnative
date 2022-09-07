@@ -30,6 +30,18 @@ GoogleSignin.configure({
 
 const RESEND_INTERVAL = 59;
 
+export interface IUser {
+  email: string;
+  emailVerified: boolean;
+  displayName: string;
+  photoURL: string;
+  phoneNumber: string;
+  providerId: string;
+  uid: string;
+  tenanId: string;
+  providerData: any;
+}
+
 export const Confirm: React.FC = observer(({route}: any) => {
   const app: IAppCoreService = useAppInjection();
   const timeState = app.storage.getTimeState();
@@ -49,7 +61,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
   const [renderAuth, setRenderAuth] = useState(false);
 
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<IUser>();
 
   useEffect(() => {
     timeState.setTimeForResendCode(
@@ -72,9 +84,8 @@ export const Confirm: React.FC = observer(({route}: any) => {
 
   useEffect(() => {
     getRenderedAuthStore();
-    if (renderAuth) {
+    if (renderAuth && user) {
       return app.navigationService.navigate(Screens.SCREEN_MAIN, {
-        //title: `${Texts.FLAT} ${item.title}`,
         user: user,
         userUid: user.uid,
       });
