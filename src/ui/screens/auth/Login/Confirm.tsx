@@ -1,5 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {TouchableOpacity, View, StyleSheet, Text, Button} from 'react-native';
+import {
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Text,
+  Button,
+  ActivityIndicator,
+} from 'react-native';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Colors} from 'app/assets/constants/colors/Colors';
@@ -22,6 +29,7 @@ import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
 import SplashScreen from 'react-native-splash-screen';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {AuthUser} from 'app/data/storage/auth/auth.user.model';
+import Loader from 'app/ui/components/Common/Loader';
 
 GoogleSignin.configure({
   webClientId:
@@ -62,6 +70,8 @@ export const Confirm: React.FC = observer(({route}: any) => {
 
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<IUser>();
+
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     timeState.setTimeForResendCode(
@@ -107,17 +117,19 @@ export const Confirm: React.FC = observer(({route}: any) => {
         setCodeError(true);
       }
     }
-  }, [code, codeError, user]);
+  }, [codeError, user]);
 
   useEffect(() => {
     getRenderedAuthStore();
   }, []);
 
   const getRenderedAuthStore = async (): Promise<void> => {
+    setLoader(true);
     try {
       const result = await AsyncStorageFacade.getBoolean(
         AsyncStorageKey.RenderedAuthStore,
       );
+      setLoader(false);
       if (result !== null) {
         return setRenderAuth(result);
       }
@@ -127,17 +139,23 @@ export const Confirm: React.FC = observer(({route}: any) => {
   };
 
   const analyticsEvent = async () => {
+    setLoader(true);
     await analytics().logEvent('confirm_code_screen_view');
+    setLoader(false);
   };
 
   const setUserStore = async (user: AuthUser) => {
+    setLoader(true);
     await AsyncStorageFacade.save(AsyncStorageKey.AuthUserStore, user);
+    setLoader(false);
   };
   const setRenderedAuthStore = async (code: boolean) => {
+    setLoader(true);
     await AsyncStorageFacade.saveBoolean(
       AsyncStorageKey.RenderedAuthStore,
       code,
     );
+    setLoader(false);
   };
 
   const onResend = () => {
@@ -148,7 +166,9 @@ export const Confirm: React.FC = observer(({route}: any) => {
 
   async function onGoogleButtonPress() {
     // Get the users ID token
+    setLoader(true);
     const {idToken} = await GoogleSignin.signIn();
+    setLoader(false);
 
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
@@ -196,8 +216,16 @@ export const Confirm: React.FC = observer(({route}: any) => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  return (
-    <KeyboardAwareScrollView>
+  const loaderView = () => {
+    if (loader) {
+      return (
+        <View style={styles.loaderContainer}>
+          <Loader />
+        </View>
+      );
+    }
+
+    return (
       <View style={styles.container}>
         <Text style={styles.header}>{'Код доступу'}</Text>
         <Text style={[styles.textDescription]}>
@@ -223,8 +251,10 @@ export const Confirm: React.FC = observer(({route}: any) => {
         <GoogleSignIn />
         <View style={{flex: 1}} />
       </View>
-    </KeyboardAwareScrollView>
-  );
+    );
+  };
+
+  return <KeyboardAwareScrollView>{loaderView()}</KeyboardAwareScrollView>;
 });
 
 export const styles = StyleSheet.create({
@@ -307,5 +337,10 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 22,
     letterSpacing: 0.01,
+  },
+  loaderContainer: {
+    marginTop: 100,
+    width: '100%',
+    height: 440,
   },
 });
