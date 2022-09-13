@@ -29,6 +29,8 @@ import {UserDescription} from '../auth/userShowe/UserDescriptions';
 import auth from '@react-native-firebase/auth';
 import {BottomNavigatorBar} from 'app/ui/components/Common/BottomNavigatorBar';
 import {IUser} from '../auth/Login/Confirm';
+import {Dada} from 'app/utils/dade.const';
+import {AddHome} from './AddHome';
 
 // let MyHeadlessTask = async (event: HeadlessEvent) => {
 //   // Get task id from event {}:
@@ -108,34 +110,7 @@ export const MainScreen = observer((props: any) => {
 
           app.storage.getHomesState().setHomes(snapshot.val());
         } else {
-          const home = {
-            id: 'home1',
-            title: 'HOME1',
-            flats: [
-              {
-                address: 'address',
-                area: 100,
-                calculatorFlat: [],
-                dateEviction: 'dateEviction',
-                dateSettlement: 'dateSettlement',
-                description: 'description',
-                emailOccupant: 'emailOccupant',
-                floor: 1,
-                id: 'flat1',
-                images: [],
-                occupant: 'occupant',
-                owner: 'owner',
-                ownerEmail: 'ownerEmail',
-                ownerPhone: 'ownerPhone',
-                phoneOccupant: 'phoneOccupant',
-                price: 100,
-                rooms: 1,
-                title: 'flat1',
-                wifiName: 'wifiName',
-                wifiPassword: 'wifiPassword',
-              },
-            ],
-          };
+          const home = Dada.home;
           const user = {
             displayName: userNew.displayName,
             email: userNew.email,
@@ -253,6 +228,7 @@ export const MainScreen = observer((props: any) => {
         </TouchableOpacity> */}
         {userStage ? <UserDescription user={userStage} /> : null}
         {renderHomeItem()}
+        <AddHome />
         <ElementItem
           title={Type.CALCULATOR}
           titleButton={Texts.OPEN}
@@ -262,7 +238,6 @@ export const MainScreen = observer((props: any) => {
             app.navigationService.navigate(Screens._CALCULATOR);
           }}
         />
-
         <BecTask />
       </ContentProgressScrollView>
       <BottomNavigatorBar countNotification={countNotification} />
