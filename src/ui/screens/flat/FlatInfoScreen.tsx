@@ -10,6 +10,7 @@ import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {databaseFirebase} from 'app/services/firebase/firebase.database';
 import {IconButtonUniversal} from 'app/ui/components/button/AppButton/IconButtonUniversal';
 import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
+import {UniversalButtonText} from 'app/ui/components/button/AppButton/UniversalButtonText';
 import {AppHeader} from 'app/ui/components/Common/AppHeader/AppHeader';
 import {
   ImageLoader,
@@ -244,17 +245,17 @@ export const FlatInfoScreen = observer((props: any) => {
             homeIndex={homeIndex}
             onChangeFlat={(value: IFlat) => setFlatNevStage(value)}
           />
-          <UniversalButton
+          <UniversalButtonText
             title={'Список комунальних розрахунків'}
             onPress={onPressList}
             containerStyle={[style.buttonContainer, {marginTop: 25}]}
           />
-          <UniversalButton
+          <UniversalButtonText
             title={'Конкулятор комунальних послуг'}
             onPress={onPressCalculator}
             containerStyle={style.buttonContainer}
           />
-          <UniversalButton
+          <UniversalButtonText
             title={'Зберегти всю інформацію'}
             containerStyle={style.buttonContainer}
             onPress={onPressSave}

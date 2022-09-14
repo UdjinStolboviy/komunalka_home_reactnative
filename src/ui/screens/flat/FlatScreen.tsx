@@ -16,6 +16,8 @@ import {ScreenDimensions} from 'app/assets/constants/codes/ScreenDimensions';
 import {FlatExploreCard} from './flat-card/FlatExploreCard';
 import {observer} from 'mobx-react';
 import {AddFlat} from './AddFlat';
+import {DeleteModal} from '../modal/delete-modal/DeleteModal';
+import {databaseFirebase} from 'app/services/firebase/firebase.database';
 
 export const FlatsScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -23,29 +25,46 @@ export const FlatsScreen = observer((props: any) => {
   const homeIndex: number = props.route.params && props.route.params.homeIndex;
   const userId: string = props.route.params && props.route.params.userUid;
   const home = fateful.getHomes()[homeIndex];
+  const referenceFlat = databaseFirebase(
+    `/storage/users/${userId}/homes/${homeIndex}`,
+  );
 
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [homeStage, setHomeStage] = useState<IHome>(home);
 
   useEffect(() => {
     setHomeStage(home);
-  }, [home, fateful.getHomes()]);
+  }, [home, fateful.getHomes(), fateful]);
   const floor = [0, 1, 2, 3, 4];
+
+  const deleteItem = (index: number) => {
+    let date = home.flats;
+    date.splice(index, 1);
+
+    if (app.storage.getHomesState().getConnectNetwork()) {
+      referenceFlat.update({flats: [...date]});
+    }
+  };
 
   const renderFlatItemFloor = (floor: number) => {
     return homeStage.flats!.map((item: IFlat, index: number) => {
       if (item.floor === floor) {
         return (
-          <FlatExploreCard
-            key={item.id}
-            index={index}
-            flat={item}
-            title={item.title}
-            homeIndex={homeIndex}
-            userId={userId}
-            flatIndex={index}
-            type={homeStage.id}
-          />
+          <View>
+            <View style={style.deleteButton}>
+              <DeleteModal onDelete={() => deleteItem(index)} />
+            </View>
+            <FlatExploreCard
+              key={item.id}
+              index={index}
+              flat={item}
+              title={item.title}
+              homeIndex={homeIndex}
+              userId={userId}
+              flatIndex={index}
+              type={homeStage.id}
+            />
+          </View>
         );
       } else {
         return null;
@@ -115,5 +134,11 @@ const style = StyleSheet.create({
   wrapper: {
     width: '100%',
     alignItems: 'center',
+  },
+  deleteButton: {
+    position: 'absolute',
+    left: '5%',
+    top: '5%',
+    zIndex: 5,
   },
 });

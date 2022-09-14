@@ -53,7 +53,6 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
   const deleteItem = (index: number) => {
     let date = calculatorFlatStage;
     date.splice(index, 1);
-    console.log('calculatorFlatStage', calculatorFlatStage);
     setCalculatorFlatStage(date);
     if (connectionNet) {
       reference.update({calculatorFlat: [...calculatorFlatStage]});

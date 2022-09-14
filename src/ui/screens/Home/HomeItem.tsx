@@ -64,8 +64,9 @@ const style = StyleSheet.create({
   },
   middleWrapper: {
     height: 100,
-    width: '42%',
+    width: '30%',
     justifyContent: 'center',
+    marginRight: 30,
   },
   mainText: {
     textAlign: 'center',
@@ -80,7 +81,7 @@ const style = StyleSheet.create({
     color: Colors._979797,
   },
   containerButton: {
-    width: '35%',
-    marginHorizontal: 10,
+    width: '25%',
+    marginLeft: 50,
   },
 });

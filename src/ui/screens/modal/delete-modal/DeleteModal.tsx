@@ -37,7 +37,7 @@ export const DeleteModal = (props: IDeleteModalProps) => {
         isVisible={isModalVisible}
         onBackdropPress={() => setModalVisible(false)}>
         <View style={style.contentModal}>
-          <Text style={style.textTitle}>Видалити розрахунок</Text>
+          <Text style={style.textTitle}>ВИДАЛИТИ</Text>
           <View style={style.buttonWrapper}>
             <TouchableOpacity style={style.buttonNot} onPress={toggleModal}>
               <Text style={style.textNot}>Ні</Text>

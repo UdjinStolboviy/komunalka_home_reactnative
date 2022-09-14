@@ -31,6 +31,7 @@ import {BottomNavigatorBar} from 'app/ui/components/Common/BottomNavigatorBar';
 import {IUser} from '../auth/Login/Confirm';
 import {Dada} from 'app/utils/dade.const';
 import {AddHome} from './AddHome';
+import {DeleteModal} from '../modal/delete-modal/DeleteModal';
 
 // let MyHeadlessTask = async (event: HeadlessEvent) => {
 //   // Get task id from event {}:
@@ -65,6 +66,7 @@ export const MainScreen = observer((props: any) => {
   const userUid: string = props.route.params && props.route.params.userUid;
   const userNew: IUser = props.route.params && props.route.params.user;
   const reference = databaseFirebase(`/storage/users/${userUid}/homes`);
+  const referenceNome = databaseFirebase(`storage/users/${userUid}`);
   const [homeStage, setHomeStage] = useState<IHome[]>([]);
   const [userStage, setUserStage] = useState<any>();
   const [countNotification, setCountNotification] = useState<number>(0);
@@ -188,24 +190,39 @@ export const MainScreen = observer((props: any) => {
     app.navigationService.goBack();
   };
 
+  const deleteItem = (index: number) => {
+    let date = homeStage;
+    date.splice(index, 1);
+    setHomeStage(date);
+    if (connectionNet) {
+      referenceNome.update({homes: [...date]});
+      //app.storage.getHomesState().refreshHome();
+    }
+  };
+
   const renderHomeItem = () => {
     return homeStage.map((item: IHome, index: number) => (
-      <HomeItem
-        key={index}
-        title={item.title}
-        type={item.id}
-        titleButton={Texts.OPEN}
-        description={Texts.OPEN}
-        onPress={() => {
-          app.navigationService.navigate(Screens._FLATS, {
-            title: `${Texts.FLAT} ${item.title}`,
-            home: new Home(item),
-            homeIndex: index,
-            userUid: userUid,
-          });
-          //reference.set(homeStage).then(() => console.log('Data set.'));
-        }}
-      />
+      <View>
+        <HomeItem
+          key={index}
+          title={item.title}
+          type={item.id}
+          titleButton={Texts.OPEN}
+          description={Texts.OPEN}
+          onPress={() => {
+            app.navigationService.navigate(Screens._FLATS, {
+              title: `${Texts.FLAT} ${item.title}`,
+              home: new Home(item),
+              homeIndex: index,
+              userUid: userUid,
+            });
+            //reference.set(homeStage).then(() => console.log('Data set.'));
+          }}
+        />
+        <View style={style.deleteButton}>
+          <DeleteModal onDelete={() => deleteItem(index)} />
+        </View>
+      </View>
     ));
   };
 
@@ -250,5 +267,10 @@ const style = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
+  },
+  deleteButton: {
+    position: 'absolute',
+    right: '30%',
+    top: '20%',
   },
 });

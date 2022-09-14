@@ -9,6 +9,7 @@ import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {DeleteModal} from '../modal/delete-modal/DeleteModal';
 
 export interface IFlatItemProps {
   onPress?: () => void;
@@ -66,7 +67,7 @@ const style = StyleSheet.create({
     height: 80,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: '2%',
+    paddingLeft: '20%',
     justifyContent: 'center',
   },
   middleWrapper: {

@@ -13,7 +13,7 @@ export interface UniversalButtonProps {
   disabled?: boolean;
 }
 
-export const UniversalButton = (props: UniversalButtonProps) => {
+export const UniversalButtonText = (props: UniversalButtonProps) => {
   return (
     <Shadow
       viewStyle={[style.container]}
@@ -27,7 +27,7 @@ export const UniversalButton = (props: UniversalButtonProps) => {
         style={[]}
         activeOpacity={0.7}
         onPress={() => (props.onPress ? props.onPress() : null)}>
-        <OpenIcon color={Colors._007AFF} />
+        <Text style={[style.text, props.textStyle]}>{props.title}</Text>
       </TouchableOpacity>
     </Shadow>
   );
@@ -35,13 +35,18 @@ export const UniversalButton = (props: UniversalButtonProps) => {
 
 const style = StyleSheet.create({
   container: {
-    width: 70,
-    height: 70,
+    width: '100%',
+    height: 48,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors._007AFF_A_1,
   },
-
+  text: {
+    color: Colors._007AFF,
+    fontWeight: '400',
+    fontSize: 18,
+    lineHeight: 21,
+  },
   shadowContainer: {},
 });
