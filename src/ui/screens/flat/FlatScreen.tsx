@@ -31,6 +31,14 @@ export const FlatsScreen = observer((props: any) => {
 
   const [contentProgress, setContentProgress] = useState<number>(0);
   const [homeStage, setHomeStage] = useState<IHome>(home);
+  const [refresh, setRefresh] = useState<boolean>(false);
+
+  const onRefresh = () => {
+    setRefresh(true);
+    setTimeout(() => {
+      setRefresh(false);
+    }, 1000);
+  };
 
   useEffect(() => {
     setHomeStage(home);
@@ -52,7 +60,12 @@ export const FlatsScreen = observer((props: any) => {
         return (
           <View>
             <View style={style.deleteButton}>
-              <DeleteModal onDelete={() => deleteItem(index)} />
+              <DeleteModal
+                onDelete={() => {
+                  deleteItem(index);
+                  onRefresh();
+                }}
+              />
             </View>
             <FlatExploreCard
               key={item.id}
@@ -105,7 +118,12 @@ export const FlatsScreen = observer((props: any) => {
       <ContentProgressScrollView
         onProgressChange={progress => setContentProgress(progress)}>
         <View style={style.wrapper}>{renderFlats()}</View>
-        <AddFlat flats={homeStage.flats} userId={userId} homeId={homeIndex} />
+        <AddFlat
+          flats={homeStage.flats}
+          userId={userId}
+          homeId={homeIndex}
+          onRefresh={onRefresh}
+        />
       </ContentProgressScrollView>
       <BottomNavigatorBar />
     </View>

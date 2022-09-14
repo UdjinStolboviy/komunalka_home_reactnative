@@ -20,6 +20,7 @@ export interface IAddFlatProps {
   flats: IFlat[];
   homeId: number;
   userId: string;
+  onRefresh: () => void;
 }
 
 export const AddFlat = observer((props: IAddFlatProps) => {
@@ -42,6 +43,7 @@ export const AddFlat = observer((props: IAddFlatProps) => {
     if (app.storage.getHomesState().getConnectNetwork()) {
       reference.update({flats: [...props.flats, newFlat]});
       //app.storage.getHomesState().refreshHome();
+      props.onRefresh && props.onRefresh();
     }
     //modalDoneRef.current && modalDoneRef.current.toggleModal();
   };
