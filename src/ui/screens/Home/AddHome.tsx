@@ -35,7 +35,8 @@ export const AddHome = observer((props: IAddHomeProps) => {
 
   const addHome = () => {
     const newHome = homeNew(props.homes.length + 1);
-    if (connectionNet) {
+
+    if (app.storage.getHomesState().getConnectNetwork()) {
       reference.update({homes: [...props.homes, newHome]});
       app.storage.getHomesState().refreshHome();
     }

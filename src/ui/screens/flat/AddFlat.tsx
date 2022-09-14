@@ -39,7 +39,7 @@ export const AddFlat = observer((props: IAddFlatProps) => {
 
   const addFlat = () => {
     const newFlat = flatNew(props.flats.length + 1);
-    if (connectionNet) {
+    if (app.storage.getHomesState().getConnectNetwork()) {
       reference.update({flats: [...props.flats, newFlat]});
       //app.storage.getHomesState().refreshHome();
     }

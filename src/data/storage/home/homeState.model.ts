@@ -1,4 +1,4 @@
-import { action, observable } from "mobx";
+import { action, observable, runInAction } from "mobx";
 import { Home, IHome } from "./home.model";
 
 export interface IHomeState {
@@ -49,7 +49,10 @@ export class HomeState {
 
     @action
     public setHomes(homes: IHome[]): void {
-        this.homes = homes;
+        runInAction(() => {
+            this.homes = homes;
+        });
+
     }
 
     public addHome(home: IHome): void {

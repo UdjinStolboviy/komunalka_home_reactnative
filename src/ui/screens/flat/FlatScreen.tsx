@@ -29,7 +29,7 @@ export const FlatsScreen = observer((props: any) => {
 
   useEffect(() => {
     setHomeStage(home);
-  }, [home, homeStage.flats]);
+  }, [home, fateful.getHomes()]);
   const floor = [0, 1, 2, 3, 4];
 
   const renderFlatItemFloor = (floor: number) => {
