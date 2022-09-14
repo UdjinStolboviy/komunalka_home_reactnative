@@ -92,6 +92,7 @@ export const FlatInfoScreen = observer((props: any) => {
       calculatorFlat: flatStage.calculatorFlat,
       flatIndex: flatIndex,
       homeIndex: homeIndex,
+      userId: userId,
     });
   };
   const onPressCalculator = () => {
@@ -100,6 +101,7 @@ export const FlatInfoScreen = observer((props: any) => {
       flatIndex: flatIndex,
       homeIndex: homeIndex,
       price: flatStage.price,
+      userId: userId,
     });
   };
 
