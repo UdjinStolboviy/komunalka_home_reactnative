@@ -15,11 +15,13 @@ import {BottomNavigatorBar} from 'app/ui/components/Common/BottomNavigatorBar';
 import {ScreenDimensions} from 'app/assets/constants/codes/ScreenDimensions';
 import {FlatExploreCard} from './flat-card/FlatExploreCard';
 import {observer} from 'mobx-react';
+import {AddFlat} from './AddFlat';
 
 export const FlatsScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
   const fateful = app.storage.getHomesState();
   const homeIndex: number = props.route.params && props.route.params.homeIndex;
+  const userId: string = props.route.params && props.route.params.userUid;
   const home = fateful.getHomes()[homeIndex];
 
   const [contentProgress, setContentProgress] = useState<number>(0);
@@ -27,7 +29,7 @@ export const FlatsScreen = observer((props: any) => {
 
   useEffect(() => {
     setHomeStage(home);
-  }, [home]);
+  }, [home, homeStage.flats]);
   const floor = [0, 1, 2, 3, 4];
 
   const renderFlatItemFloor = (floor: number) => {
@@ -40,6 +42,7 @@ export const FlatsScreen = observer((props: any) => {
             flat={item}
             title={item.title}
             homeIndex={homeIndex}
+            userId={userId}
             flatIndex={index}
             type={homeStage.id}
           />
@@ -83,6 +86,7 @@ export const FlatsScreen = observer((props: any) => {
       <ContentProgressScrollView
         onProgressChange={progress => setContentProgress(progress)}>
         <View style={style.wrapper}>{renderFlats()}</View>
+        <AddFlat flats={homeStage.flats} userId={userId} homeId={homeIndex} />
       </ContentProgressScrollView>
       <BottomNavigatorBar />
     </View>

@@ -42,6 +42,7 @@ export const FlatInfoScreen = observer((props: any) => {
   const imageLoaderCardRef: any = useRef<ImageLoaderViewRefProps>();
   const flatIndex = props.route.params && props.route.params.flatIndex;
   const homeIndex = props.route.params && props.route.params.homeIndex;
+  const userId = props.route.params && props.route.params.userId;
   const fateful = app.storage.getHomesState();
   const home = fateful.getHomes()[homeIndex];
   const flat = home.flats[flatIndex];
@@ -54,9 +55,11 @@ export const FlatInfoScreen = observer((props: any) => {
     app.storage.getHomesState().getConnectNetwork(),
   );
 
-  const reference = databaseFirebase(`homes/${homeIndex}/flats/${flatIndex}/`);
+  const reference = databaseFirebase(
+    `storage/users/${userId}/homes/${homeIndex}/flats/${flatIndex}/`,
+  );
   const referenceImages = databaseFirebase(
-    `homes/${homeIndex}/flats/${flatIndex}/images/`,
+    `storage/users/${userId}/homes/${homeIndex}/flats/${flatIndex}/images/`,
   );
 
   useEffect(() => {

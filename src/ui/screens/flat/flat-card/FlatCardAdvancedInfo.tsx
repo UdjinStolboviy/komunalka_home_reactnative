@@ -10,6 +10,7 @@ export interface FlatCardAdvancedInfoProps {
   homeIndex: number;
   flatIndex: number;
   onPublishPress?: () => void;
+  userId: string;
 }
 
 export const FlatCardAdvancedInfo = observer(

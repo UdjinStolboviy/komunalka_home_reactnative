@@ -20,6 +20,7 @@ export interface IFlatItemProps {
   flat: IFlat;
   homeIndex: number;
   flatIndex: number;
+  userId: string;
 }
 
 export const FlatItem = (props: IFlatItemProps) => {
@@ -27,6 +28,7 @@ export const FlatItem = (props: IFlatItemProps) => {
   const fateful = app.storage.getHomesState();
   const home = fateful.getHomes()[props.homeIndex];
   const flat = home.flats[props.flatIndex];
+  const userId = props.userId;
 
   function _renderIcon(): JSX.Element | null {
     switch (props.type) {

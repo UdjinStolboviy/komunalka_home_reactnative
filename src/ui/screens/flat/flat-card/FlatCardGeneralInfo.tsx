@@ -10,6 +10,7 @@ export interface FlatCardGeneralInfoProps {
   homeIndex: number;
   flatIndex: number;
   onPress: () => void;
+  userId: string;
 }
 
 export const FlatCardGeneralInfo = ({
@@ -19,6 +20,7 @@ export const FlatCardGeneralInfo = ({
   type,
   homeIndex,
   flatIndex,
+  userId,
 }: FlatCardGeneralInfoProps) => {
   return (
     <View style={FlatCardGeneralInfoStyle.container}>
@@ -29,6 +31,7 @@ export const FlatCardGeneralInfo = ({
           flat={flat}
           homeIndex={homeIndex}
           flatIndex={flatIndex}
+          userId={userId}
         />
       </TouchableOpacity>
     </View>

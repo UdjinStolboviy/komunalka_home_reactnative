@@ -30,6 +30,7 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
   //   props.route.params && props.route.params.calculatorFlat;
   const flatIndex = props.route.params && props.route.params.flatIndex;
   const homeIndex = props.route.params && props.route.params.homeIndex;
+  const userId = props.route.params && props.route.params.userId;
   const dataStage: any = app.storage.getHomesState().getHomes()[homeIndex]
     .flats[flatIndex].calculatorFlat;
 
@@ -46,7 +47,9 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
 
   //const calculatorFlatStageRevers = calculatorFlatStage.reverse();
   //const calculatorFlatStageRevers = calculatorFlatStage.sort(() => -1);
-  const reference = databaseFirebase(`homes/${homeIndex}/flats/${flatIndex}/`);
+  const reference = databaseFirebase(
+    `storage/users/${userId}/homes/${homeIndex}/flats/${flatIndex}/`,
+  );
   const deleteItem = (index: number) => {
     let date = calculatorFlatStage;
     date.splice(index, 1);

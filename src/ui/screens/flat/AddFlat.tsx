@@ -4,40 +4,44 @@ import AddBigIcon from 'app/assets/Icons/AddBigIcon';
 import {CalculatorIcon} from 'app/assets/Icons/CalculatorIcon';
 import {HomeIcon} from 'app/assets/Icons/HomeIcon';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
+import {IFlat} from 'app/data/storage/flat/flat.model';
 import {IHome} from 'app/data/storage/home/home.model';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {databaseFirebase} from 'app/services/firebase/firebase.database';
 import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
-import {homeNew} from 'app/utils/dade.const';
+import {flatNew, homeNew} from 'app/utils/dade.const';
 import {observer} from 'mobx-react';
 import React, {useRef, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {ModalDoneScreen} from '../modal/action-modal/ModalDone';
 import {AddModal} from '../modal/add-modal/AddModal';
 
-export interface IAddHomeProps {
-  homes: IHome[];
+export interface IAddFlatProps {
+  flats: IFlat[];
+  homeId: number;
   userId: string;
 }
 
-export const AddHome = observer((props: IAddHomeProps) => {
+export const AddFlat = observer((props: IAddFlatProps) => {
   const app: IAppCoreService = useAppInjection();
   const modalDoneRef: any = useRef();
   const modalAddRef: any = useRef();
   const [connectionNet, setConnectionNet] = useState<boolean | null>(
     app.storage.getHomesState().getConnectNetwork(),
   );
-  const reference = databaseFirebase(`storage/users/${props.userId}/`);
+  const reference = databaseFirebase(
+    `storage/users/${props.userId}/homes/${props.homeId}/`,
+  );
 
   const showModalAdd = () => {
     modalAddRef.current && modalAddRef.current.toggleModal();
   };
 
-  const addHome = () => {
-    const newHome = homeNew(props.homes.length + 1);
+  const addFlat = () => {
+    const newFlat = flatNew(props.flats.length + 1);
     if (connectionNet) {
-      reference.update({homes: [...props.homes, newHome]});
-      app.storage.getHomesState().refreshHome();
+      reference.update({flats: [...props.flats, newFlat]});
+      //app.storage.getHomesState().refreshHome();
     }
     //modalDoneRef.current && modalDoneRef.current.toggleModal();
   };
@@ -47,14 +51,14 @@ export const AddHome = observer((props: IAddHomeProps) => {
       <AddBigIcon />
       <View style={style.middleWrapper}>
         <Text numberOfLines={2} style={style.mainText}>
-          Додати новий будинок
+          Додати нову квартиру
         </Text>
         <Text numberOfLines={4} style={style.descriptionText}>
-          Ви можете додати ще будинки до цього списку та вибрати один з них
+          Ви можете додати ще квартиру до цього списку та вибрати одину з них
         </Text>
       </View>
       <ModalDoneScreen ref={modalDoneRef} />
-      <AddModal ref={modalAddRef} onAdd={() => addHome()} />
+      <AddModal ref={modalAddRef} onAdd={() => addFlat()} />
     </TouchableOpacity>
   );
 });

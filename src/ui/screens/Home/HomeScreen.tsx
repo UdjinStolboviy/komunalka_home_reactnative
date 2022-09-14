@@ -201,6 +201,7 @@ export const MainScreen = observer((props: any) => {
             title: `${Texts.FLAT} ${item.title}`,
             home: new Home(item),
             homeIndex: index,
+            userUid: userUid,
           });
           //reference.set(homeStage).then(() => console.log('Data set.'));
         }}
@@ -228,7 +229,7 @@ export const MainScreen = observer((props: any) => {
         </TouchableOpacity> */}
         {userStage ? <UserDescription user={userStage} /> : null}
         {renderHomeItem()}
-        <AddHome />
+        <AddHome homes={homeStage} userId={userUid} />
         <ElementItem
           title={Type.CALCULATOR}
           titleButton={Texts.OPEN}

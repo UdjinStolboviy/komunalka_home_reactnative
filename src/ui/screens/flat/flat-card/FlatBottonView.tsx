@@ -15,10 +15,11 @@ export interface FlatBottomViewProps {
   index: number;
   homeIndex: number;
   flatIndex: number;
+  userId: string;
 }
 
 export const FlatBottomView = observer(
-  ({flat, index, homeIndex, flatIndex}: FlatBottomViewProps) => {
+  ({flat, index, homeIndex, flatIndex, userId}: FlatBottomViewProps) => {
     const app: IAppCoreService = useAppInjection();
     const reversCalculatorFlat = flat.calculatorFlat;
     const onPressList = () => {
@@ -26,6 +27,7 @@ export const FlatBottomView = observer(
         calculatorFlat: flat.calculatorFlat,
         flatIndex: flatIndex,
         homeIndex: homeIndex,
+        userId: userId,
       });
     };
     const onPressCalculator = () => {
@@ -34,6 +36,7 @@ export const FlatBottomView = observer(
         flatIndex: flatIndex,
         homeIndex: homeIndex,
         price: flat.price,
+        userId: userId,
       });
     };
 
@@ -64,6 +67,7 @@ export const FlatBottomView = observer(
               flat: flat,
               homeIndex: homeIndex,
               flatIndex: flatIndex,
+              userId: userId,
             })
           }>
           <OpenIcon color={Colors._FFFFFF} />

@@ -33,6 +33,7 @@ export const FlatCalculatorScreen = observer((props: any) => {
 
   const flatIndex = props.route.params && props.route.params.flatIndex;
   const homeIndex = props.route.params && props.route.params.homeIndex;
+  const userId = props.route.params && props.route.params.userId;
   const price = app.storage.getHomesState().getHomes()[homeIndex].flats[
     flatIndex
   ].price;
@@ -124,7 +125,9 @@ export const FlatCalculatorScreen = observer((props: any) => {
     .reverse()
     .join('.');
 
-  const reference = databaseFirebase(`homes/${homeIndex}/flats/${flatIndex}/`);
+  const reference = databaseFirebase(
+    `storage/users/${userId}/homes/${homeIndex}/flats/${flatIndex}/`,
+  );
 
   // useFocusEffect(
   //   useCallback(() => {

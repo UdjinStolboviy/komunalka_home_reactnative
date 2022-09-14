@@ -22,6 +22,7 @@ export interface FlatExploreCardProps {
   homeIndex: number;
   flatIndex: number;
   onCardOpened?: () => void;
+  userId: string;
   containerStyle?: StyleProp<ViewStyle>;
 }
 
@@ -36,6 +37,7 @@ export const FlatExploreCard = observer(
     type,
     homeIndex,
     flatIndex,
+    userId,
   }: FlatExploreCardProps) => {
     const app: IAppCoreService = useAppInjection();
 
@@ -101,6 +103,7 @@ export const FlatExploreCard = observer(
                 type={type}
                 homeIndex={homeIndex}
                 flatIndex={flatIndex}
+                userId={userId}
               />
             }
             bottomChildren={
@@ -110,6 +113,7 @@ export const FlatExploreCard = observer(
                 flat={flat}
                 homeIndex={homeIndex}
                 flatIndex={flatIndex}
+                userId={userId}
               />
             }
             bottomAdditionalView={
@@ -118,6 +122,7 @@ export const FlatExploreCard = observer(
                 flat={flat}
                 homeIndex={homeIndex}
                 flatIndex={flatIndex}
+                userId={userId}
               />
             }
           />
