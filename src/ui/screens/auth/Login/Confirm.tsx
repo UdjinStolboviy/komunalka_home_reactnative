@@ -93,8 +93,10 @@ export const Confirm: React.FC = observer(({route}: any) => {
   }, [time]);
 
   useEffect(() => {
+    setLoader(true);
     getRenderedAuthStore();
     if (renderAuth && user) {
+      setLoader(false);
       return app.navigationService.navigate(Screens.SCREEN_MAIN, {
         user: user,
         userUid: user.uid,
@@ -106,6 +108,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
         setRenderedAuthStore(true);
         authStore.setLoginUser();
         analyticsEvent();
+        setLoader(false);
         app.navigationService.navigate(Screens.SCREEN_MAIN, {
           //title: `${Texts.FLAT} ${item.title}`,
           user: user,
@@ -115,6 +118,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
       } else {
         setRenderedAuthStore(false);
         setCodeError(true);
+        setLoader(false);
       }
     }
   }, [codeError, user]);
