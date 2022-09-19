@@ -31,6 +31,7 @@ import {FlatListUtilityBillsScreen} from 'app/ui/screens/flat/FlatListUtilityBil
 import {FlatCalculatorScreen} from 'app/ui/screens/flat/FlatCalculatorScreen';
 import {ActivityIndicatorScreen} from 'app/ui/screens/common/ActivityIndicatorScreen';
 import {BecTask} from 'app/services/background-task/background.fetch.task';
+import {TaxCalendar} from 'app/ui/screens/accounts/AccountSetting/TaxCalendar';
 
 export interface ThemeContext {
   theme?: string;
@@ -131,11 +132,11 @@ const AppStack = (props: RootNavigatorProps) => {
       screenOptions={{
         headerShown: false,
       }}>
-      <MainStack.Screen
+      {/* <MainStack.Screen
         name={Screens.STACK_TAB}
         component={BottomTabBar}
         options={{gestureEnabled: false}}
-      />
+      /> */}
       <MainStack.Screen
         name={Screens._CONFIRM}
         component={Confirm}
@@ -211,6 +212,11 @@ const AppStack = (props: RootNavigatorProps) => {
       <MainStack.Screen
         name={Screens._FLAT_CALCULATOR}
         component={FlatCalculatorScreen}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._TAX_CALENDAR}
+        component={TaxCalendar}
         options={{gestureEnabled: false}}
       />
       {/* <MainStack.Screen

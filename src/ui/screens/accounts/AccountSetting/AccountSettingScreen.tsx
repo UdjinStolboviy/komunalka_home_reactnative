@@ -150,6 +150,15 @@ export const AccountSettingScreen: React.FC = observer(() => {
                 onPress={() => navigationService.navigate(Screens._TERMS)}
               />
             </View>
+            <View style={AccountStyle.AccountItemContainer}>
+              <PrivacyPolicyIcon style={AccountStyle.iconWrapper} />
+              <AccountItem
+                text={'Графік сплати податків'}
+                onPress={() =>
+                  navigationService.navigate(Screens._TAX_CALENDAR)
+                }
+              />
+            </View>
           </View>
           <SwitchUniversal
             unitOfMeasurement={'Темна тема'}

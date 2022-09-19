@@ -116,6 +116,29 @@ const NotificationCalendarView = observer(
             markingType={'multi-dot'}
             onDayPress={onDayPress}
             markedDates={marked}
+            theme={{
+              backgroundColor: '#ffffff',
+              calendarBackground: '#ffffff',
+              textSectionTitleColor: '#b6c1cd',
+              textSectionTitleDisabledColor: '#d9e1e8',
+              selectedDayBackgroundColor: '#00adf5',
+              selectedDayTextColor: '#ffffff',
+              todayTextColor: '#13e162',
+              dayTextColor: '#1362E1',
+              textDisabledColor: '#d9e1e8',
+              dotColor: '#00adf5',
+              selectedDotColor: '#ffffff',
+              arrowColor: '#1362E1',
+              disabledArrowColor: '#d9e1e8',
+              monthTextColor: '#1362E1',
+              indicatorColor: 'blue',
+              textDayFontWeight: '300',
+              textMonthFontWeight: '500',
+              textDayHeaderFontWeight: '300',
+              textDayFontSize: 17,
+              textMonthFontSize: 20,
+              textDayHeaderFontSize: 13,
+            }}
           />
         </Fragment>
       );
@@ -153,8 +176,11 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     padding: 10,
-    backgroundColor: 'lightgrey',
-    fontSize: 16,
+    borderWidth: 1,
+    borderColor: '#eee',
+    borderRadius: 10,
+    fontSize: 20,
+    color: '#1362E1',
   },
   disabledText: {
     color: 'grey',
