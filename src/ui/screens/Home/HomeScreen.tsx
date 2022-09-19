@@ -258,7 +258,10 @@ export const MainScreen = observer((props: any) => {
         />
         <BecTask />
       </ContentProgressScrollView>
-      <BottomNavigatorBar countNotification={countNotification} />
+      <BottomNavigatorBar
+        countNotification={countNotification}
+        notHandleHomePress={true}
+      />
     </View>
   );
 });

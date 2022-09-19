@@ -11,6 +11,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 export interface IBottomNavigatorBarProps {
   countNotification?: number;
+  notHandleHomePress?: boolean;
 }
 
 export const BottomNavigatorBar = (props: IBottomNavigatorBarProps) => {
@@ -18,7 +19,9 @@ export const BottomNavigatorBar = (props: IBottomNavigatorBarProps) => {
   return (
     <View style={style.container}>
       <TouchableOpacity
-        onPress={() => app.navigationService.goBack()}
+        onPress={() =>
+          props.notHandleHomePress ? null : app.navigationService.goBack()
+        }
         activeOpacity={0.5}
         style={{
           height: '100%',
