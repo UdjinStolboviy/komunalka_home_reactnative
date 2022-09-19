@@ -45,46 +45,29 @@ export const AccountSettingScreen: React.FC = observer(() => {
   const navigationService = app.navigationService;
   const {setTheme} = useContext(ThemeContext);
   const {colors} = useTheme();
-  // const navigationService = useInjection(INavigationService);
-  // const appStore = useInjection(IAppStore);
-  // const authStore = useInjection(IAuthStore);
 
-  // const {profile} = appStore;
-  // const [name, setName] = useState(
-  //   `${profile?.firstName} ${profile?.lastName}`,
-  // );
-
-  // const {translate} = useContext<LocalizationContext>(localizationContext);
-
-  // const [avatar, setAvatar] = useState<IFile>({});
-
-  // useEffect(() => {
-  //   appStore.getCategories();
-  //   appStore.getProfile();
-  //   authStore.getUniversities();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (profile) {
-  //     setName(`${profile.firstName} ${profile.lastName}`);
-  //     setAvatar(profile.avatar);
-  //   }
-  // }, [profile]);
-  //  <Text style={AccountStyle.headerUserProfile} bold={true}>
-  //    {translate('Setting_User_Profile')}
-  //  </Text>;
-  const avatar = ``;
+  const authStore = app.storage.getAuthUser();
 
   const UserProfile = () => {
+    if (authStore) {
+      return (
+        <View style={AccountStyle.avatarNameContainerUserProfile}>
+          <Image
+            style={AccountStyle.imageUserProfile}
+            source={{uri: authStore.photoURL}}
+          />
+
+          <Text style={AccountStyle.nameUserProfile}>
+            {authStore.displayName}
+          </Text>
+        </View>
+      );
+    }
     return (
       <View style={AccountStyle.avatarNameContainerUserProfile}>
-        {avatar ? (
-          <Image style={AccountStyle.imageUserProfile} source={{uri: avatar}} />
-        ) : (
-          <View style={AccountStyle.profile}>
-            <ProfileSettingIcon />
-          </View>
-        )}
+        <View style={AccountStyle.profile}>
+          <ProfileSettingIcon />
+        </View>
         <Text style={AccountStyle.nameUserProfile}>{'Імя'}</Text>
       </View>
     );
