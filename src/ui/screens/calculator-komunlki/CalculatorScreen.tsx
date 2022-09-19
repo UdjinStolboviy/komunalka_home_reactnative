@@ -110,7 +110,9 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
      
     Всього:  ${multiplicationElectricity} + ${multiplicationWater} + 
     ${resultInternet} + ${garbageRemovalTariff} + 
-    ${resultRent} + ${resultOtherOption} = ${ Math.ceil(resultAllCalculate)} грн\n 
+    ${resultRent} + ${resultOtherOption} = ${Math.ceil(
+    resultAllCalculate,
+  )} грн\n 
 ____________________________\n`;
 
   return (
