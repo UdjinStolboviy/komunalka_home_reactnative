@@ -192,6 +192,9 @@ export const MainScreen = observer((props: any) => {
 
   const deleteItem = (index: number) => {
     let date = homeStage;
+    if (date.length === 1) {
+      return;
+    }
     date.splice(index, 1);
     setHomeStage(date);
     if (connectionNet) {

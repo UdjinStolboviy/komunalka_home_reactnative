@@ -47,6 +47,9 @@ export const FlatsScreen = observer((props: any) => {
 
   const deleteItem = (index: number) => {
     let date = home.flats;
+    if (date.length === 1) {
+      return;
+    }
     date.splice(index, 1);
 
     if (app.storage.getHomesState().getConnectNetwork()) {
