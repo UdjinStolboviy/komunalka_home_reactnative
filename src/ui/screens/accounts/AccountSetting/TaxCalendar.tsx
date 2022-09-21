@@ -140,6 +140,7 @@ const style = StyleSheet.create({
     fontWeight: '500',
     marginBottom: 25,
     marginTop: 15,
+    color: '#1362E1',
   },
   buttonDone: {
     marginTop: 17,
@@ -181,7 +182,7 @@ const style = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    width: '90%',
+    width: '100%',
     minHeight: 550,
     backgroundColor: 'white',
     borderRadius: 20,
