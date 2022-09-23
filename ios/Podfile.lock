@@ -460,7 +460,7 @@ PODS:
     - Firebase/Storage (= 9.2.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.4.2):
+  - RNGestureHandler (2.6.1):
     - React-Core
   - RNGoogleSignin (8.0.0):
     - GoogleSignIn (~> 6.2.2)
@@ -803,7 +803,7 @@ SPEC CHECKSUMS:
   RNFBDynamicLinks: b05e251f2afacb3be1b3c08868530eafbe57d567
   RNFBMessaging: cb9898af0dfb01d66a57c7bb01389fb2d3ef4fb6
   RNFBStorage: b4c7780581486089fba015ef3c5544a06d4c29f1
-  RNGestureHandler: 61628a2c859172551aa2100d3e73d1e57878392f
+  RNGestureHandler: 28ad20bf02257791f7f137b31beef34b9549f54b
   RNGoogleSignin: b2179ba653c759b936404a7746fc5302f9de6a5a
   RNImageCropPicker: ffbba608264885c241cbf3a8f78eb7aeeb978241
   RNLocalize: 95a43f85e41a966be7bc9cff2437128911c52da0
