@@ -14,13 +14,14 @@ export interface IHomeItemProps {
   type: string;
   description?: string;
   titleButton: string;
+  address: string;
 }
 
 export const HomeItem = (props: IHomeItemProps) => {
   const app: IAppCoreService = useAppInjection();
 
   return (
-    <View style={style.container}>
+    <TouchableOpacity style={style.container} onPress={props.onPress}>
       <HomeIcon color={Colors._979797} width={55} height={55} />
       <View style={style.middleWrapper}>
         <Text numberOfLines={2} style={style.mainText}>
@@ -29,14 +30,11 @@ export const HomeItem = (props: IHomeItemProps) => {
         <Text numberOfLines={4} style={style.descriptionText}>
           {props.description}
         </Text>
+        <Text numberOfLines={4} style={style.descriptionText}>
+          {`Адресса ${props.address}`}
+        </Text>
       </View>
-      <UniversalButton
-        onPress={props.onPress}
-        title={props.titleButton}
-        containerStyle={style.containerButton}
-        activeOpacity={0.7}
-      />
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -64,7 +62,7 @@ const style = StyleSheet.create({
   },
   middleWrapper: {
     height: 100,
-    width: '30%',
+    width: '50%',
     justifyContent: 'center',
     marginRight: 30,
   },
@@ -79,9 +77,5 @@ const style = StyleSheet.create({
     fontSize: 12,
     fontWeight: '400',
     color: Colors._979797,
-  },
-  containerButton: {
-    width: '25%',
-    marginLeft: 50,
   },
 });

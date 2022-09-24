@@ -3,6 +3,8 @@ import {OpenIcon} from 'app/assets/Icons/OpenIcon';
 import React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {Shadow} from 'react-native-shadow-2';
+import {EditIcon} from 'app/assets/Icons/EditIcon';
+import EditPencilIcon from 'app/assets/Icons/EditPencilBigIcon';
 
 export interface UniversalButtonProps {
   title: string;
@@ -11,6 +13,7 @@ export interface UniversalButtonProps {
   activeOpacity?: number;
   onPress?: () => void;
   disabled?: boolean;
+  iconChang?: boolean;
 }
 
 export const UniversalButton = (props: UniversalButtonProps) => {
@@ -27,7 +30,11 @@ export const UniversalButton = (props: UniversalButtonProps) => {
         style={[]}
         activeOpacity={0.7}
         onPress={() => (props.onPress ? props.onPress() : null)}>
-        <OpenIcon color={Colors._007AFF} />
+        {props.iconChang ? (
+          <EditPencilIcon />
+        ) : (
+          <OpenIcon color={Colors._007AFF} />
+        )}
       </TouchableOpacity>
     </Shadow>
   );
@@ -40,7 +47,8 @@ const style = StyleSheet.create({
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors._007AFF_A_1,
+    borderWidth: 1,
+    borderColor: Colors._007AFF,
   },
 
   shadowContainer: {},

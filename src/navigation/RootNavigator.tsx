@@ -32,6 +32,7 @@ import {FlatCalculatorScreen} from 'app/ui/screens/flat/FlatCalculatorScreen';
 import {ActivityIndicatorScreen} from 'app/ui/screens/common/ActivityIndicatorScreen';
 import {BecTask} from 'app/services/background-task/background.fetch.task';
 import {TaxCalendar} from 'app/ui/screens/accounts/AccountSetting/TaxCalendar';
+import {EditHomeScreen} from 'app/ui/screens/Home/EditHomeSrcreen';
 
 export interface ThemeContext {
   theme?: string;
@@ -217,6 +218,11 @@ const AppStack = (props: RootNavigatorProps) => {
       <MainStack.Screen
         name={Screens._TAX_CALENDAR}
         component={TaxCalendar}
+        options={{gestureEnabled: false}}
+      />
+      <MainStack.Screen
+        name={Screens._EDIT_HOME_SCREEN}
+        component={EditHomeScreen}
         options={{gestureEnabled: false}}
       />
       {/* <MainStack.Screen

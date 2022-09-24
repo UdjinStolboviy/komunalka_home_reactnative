@@ -26,8 +26,6 @@ export interface IFlatListUtilityBillsScreenProps {}
 export const FlatListUtilityBillsScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
 
-  // const calculatorFlatStage: IFlatCalculator[] =
-  //   props.route.params && props.route.params.calculatorFlat;
   const flatIndex = props.route.params && props.route.params.flatIndex;
   const homeIndex = props.route.params && props.route.params.homeIndex;
   const userId = props.route.params && props.route.params.userId;
@@ -42,11 +40,6 @@ export const FlatListUtilityBillsScreen = observer((props: any) => {
     app.storage.getHomesState().getConnectNetwork(),
   );
 
-  // const flat =;
-  // console.log('flat', flat);
-
-  //const calculatorFlatStageRevers = calculatorFlatStage.reverse();
-  //const calculatorFlatStageRevers = calculatorFlatStage.sort(() => -1);
   const reference = databaseFirebase(
     `storage/users/${userId}/homes/${homeIndex}/flats/${flatIndex}/`,
   );

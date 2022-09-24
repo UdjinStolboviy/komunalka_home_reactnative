@@ -27,7 +27,7 @@ export const ElementItem = (props: IElementItemHomeProps) => {
   };
 
   return (
-    <View style={style.container}>
+    <TouchableOpacity style={style.container} onPress={props.onPress}>
       {_renderIcon()}
       <View style={style.middleWrapper}>
         <Text numberOfLines={1} style={style.mainText}>
@@ -37,13 +37,7 @@ export const ElementItem = (props: IElementItemHomeProps) => {
           {props.description}
         </Text>
       </View>
-      <UniversalButton
-        onPress={props.onPress}
-        title={props.titleButton}
-        containerStyle={style.containerButton}
-        activeOpacity={0.7}
-      />
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -58,13 +52,14 @@ const style = StyleSheet.create({
     height: 100,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: '2%',
+    paddingLeft: '5%',
     justifyContent: 'space-between',
   },
   middleWrapper: {
     height: 100,
-    width: '42%',
+    width: '90%',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   mainText: {
     fontSize: 22,

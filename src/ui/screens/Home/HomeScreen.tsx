@@ -32,6 +32,8 @@ import {IUser} from '../auth/Login/Confirm';
 import {Dada} from 'app/utils/dade.const';
 import {AddHome} from './AddHome';
 import {DeleteModal} from '../modal/delete-modal/DeleteModal';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
 
 // let MyHeadlessTask = async (event: HeadlessEvent) => {
 //   // Get task id from event {}:
@@ -203,29 +205,67 @@ export const MainScreen = observer((props: any) => {
     }
   };
 
+  const handlerChangeHome = (item: IHome, index: number) => {
+    app.navigationService.navigate(Screens._EDIT_HOME_SCREEN, {
+      title: `${Texts.FLAT} ${item.title}`,
+      home: new Home(item),
+      homeIndex: index,
+      userUid: userUid,
+    });
+  };
+
+  const handlerHome = (item: IHome, index: number) => {
+    app.navigationService.navigate(Screens._FLATS, {
+      title: `${Texts.FLAT} ${item.title}`,
+      home: new Home(item),
+      homeIndex: index,
+      userUid: userUid,
+    });
+  };
+
+  const rightSwipeActions = (item: IHome, index: number) => {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          width: 270,
+          paddingRight: 30,
+        }}>
+        <DeleteModal onDelete={() => deleteItem(index)} />
+        <UniversalButton
+          onPress={() => handlerChangeHome(item, index)}
+          title={props.titleButton}
+          containerStyle={style.containerButton}
+          activeOpacity={0.7}
+          iconChang={true}
+        />
+        <UniversalButton
+          onPress={() => handlerHome(item, index)}
+          title={props.titleButton}
+          containerStyle={style.containerButton}
+          activeOpacity={0.7}
+        />
+      </View>
+    );
+  };
+
   const renderHomeItem = () => {
     return homeStage.map((item: IHome, index: number) => (
-      <View>
-        <HomeItem
-          key={index}
-          title={item.title}
-          type={item.id}
-          titleButton={Texts.OPEN}
-          description={Texts.OPEN}
-          onPress={() => {
-            app.navigationService.navigate(Screens._FLATS, {
-              title: `${Texts.FLAT} ${item.title}`,
-              home: new Home(item),
-              homeIndex: index,
-              userUid: userUid,
-            });
-            //reference.set(homeStage).then(() => console.log('Data set.'));
-          }}
-        />
-        <View style={style.deleteButton}>
-          <DeleteModal onDelete={() => deleteItem(index)} />
+      <Swipeable renderRightActions={() => rightSwipeActions(item, index)}>
+        <View>
+          <HomeItem
+            key={index}
+            title={item.title}
+            type={item.id}
+            address={item.flats[0].address}
+            titleButton={Texts.OPEN}
+            description={Texts.OPEN}
+            onPress={() => handlerHome(item, index)}
+          />
         </View>
-      </View>
+      </Swipeable>
     ));
   };
 
@@ -279,4 +319,5 @@ const style = StyleSheet.create({
     right: '30%',
     top: '20%',
   },
+  containerButton: {},
 });
