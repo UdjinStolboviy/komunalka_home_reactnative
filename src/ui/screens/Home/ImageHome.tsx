@@ -15,7 +15,7 @@ export const ImageHome = observer((props: IImageFlat) => {
   const [imageBroken, setImageBroken] = useState(false);
 
   const carouselItems = props.imagStack;
-  console.log('carouselItems', carouselItems);
+
   useEffect(() => {}, [carouselItems]);
 
   const ref = useRef(null);
@@ -30,16 +30,18 @@ export const ImageHome = observer((props: IImageFlat) => {
         marginTop: 15,
         marginBottom: 15,
       }}>
-      {carouselItems ? (
+      {carouselItems && !imageBroken ? (
         <View
           style={{
             backgroundColor: 'floralwhite',
-            height: 300,
+            height: '70%',
+            width: '100%',
+            zIndex: 8,
           }}>
           <Image
             onError={() => setImageBroken(true)}
             source={{uri: carouselItems}}
-            style={{width: '87%', height: '100%', borderRadius: 20}}
+            style={{width: '100%', height: '100%', borderRadius: 20}}
           />
         </View>
       ) : (

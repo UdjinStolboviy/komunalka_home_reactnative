@@ -6,7 +6,7 @@ export interface IHome {
     id: string
     title: string;
     address: string;
-    images: { url: string | '' };
+    images: { url: string };
     flats: IFlat[];
 
 }
@@ -19,7 +19,7 @@ export class Home {
 
     @observable public title: string;
     @observable public address: string;
-    @observable public images: { url: string | '' } = { url: '' };
+    @observable public images: { url: string };
 
     @observable public flats!: IFlat[];
 
@@ -29,15 +29,15 @@ export class Home {
         this.id = home && home.id as string;
         this.title = home && home.title as string;
         this.address = home && home.address as string;
-        this.images = home && home.images as { url: string | '' };
+        this.images = home && home.images as { url: string };
         this.initFlats(home && home.flats || []);
     }
 
-    public getImages(): { url: string | '' } {
+    public getImages(): { url: string } {
         return this.images
     }
 
-    public setImages(images: { url: string | '' }): void {
+    public setImages(images: { url: string }): void {
         this.images = images;
     }
 

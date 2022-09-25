@@ -185,7 +185,7 @@ export const EditHomeScreen = observer((props: any) => {
             children={null}
             onLoading={loading => setLoading(loading)}
             onImageChange={onImageChange}
-            namePicture={`${userId}Home${homeIndex}`}
+            namePicture={`Home${homeIndex}_${uid()}`}
           />
           <View style={style.buttonImageContent}>
             <IconButtonUniversal containerStyle={[]} onPress={onImageDelete}>

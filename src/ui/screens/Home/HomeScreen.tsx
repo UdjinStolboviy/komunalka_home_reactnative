@@ -259,9 +259,10 @@ export const MainScreen = observer((props: any) => {
             key={index}
             title={item.title}
             type={item.id}
-            address={item.flats[0].address}
+            address={item.address ? item.address : ''}
             titleButton={Texts.OPEN}
             description={Texts.OPEN}
+            imageHome={item.images ? item.images.url : ''}
             onPress={() => handlerHome(item, index)}
           />
         </View>

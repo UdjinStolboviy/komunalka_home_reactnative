@@ -6,8 +6,8 @@ import {HomeIcon} from 'app/assets/Icons/HomeIcon';
 import {useAppInjection} from 'app/data/ioc/inversify.config';
 import {IAppCoreService} from 'app/services/core/app.core.service.interface';
 import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
-import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 
 export interface IHomeItemProps {
   onPress?: () => void;
@@ -16,18 +16,35 @@ export interface IHomeItemProps {
   description?: string;
   titleButton: string;
   address: string;
+  imageHome: string;
 }
 
 export const HomeItem = (props: IHomeItemProps) => {
   const app: IAppCoreService = useAppInjection();
   const {colors} = useTheme();
+  const [imageBroken, setImageBroken] = useState(false);
 
+  console.log('imageBroken', props.imageHome);
   return (
     <TouchableOpacity
       style={[style.container, {backgroundColor: colors.background}]}
       onPress={props.onPress}
       activeOpacity={1}>
-      <HomeIcon color={Colors._979797} width={55} height={55} />
+      {props.imageHome ? (
+        <View
+          style={{
+            height: 90,
+            width: '40%',
+          }}>
+          <Image
+            onError={() => setImageBroken(true)}
+            source={{uri: props.imageHome}}
+            style={{width: '87%', height: '100%', borderRadius: 20}}
+          />
+        </View>
+      ) : (
+        <HomeIcon color={Colors._979797} width={55} height={55} />
+      )}
       <View style={style.middleWrapper}>
         <Text numberOfLines={2} style={style.mainText}>
           {props.title}
