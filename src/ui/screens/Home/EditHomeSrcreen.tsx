@@ -35,83 +35,66 @@ import {HomeInfoView} from './HomeInfoView';
 
 import {ImageHome} from './ImageHome';
 
-export interface IFlatInfoScreenProps {
-  flat?: IFlat;
-}
-
 export const EditHomeScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
   const modalDoneRef: any = useRef();
   const imageLoaderCardRef: any = useRef<ImageLoaderViewRefProps>();
-  const flatIndex = props.route.params && props.route.params.flatIndex;
-  const homeIndex = props.route.params && props.route.params.homeIndex;
-  const userId = props.route.params && props.route.params.userId;
   const fateful = app.storage.getHomesState();
+  const homeIndex: number = props.route.params && props.route.params.homeIndex;
+  const userId: string = props.route.params && props.route.params.userUid;
   const home = fateful.getHomes()[homeIndex];
-  const flat = home.flats[flatIndex];
-  const [flatStage, setFlatStage] = useState<IFlat>(flat);
-  const [flatNewStage, setFlatNevStage] = useState<IFlat>(flat);
-  const [images, setImages] = useState<IFlatImage[]>([]);
+  const referenceHome = databaseFirebase(
+    `/storage/users/${userId}/homes/${homeIndex}`,
+  );
+  const referenceImages = databaseFirebase(
+    `storage/users/${userId}/homes/${homeIndex}/images`,
+  );
   const [contentProgress, setContentProgress] = useState<number>(0);
+  const [homeStage, setHomeStage] = useState<IHome>(home);
+  const [titleHome, setTitleHome] = useState<string>('');
+  const [addressHome, setAddressHome] = useState<string>('');
+  const [urlImageHome, setUrlImageHome] = useState<string>('');
+  const [refresh, setRefresh] = useState<boolean>(false);
+
   const [loading, setLoading] = useState(false);
   const [connectionNet, setConnectionNet] = useState<boolean | null>(
     app.storage.getHomesState().getConnectNetwork(),
   );
 
-  //   const reference = databaseFirebase(
-  //     `storage/users/${userId}/homes/${homeIndex}/flats/${flatIndex}/`,
-  //   );
-  //   const referenceImages = databaseFirebase(
-  //     `storage/users/${userId}/homes/${homeIndex}/flats/${flatIndex}/images/`,
-  //   );
+  const onRefresh = () => {
+    setRefresh(true);
+    setTimeout(() => {
+      setRefresh(false);
+    }, 1000);
+  };
 
-  //   useEffect(() => {
-  //     if (connectionNet) {
-  //       reference
-  //         .on('value', snapshot => {
-  //           const data = snapshot.val();
-  //           if (data) {
-  //             setFlatStage(data);
-  //             setFlatNevStage(data);
-  //           }
-  //         })
-  //         .bind(this);
-  //       referenceImages
-  //         .on('value', snapshot => {
-  //           const data = snapshot.val();
-  //           if (data) {
-  //             setImages(data);
-  //           }
-  //         })
-  //         .bind(this);
-  //     }
-  //     setImages(flatStage.images!);
-  //     setFlatStage(flat);
-  //     setFlatNevStage(flat);
-  //   }, [flat, home]);
+  useEffect(() => {
+    if (connectionNet) {
+      referenceHome
+        .on('value', snapshot => {
+          const data = snapshot.val();
+          if (data) {
+            setHomeStage(data);
+          }
+        })
+        .bind(this);
+      referenceImages
+        .on('value', snapshot => {
+          const data = snapshot.val();
+          if (data) {
+            setUrlImageHome(data.url);
+          }
+        })
+        .bind(this);
+    }
+  }, [home]);
 
   const onPressSave = () => {
     setLoading(true);
     if (connectionNet) {
-      reference.update({
-        id: uid(),
-        title: flatStage.title,
-        price: flatNewStage.price,
-        area: flatNewStage.area,
-        rooms: flatNewStage.rooms,
-        dateSettlement: flatNewStage.dateSettlement,
-        dateEviction: flatNewStage.dateEviction,
-        description: flatNewStage.description,
-        wifiName: flatNewStage.wifiName,
-        wifiPassword: flatNewStage.wifiPassword,
-        address: flatNewStage.address,
-        occupant: flatNewStage.occupant,
-        phoneOccupant: flatNewStage.phoneOccupant,
-        emailOccupant: flatNewStage.emailOccupant,
-        owner: flatNewStage.owner,
-        ownerPhone: flatNewStage.ownerPhone,
-        ownerEmail: flatNewStage.ownerEmail,
-        floor: flatNewStage.floor,
+      referenceHome.update({
+        title: titleHome,
+        address: addressHome,
       });
       app.storage.getHomesState().refreshHome();
       modalDoneRef.current && modalDoneRef.current.toggleModal();
@@ -138,9 +121,9 @@ export const EditHomeScreen = observer((props: any) => {
         const result: IFlatImage = {
           url: image,
         };
-        reference.update({images: [result, ...flatStage.images]});
+        referenceImages.update({url: result.url});
         modalDoneRef.current && modalDoneRef.current.toggleModal();
-        setImages([result, ...flatStage.images]);
+        setUrlImageHome(result.url ? result.url : '');
       }
       setTimeout(() => {
         setLoading(false);
@@ -154,13 +137,8 @@ export const EditHomeScreen = observer((props: any) => {
     setLoading(true);
 
     if (connectionNet) {
-      if (flatStage.images.length > 1) {
-        const result: IFlatImage[] =
-          flatStage.images &&
-          flatStage.images.splice(1, flatStage.images.length);
-        reference.update({images: [...result]});
-        modalDoneRef.current && modalDoneRef.current.toggleModal();
-      }
+      referenceImages.update({url: ''});
+      modalDoneRef.current && modalDoneRef.current.toggleModal();
     }
     setTimeout(() => {
       setLoading(false);
@@ -183,13 +161,13 @@ export const EditHomeScreen = observer((props: any) => {
         </View>
       );
     } else {
-      return <ImageHome imagStack={images} />;
+      return <ImageHome imagStack={urlImageHome} />;
     }
-  }, [loading, images]);
+  }, [loading, urlImageHome]);
 
   return (
     <View style={style.container}>
-      {/* <AppHeader progress={contentProgress} title={flatStage.title} />
+      <AppHeader progress={contentProgress} title={home.title} />
       <ContentProgressScrollView
         onProgressChange={progress => setContentProgress(progress)}>
         <Loader />
@@ -197,7 +175,7 @@ export const EditHomeScreen = observer((props: any) => {
           <ImageLoader
             ref={imageLoaderCardRef}
             locked={!props.isAdmin}
-            image={flatStage.images![0].url}
+            image={home.images ? home.images.url : ''}
             containerStyle={style.imageContainer}
             loaderContainerStyle={style.placeholder}
             loadingBackgroundColor={Colors._FFFFFF}
@@ -207,7 +185,7 @@ export const EditHomeScreen = observer((props: any) => {
             children={null}
             onLoading={loading => setLoading(loading)}
             onImageChange={onImageChange}
-            namePicture={`Home${homeIndex}_flat${flatIndex}`}
+            namePicture={`${userId}Home${homeIndex}`}
           />
           <View style={style.buttonImageContent}>
             <IconButtonUniversal containerStyle={[]} onPress={onImageDelete}>
@@ -223,10 +201,10 @@ export const EditHomeScreen = observer((props: any) => {
         <View style={style.middleWrapper}>
           <HomeInfoView
             isAdmin={true}
-            home={flatStage}
-            flatIndex={flatIndex}
+            home={home}
             homeIndex={homeIndex}
-            onChangeFlat={(value: IHome) => setFlatNevStage(value)}
+            onChangeAddressHome={(value: string) => setAddressHome(value)}
+            onChangeTitleHome={(value: string) => setTitleHome(value)}
           />
           <UniversalButtonText
             title={'Зберегти всю інформацію'}
@@ -236,8 +214,7 @@ export const EditHomeScreen = observer((props: any) => {
           <View style={{height: 40}} />
         </View>
       </ContentProgressScrollView>
-      <ModalDoneScreen ref={modalDoneRef} /> */}
-      <Text>HomeScreen</Text>
+      <ModalDoneScreen ref={modalDoneRef} />
     </View>
   );
 });

@@ -74,52 +74,13 @@ export const ImageLoader = forwardRef((props: PowerfulPictureProps, ref) => {
   };
 
   const renderView = () => {
-    // if (props.image && !imageBroken) {
-    //   return (
-    //     <View style={[{flex: 1}]}>
-    //       {/* <Image
-    //         onLoadStart={() => setImageLoading(true)}
-    //         onLoadEnd={() => setImageLoading(false)}
-    //         onError={e => setImageBroken(true)}
-    //         source={{uri: props.image}}
-    //         style={[PowerfulPictureStyle.image, props.imageStyle]}
-    //       />
-    //       {imageLoading ? null : props.children} */}
-    //       <Loader />
-    //     </View>
-    //   );
-    // } else {
     return (
       <View style={{flex: 1}}>
         {props.placeholder}
         {props.children}
       </View>
     );
-    // }
   };
-
-  // const imageLoaderCardRef: any = useRef<ImageLoaderViewRefProps>();
-
-  // useEffect(() => {}, [banner]);
-
-  // const onTextPress = () => {
-  //   imageLoaderCardRef.current && imageLoaderCardRef.current.pickImage();
-  // };
-
-  // <ImageLoader
-  //   ref={imageLoaderCardRef}
-  //   locked={!props.isAdmin}
-  //   image={banner}
-  //   containerStyle={style.imageContainer}
-  //   loaderContainerStyle={style.placeholder}
-  //   loadingBackgroundColor={Colors.COLOR_EBF4FC}
-  //   placeholder={<Placeholder />}
-  //   imageWidth={750}
-  //   imageHeight={240}
-  //   children={null}
-  //   onLoading={loading => setImageLoading(loading)}
-  //   onImageChange={onImageChange}
-  // />;
 
   const _pickImage = async () => {
     try {

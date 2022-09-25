@@ -12,30 +12,22 @@ export interface FlatInfoViewProps {
   containerStyle?: StyleProp<ViewStyle>;
   home: IHome;
   isAdmin: boolean;
-  flatIndex: number;
   homeIndex: number;
-  onChangeFlat?: (value: IHome) => void;
+  onChangeAddressHome: (value: string) => void;
+  onChangeTitleHome: (value: string) => void;
 }
 
 export const HomeInfoView = observer((props: FlatInfoViewProps) => {
-  const {home, isAdmin, flatIndex, homeIndex} = props;
+  const {home, isAdmin, homeIndex} = props;
 
   const [addressText, setAddressText] = useState<string>(home.address);
 
-  const [description, setDescription] = useState<string>(home.description);
-
-  const [occupant, setOccupant] = useState<string>(home.occupant);
+  const [titleHome, setTitleHome] = useState<string>(home.title);
 
   useEffect(() => {
-    return (
-      props.onChangeFlat &&
-      props.onChangeFlat({
-        id: uid(),
-        title: flat.title,
-        images: flat.images,
-      })
-    );
-  }, [addressText, description, occupant]);
+    props.onChangeAddressHome && props.onChangeAddressHome(addressText);
+    props.onChangeTitleHome && props.onChangeTitleHome(titleHome);
+  }, [addressText, titleHome]);
   return (
     <View style={[style.container, props.containerStyle]}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -50,15 +42,9 @@ export const HomeInfoView = observer((props: FlatInfoViewProps) => {
       />
       <TitleFlatView
         isAdmin={props.isAdmin}
-        title={'Додаткова інформація'}
-        description={description}
-        onChange={text => setDescription(text)}
-      />
-      <TitleFlatView
-        isAdmin={props.isAdmin}
-        title={'Oрендарь'}
-        description={occupant}
-        onChange={text => setOccupant(text)}
+        title={'Назва будинку'}
+        description={titleHome}
+        onChange={text => setTitleHome(text)}
       />
     </View>
   );

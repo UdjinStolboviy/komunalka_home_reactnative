@@ -2,6 +2,8 @@ export const Dada = {
     home: {
         id: 'home1',
         title: 'ДІМ 1',
+        images: { url: '' },
+        address: 'Заповніть данні',
         flats: [
             {
                 address: 'Заповніть данні',
@@ -58,6 +60,8 @@ export const homeNew = (id: number) => {
     return {
         id: `home${id}`,
         title: `ДІМ ${id}`,
+        images: { url: '' },
+        address: 'Заповніть данні',
         flats: [
             {
                 address: 'Заповніть данні',
