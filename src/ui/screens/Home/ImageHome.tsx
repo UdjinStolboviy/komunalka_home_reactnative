@@ -34,7 +34,7 @@ export const ImageHome = observer((props: IImageFlat) => {
         <View
           style={{
             backgroundColor: 'floralwhite',
-            height: '70%',
+            height: 250,
             width: '100%',
             zIndex: 8,
           }}>
