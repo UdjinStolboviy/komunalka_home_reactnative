@@ -1,3 +1,4 @@
+import {useTheme} from '@react-navigation/native';
 import {Type} from 'app/assets/constants/codes/Type';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {CalculatorIcon} from 'app/assets/Icons/CalculatorIcon';
@@ -19,9 +20,13 @@ export interface IHomeItemProps {
 
 export const HomeItem = (props: IHomeItemProps) => {
   const app: IAppCoreService = useAppInjection();
+  const {colors} = useTheme();
 
   return (
-    <TouchableOpacity style={style.container} onPress={props.onPress}>
+    <TouchableOpacity
+      style={[style.container, {backgroundColor: colors.background}]}
+      onPress={props.onPress}
+      activeOpacity={1}>
       <HomeIcon color={Colors._979797} width={55} height={55} />
       <View style={style.middleWrapper}>
         <Text numberOfLines={2} style={style.mainText}>
@@ -42,7 +47,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     borderWidth: 2,
-
+    backgroundColor: Colors._FFFFFF,
     borderColor: Colors._007AFF,
     borderRadius: 30,
     marginHorizontal: '5%',
