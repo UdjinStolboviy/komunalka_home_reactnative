@@ -18,6 +18,7 @@ import {ResultCalculatorView} from './view/ResultCalculatotView';
 import {financialFixed} from 'app/utils/comparator';
 import {Colors} from 'app/assets/constants/colors/Colors';
 import {Screens} from 'app/assets/constants/codes/Screens';
+import moment from 'moment';
 
 export interface ICalculatorScreenProps {}
 
@@ -84,11 +85,16 @@ export const CalculatorScreen = observer((props: ICalculatorScreenProps) => {
     SubtractionWaterRef.current && SubtractionWaterRef.current.clear();
   };
 
+  const INITIAL_DATE = moment(new Date())
+    .format('YYYY-MM-DD')
+    .split('-')
+    .reverse()
+    .join('.');
+
   const massage = `
  _____________________________
           
-          Доброго дня!
-    Порахували комунальні:
+    Дата розрахунку: ${INITIAL_DATE} 
     Електроенергія: ${resultElectricity} кВт
     ${messageElectricity}
     ${electricityTariff} грн за кВт

@@ -173,8 +173,8 @@ export const FlatCalculatorScreen = observer((props: any) => {
   const massage = `
 ________________________________
               
-              Доброго дня!
-    Порахували комунальні:
+    Дата розрахунку: ${INITIAL_DATE} 
+    
     Електроенергія: ${resultElectricity} кВт
     ${messageElectricity}
     ${electricityTariff} грн за кВт

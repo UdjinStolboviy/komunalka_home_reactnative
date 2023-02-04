@@ -37,7 +37,8 @@ export const BecTask = () => {
 
   React.useEffect(() => {
     console.log('start');
-    initBackgroundFetch();
+    // initBackgroundFetch();
+    showNotification();
     loadEvents();
   }, []);
 
@@ -87,6 +88,23 @@ export const BecTask = () => {
     );
     setStatus(status);
     setEnabled(true);
+  };
+
+  const showNotification = async () => {
+    try {
+      const result: string | null = await AsyncStorageFacade.getString(
+        AsyncStorageKey.CheckDateNextStore,
+      );
+      const resultHomes: IHome[] | null = await AsyncStorageFacade.get(
+        AsyncStorageKey.HomeStore,
+      );
+      if (result && resultHomes) {
+        const canterResult = checkNotificationCanter(resultHomes);
+        showsNotification(result, resultHomes, canterResult);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   /// Load persisted events from AsyncStorage.

@@ -2,6 +2,8 @@ import {Colors} from 'app/assets/constants/colors/Colors';
 import {IFlatCalculator} from 'app/data/storage/flat/flat.calculator.model';
 import React, {useEffect, useRef, useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Keyboard} from 'react-native';
+import {SharingButton} from '../calculator-komunlki/view/SharingButton';
+import {CopyButton} from '../calculator-komunlki/view/CopyButton';
 
 interface FlatListItemViewProps {
   item: IFlatCalculator;
@@ -11,7 +13,7 @@ interface FlatListItemViewProps {
 export const FlatListItemView = (props: FlatListItemViewProps) => {
   const massage = `
    Дата розрахунку: ${props.item.dateCalculator} 
-
+   
    Електроенергія: ${props.item.resultElectricity} кВт
    ${props.item.messageElectricity}
    ${props.item.electricityTariff} грн за кВт
@@ -47,6 +49,14 @@ export const FlatListItemView = (props: FlatListItemViewProps) => {
   return (
     <View key={props.index}>
       <Text style={style.text}>{massage}</Text>
+      <View style={style.wrapperButton}>
+        <View style={style.button}>
+          <CopyButton message={massage} onSave={() => null} />
+        </View>
+        <View style={style.button}>
+          <SharingButton message={massage} onSave={() => null} />
+        </View>
+      </View>
     </View>
   );
 };
@@ -56,6 +66,15 @@ const style = StyleSheet.create({
     height: '100%',
     width: '100%',
   },
+  button: {
+    marginHorizontal: 10,
+    borderWidth: 1,
+    height: 48,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: Colors._007AFF,
+  },
   textContainer: {
     paddingHorizontal: 20,
     alignItems: 'center',
@@ -63,6 +82,10 @@ const style = StyleSheet.create({
   headerText: {
     fontSize: 12,
     color: Colors._007AFF,
+  },
+  wrapperButton: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
 
   text: {
