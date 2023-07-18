@@ -34,33 +34,7 @@ import {AddHome} from './AddHome';
 import {DeleteModal} from '../modal/delete-modal/DeleteModal';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
-
-// let MyHeadlessTask = async (event: HeadlessEvent) => {
-//   // Get task id from event {}:
-//   let taskId = event.taskId;
-//   let isTimeout = event.timeout;  // <-- true when your background-time has expired.
-//   if (isTimeout) {
-//     // This task has exceeded its allowed running-time.
-//     // You must stop what you're doing immediately finish(taskId)
-//     console.log('[BackgroundFetch] Headless TIMEOUT:', taskId);
-//     BackgroundFetch.finish(taskId);
-//     return;
-//   }
-//   console.log('[BackgroundFetch HeadlessTask] start: ', taskId);
-
-//   // Perform an example HTTP request.
-//   // Important:  await asychronous tasks when using HeadlessJS.
-//     await showsNotification();
-//   console.log('[BackgroundFetch HeadlessTask] response: ');
-
-//   // Required:  Signal to native code that your task is complete.
-//   // If you don't do this, your app could be terminated and/or assigned
-//   // battery-blame for consuming too much time in background.
-//   BackgroundFetch.finish(taskId);
-// }
-
-// // Register your BackgroundFetch HeadlessTask
-// BackgroundFetch.registerHeadlessTask(MyHeadlessTask);
+import AnimatedAcordion from 'app/ui/components/Common/AnimeteAcordion';
 
 export const MainScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -282,12 +256,7 @@ export const MainScreen = observer((props: any) => {
 
       <ContentProgressScrollView onProgressChange={progress => progress}>
         <HomePageCharts />
-        {/* <TouchableOpacity onPress={() => {
-            //setRenderedAuthStore(false);
-            app.navigationService.navigate(Screens._TEST);
-          }}>
-          <Text style={{color: Colors._000000}}>TEST-TEST</Text>
-        </TouchableOpacity> */}
+
         {userStage ? <UserDescription user={userStage} /> : null}
         {renderHomeItem()}
         <AddHome homes={homeStage} userId={userUid} />
@@ -302,6 +271,7 @@ export const MainScreen = observer((props: any) => {
         />
         <BecTask />
       </ContentProgressScrollView>
+
       <BottomNavigatorBar
         countNotification={countNotification}
         notHandleHomePress={true}

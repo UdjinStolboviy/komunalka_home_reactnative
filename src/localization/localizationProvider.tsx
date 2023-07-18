@@ -6,7 +6,6 @@ import {TranslationDict, TranslationKeys} from './translations/keys';
 import {he} from './translations/he';
 import {en} from './translations/en';
 import {cn} from './translations/cn';
-
 import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
 
 export enum AppLanguage {

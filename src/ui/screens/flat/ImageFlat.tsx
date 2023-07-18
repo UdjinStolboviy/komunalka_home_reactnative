@@ -2,9 +2,8 @@ import {ImageNotIcon} from 'app/assets/Icons/ImageNotIcon';
 import {FlatImage, IFlatImage} from 'app/data/storage/flat/flat.image.model';
 import {observer} from 'mobx-react';
 import React, {useState, useCallback, useRef, useEffect} from 'react';
-import {Text, View, SafeAreaView, Image} from 'react-native';
+import {Text, View, SafeAreaView, Image, FlatList} from 'react-native';
 
-import Carousel from 'react-native-snap-carousel';
 
 export interface IImageFlat {
   imagStack: IFlatImage[];
@@ -16,32 +15,33 @@ export const ImageFlat = observer((props: IImageFlat) => {
 
   const carouselItems = props.imagStack;
 
-  useEffect(() => {}, [carouselItems]);
+  useEffect(() => {
+   // console.log('carouselItems', carouselItems);
+  }, [carouselItems]);
 
   const ref = useRef(null);
 
   const renderNotImage = () => <ImageNotIcon />;
 
-  const renderItem = useCallback(
-    ({item, index}: any) => (
+  const RenderItem = (itemName: any, indexName: any) => {
+    return (
       <View
         style={{
           backgroundColor: 'floralwhite',
-          height: 300,
+          height: 200,
+          width: 200,
+          marginLeft: 10,
         }}>
-        {item.url && !imageBroken ? (
+        {carouselItems[itemName.index].url !== '' ? (
           <Image
             onError={() => setImageBroken(true)}
-            source={{
-              uri: item.url,
-            }}
-            style={{width: '87%', height: '100%', borderRadius: 20}}
+            source={{uri: carouselItems[itemName.index].url}}
+            style={{width: 200, height: 200, borderRadius: 10}}
           />
         ) : null}
       </View>
-    ),
-    [carouselItems],
-  );
+    );
+  };
 
   return (
     <View
@@ -51,22 +51,25 @@ export const ImageFlat = observer((props: IImageFlat) => {
         marginTop: 15,
         marginBottom: 15,
       }}>
-      {carouselItems.length > 0 && carouselItems[0].url ? (
-        <Carousel
-          layout="tinder"
-          ref={ref}
-          data={carouselItems}
-          sliderWidth={350}
-          sliderHeight={350}
-          itemWidth={400}
-          itemHeight={400}
-          renderItem={renderItem}
-          onSnapToItem={index => setActiveIndex(index)}
-          containerCustomStyle={{
-            borderRadius: 20,
-          }}
-          contentContainerCustomStyle={{marginLeft: 0}}
-        />
+      {carouselItems && carouselItems[0] ? (
+        <View
+          style={{
+            width: '100%',
+          }}>
+          <FlatList
+            horizontal
+            data={carouselItems}
+            keyExtractor={item => Math.random().toString()}
+            renderItem={({item, index}) => (
+              <RenderItem itemName={item} index={index} />
+            )}
+            scrollEventThrottle={16}
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            decelerationRate={0}
+            snapToAlignment="start"
+          />
+        </View>
       ) : (
         renderNotImage()
       )}

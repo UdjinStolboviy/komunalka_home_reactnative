@@ -22,8 +22,8 @@ export class SettingAccountTariffState {
 
 
     constructor() {
-        this.electricityTariff = 1.68;
-        this.waterTariff = 30.39;
+        this.electricityTariff = 2.64;
+        this.waterTariff = 30.40;
         this.internetTariff = 70.00;
         this.rentTariff = 6500.00;
         this.garbageRemovalTariff = 50.00;

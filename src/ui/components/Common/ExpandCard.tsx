@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react';
 import {
+  LayoutChangeEvent,
   StyleProp,
   StyleSheet,
   TouchableOpacity,
@@ -13,10 +14,11 @@ import {
   ViewStyle,
 } from 'react-native';
 import Animated, {
-  EasingNode,
-  timing,
+  interpolate,
+  useAnimatedStyle,
   useSharedValue,
-  useValue,
+  withTiming,
+  Easing,
 } from 'react-native-reanimated';
 import {observer} from 'mobx-react';
 import {Shadow} from 'react-native-shadow-2';
@@ -40,112 +42,82 @@ export interface ExpandCardRef {
   close?: () => void;
 }
 
-export const ExpandCard = observer(
-  forwardRef((props: ExpandCardProps, ref) => {
-    const DURATION = 200;
-    const MIN_VISIBLE_HEIGHT = 0.001;
-    const [animationRunning, setAnimationRunning] = useState(false);
-    const animatedHeight = useValue<number>(MIN_VISIBLE_HEIGHT);
-    const [expanded, setExpanded] = useState(false);
-    const [dynamicHeight, setDynamicHeight] = useState(0);
+export const ExpandCard = React.forwardRef((props: ExpandCardProps, ref) => {
+  React.useImperativeHandle(ref, () => ({
+    press() {
+      return _press();
+    },
+    close() {
+      return _close();
+    },
+  }));
 
-    useEffect(() => {}, [...props.deps]);
+  const _press = () => {
+    toggleButton();
+  };
 
-    useImperativeHandle(ref, () => ({
-      press() {
-        return _press();
-      },
-      close() {
-        return _close();
-      },
-    }));
+  const _close = () => {
+    toggleButton();
+  };
+  const shareValue = useSharedValue(0);
+  const [bodySectionHeight, setBodySectionHeight] = useState(0);
 
-    const _press = () => {
-      if (props.pressDisabled || animationRunning) {
-        return;
-      }
-      _onPress();
-    };
+  const bodyHeight = useAnimatedStyle(() => ({
+    height: interpolate(shareValue.value, [0, 1], [0, bodySectionHeight]),
+  }));
 
-    const _close = () => {
-      timing(animatedHeight, {
-        toValue: MIN_VISIBLE_HEIGHT,
-        duration: 1,
-        easing: EasingNode.inOut(EasingNode.ease),
-      }).start(({finished}) => {
-        if (finished) {
-          setExpanded(false);
-          setAnimationRunning(false);
-        }
+  const toggleButton = () => {
+    if (shareValue.value === 0) {
+      shareValue.value = withTiming(1, {
+        duration: 500,
+        easing: Easing.bezier(0.4, 0.0, 0.2, 1),
       });
-    };
+    } else {
+      shareValue.value = withTiming(0, {
+        duration: 500,
+        easing: Easing.bezier(0.4, 0.0, 0.2, 1),
+      });
+    }
+  };
 
-    const _onPress = () => {
-      if (!expanded) {
-        props.onCardOpened && props.onCardOpened();
-        setAnimationRunning(true);
-        timing(animatedHeight, {
-          toValue: dynamicHeight,
-          duration: DURATION,
-          easing: EasingNode.inOut(EasingNode.ease),
-        }).start(({finished}) => {
-          if (finished) {
-            setAnimationRunning(false);
-            setExpanded(true);
-            props.onCardOpenFinished && props.onCardOpenFinished();
-          }
-        });
-      } else {
-        props.onCardClosed && props.onCardClosed();
-        setAnimationRunning(true);
-        timing(animatedHeight, {
-          toValue: MIN_VISIBLE_HEIGHT,
-          duration: DURATION,
-          easing: EasingNode.inOut(EasingNode.ease),
-        }).start(({finished}) => {
-          if (finished) {
-            setExpanded(false);
-            setAnimationRunning(false);
-            props.onCardCloseFinished && props.onCardCloseFinished();
-          }
-        });
-      }
-    };
-
-    return (
-      <View style={[ExpandCardStyle.container, props.containerStyle]}>
-        <TouchableOpacity
-          activeOpacity={1}
-          disabled={animationRunning && props.pressDisabled}
-          style={ExpandCardStyle.containerFeedback}
-          onPress={_onPress}>
-          <View>
-            <View style={ExpandCardStyle.topContentWrapper}>
-              {props.topChildren}
-            </View>
-            <Animated.View
-              style={[
-                ExpandCardStyle.bottomContentWrapper,
-                {height: animatedHeight},
-              ]}>
-              <View
-                onLayout={event => {
-                  setDynamicHeight(event.nativeEvent.layout.height);
-                }}>
-                {props.bottomChildren}
-              </View>
-            </Animated.View>
+  return (
+    <View style={[ExpandCardStyle.container, props.containerStyle]}>
+      <TouchableOpacity
+        activeOpacity={1}
+        style={ExpandCardStyle.containerFeedback}
+        onPress={toggleButton}>
+        <View>
+          <View style={ExpandCardStyle.topContentWrapper}>
+            {props.topChildren}
           </View>
-          <View>{props.bottomAdditionalView}</View>
-        </TouchableOpacity>
-      </View>
-    );
-  }),
-);
+          <Animated.View style={[ExpandCardStyle.descStyle, bodyHeight]}>
+            <View
+              style={ExpandCardStyle.bodyContainer}
+              onLayout={event => {
+                setBodySectionHeight(event.nativeEvent.layout.height);
+              }}>
+              {props.bottomChildren}
+            </View>
+          </Animated.View>
+        </View>
+        <View>{props.bottomAdditionalView}</View>
+      </TouchableOpacity>
+    </View>
+  );
+});
 
 const ExpandCardStyle = StyleSheet.create({
   container: {},
   topContentWrapper: {},
   bottomContentWrapper: {},
   containerFeedback: {},
+  descStyle: {
+    overflow: 'hidden',
+  },
+  bodyContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    paddingBottom: 20,
+  },
 });
