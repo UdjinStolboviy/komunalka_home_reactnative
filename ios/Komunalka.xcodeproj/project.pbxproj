@@ -11,9 +11,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		48C3462D5B9585755EE0BD99 /* Pods_Komunalka_KomunalkaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E858F164EA8B35FE8FEA2EC /* Pods_Komunalka_KomunalkaTests.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		C6585A70EF69074C948EB4C3 /* libPods-Komunalka.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B45F65F81E5F521CF62119D /* libPods-Komunalka.a */; };
-		CF8870CED8F6DBAA1328FDB4 /* libPods-Komunalka-KomunalkaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E49C7BE1FF8F92BC70BBB8F /* libPods-Komunalka-KomunalkaTests.a */; };
+		A98C7C36D81A565B7C213CA5 /* Pods_Komunalka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61D68DAA4D2EB7D9D7E8228E /* Pods_Komunalka.framework */; };
 		FA2329C22A70487100F799BB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA2329C12A70487100F799BB /* GoogleService-Info.plist */; };
 		FA2329C32A70489700F799BB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA2329C12A70487100F799BB /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
@@ -41,10 +41,10 @@
 		3B4392A12AC88292D35C810B /* Pods-Komunalka.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Komunalka.debug.xcconfig"; path = "Target Support Files/Pods-Komunalka/Pods-Komunalka.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-Komunalka.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Komunalka.release.xcconfig"; path = "Target Support Files/Pods-Komunalka/Pods-Komunalka.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-Komunalka-KomunalkaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Komunalka-KomunalkaTests.debug.xcconfig"; path = "Target Support Files/Pods-Komunalka-KomunalkaTests/Pods-Komunalka-KomunalkaTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6B45F65F81E5F521CF62119D /* libPods-Komunalka.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Komunalka.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		61D68DAA4D2EB7D9D7E8228E /* Pods_Komunalka.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Komunalka.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Komunalka/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Komunalka-KomunalkaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Komunalka-KomunalkaTests.release.xcconfig"; path = "Target Support Files/Pods-Komunalka-KomunalkaTests/Pods-Komunalka-KomunalkaTests.release.xcconfig"; sourceTree = "<group>"; };
-		9E49C7BE1FF8F92BC70BBB8F /* libPods-Komunalka-KomunalkaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Komunalka-KomunalkaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E858F164EA8B35FE8FEA2EC /* Pods_Komunalka_KomunalkaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Komunalka_KomunalkaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FA2329C12A70487100F799BB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -54,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF8870CED8F6DBAA1328FDB4 /* libPods-Komunalka-KomunalkaTests.a in Frameworks */,
+				48C3462D5B9585755EE0BD99 /* Pods_Komunalka_KomunalkaTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6585A70EF69074C948EB4C3 /* libPods-Komunalka.a in Frameworks */,
+				A98C7C36D81A565B7C213CA5 /* Pods_Komunalka.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,8 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				6B45F65F81E5F521CF62119D /* libPods-Komunalka.a */,
-				9E49C7BE1FF8F92BC70BBB8F /* libPods-Komunalka-KomunalkaTests.a */,
+				61D68DAA4D2EB7D9D7E8228E /* Pods_Komunalka.framework */,
+				8E858F164EA8B35FE8FEA2EC /* Pods_Komunalka_KomunalkaTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -519,8 +519,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = "org.reactjs.native.example.komunalka-home-reactnative";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.komunalka-home-reactnative";
 				PRODUCT_NAME = Komunalka;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -547,8 +546,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = "org.reactjs.native.example.komunalka-home-reactnative";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.komunalka-home-reactnative";
 				PRODUCT_NAME = Komunalka;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
