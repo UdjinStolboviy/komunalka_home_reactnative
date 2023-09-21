@@ -201,7 +201,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
   };
 
   // Handle user state changes
-  function onAuthStateChanged(user) {
+  function onAuthStateChanged(user: any) {
     setUser(user);
     setUserStore(
       new AuthUser(
