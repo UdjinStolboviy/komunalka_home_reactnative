@@ -169,6 +169,7 @@ export const Confirm: React.FC = observer(({route}: any) => {
   };
 
   async function onGoogleButtonPress() {
+    try {
     // Get the users ID token
     setLoader(true);
     const {idToken} = await GoogleSignin.signIn();
@@ -178,7 +179,11 @@ export const Confirm: React.FC = observer(({route}: any) => {
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
     // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);
+    return auth().signInWithCredential(googleCredential);} catch {(error: any) => {
+      console.error('onGoogleButtonPress: ', error);
+  }
+
+    }
   }
 
   const GoogleSignIn = () => {
