@@ -95,7 +95,8 @@ export const Confirm: React.FC = observer(({route}: any) => {
   useEffect(() => {
     setLoader(true);
     getRenderedAuthStore();
-    if (renderAuth && user) {
+    console.log(renderAuth, user)
+    if (!renderAuth && user) {
       setLoader(false);
       return app.navigationService.navigate(Screens.SCREEN_MAIN, {
         user: user,
@@ -169,21 +170,17 @@ export const Confirm: React.FC = observer(({route}: any) => {
   };
 
   async function onGoogleButtonPress() {
-    try {
+    
     // Get the users ID token
     setLoader(true);
     const {idToken} = await GoogleSignin.signIn();
     setLoader(false);
-
+      
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
     // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);} catch {(error: any) => {
-      console.error('onGoogleButtonPress: ', error);
-  }
-
-    }
+    return auth().signInWithCredential(googleCredential);
+  
   }
 
   const GoogleSignIn = () => {
@@ -195,8 +192,10 @@ export const Confirm: React.FC = observer(({route}: any) => {
         ]}
         onPress={() =>
           code === COD
-            ? onGoogleButtonPress().then(() =>
-                console.log('Signed in with Google!'),
+            ? onGoogleButtonPress().then(() => {
+                console.log('Signed in with Google!')
+              }
+
               )
             : null
         }>
