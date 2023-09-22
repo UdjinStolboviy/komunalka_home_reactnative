@@ -16,7 +16,6 @@ import { IAuthService } from "../auth/auth.service.interface";
 import { IPushNotificationService } from "../push-notification/push.notification.service.interface";
 import { INotificationsService } from "../notification/notifications.service.interface";
 import { IDeepLinkService } from "../deep-link/deep.link.service.interface";
-import { ISessionService } from "../session/session.service.interface";
 import { INotificationsState, NotificationsState } from "app/data/storage/notifications/notifications.state";
 
 
@@ -41,6 +40,5 @@ export class AppCoreService implements IAppCoreService {
     @inject(TYPES.PushNotificationService) public pushNotificationService!: IPushNotificationService;
     @inject(TYPES.DeepLinkService) public deepLinkService!: IDeepLinkService;
     @inject(TYPES.NotificationsService) public notificationsService!: INotificationsService;
-    @inject(TYPES.SessionService) public sessionService!: ISessionService;
 
 }

@@ -27,7 +27,7 @@ import {INotificationsService} from 'app/services/notification/notifications.ser
 import {NotificationService} from 'app/services/notification/notification.service';
 import {IDeepLinkService} from 'app/services/deep-link/deep.link.service.interface';
 import {DeepLinkService} from 'app/services/deep-link/deep.link.service';
-import {ISessionService} from 'app/services/session/session.service.interface';
+
 import {SessionService} from 'app/services/session/session.service';
 import {IAuthService} from 'app/services/auth/auth.service.interface';
 import {IDBService} from 'app/services/data-base/db.service.interface';
@@ -79,10 +79,6 @@ appContainer
 appContainer
   .bind<IDeepLinkService>(TYPES.DeepLinkService)
   .to(DeepLinkService)
-  .inSingletonScope();
-appContainer
-  .bind<ISessionService>(TYPES.SessionService)
-  .to(SessionService)
   .inSingletonScope();
 appContainer
   .bind<IUserAccountService>(TYPES.UserAccountService)

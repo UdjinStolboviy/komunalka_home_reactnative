@@ -75,38 +75,6 @@ export interface RootNavigatorProps {
 }
 const MainStack = createStackNavigator();
 
-const AuthStack = (props: RootNavigatorProps) => {
-  // const { translate } = useContext<LocalizationContext>(localizationContext);
-  return (
-    <MainStack.Navigator
-      initialRouteName={Screens._CONFIRM}
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <MainStack.Screen
-        name={Screens._CONFIRM}
-        component={Confirm}
-        options={{title: 'Main_SingUp'}}
-      />
-      <MainStack.Screen
-        name={Screens.SCREEN_MAIN}
-        component={MainScreen}
-        options={{
-          gestureEnabled: false,
-        }}
-      />
-      <MainStack.Screen
-        name={Screens._ACTIVITY_INDICATOR}
-        component={ActivityIndicatorScreen}
-        options={{
-          cardStyle: {backgroundColor: 'transparent'},
-          cardStyleInterpolator: forFade,
-          gestureEnabled: false,
-        }}
-      />
-    </MainStack.Navigator>
-  );
-};
 
 const AppStack = (props: RootNavigatorProps) => {
   const [renderAuth, setRenderAuth] = useState(false);
