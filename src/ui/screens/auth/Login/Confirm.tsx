@@ -94,15 +94,8 @@ export const Confirm: React.FC = observer(({route}: any) => {
 
   useEffect(() => {
     setLoader(true);
-    getRenderedAuthStore();
-    console.log(renderAuth, user)
-    if (!renderAuth && user) {
-      setLoader(false);
-      return app.navigationService.navigate(Screens.SCREEN_MAIN, {
-        user: user,
-        userUid: user.uid,
-      });
-    }
+    console.log('----------', renderAuth, user);
+
     if (code && code.length === 4) {
       if (code === COD && user) {
         setCodeError(false);
@@ -111,11 +104,9 @@ export const Confirm: React.FC = observer(({route}: any) => {
         analyticsEvent();
         setLoader(false);
         app.navigationService.navigate(Screens.SCREEN_MAIN, {
-          //title: `${Texts.FLAT} ${item.title}`,
           user: user,
           userUid: user.uid,
         });
-        // RNRestart.Restart();
       } else {
         setRenderedAuthStore(false);
         setCodeError(true);
@@ -123,25 +114,6 @@ export const Confirm: React.FC = observer(({route}: any) => {
       }
     }
   }, [codeError, user]);
-
-  useEffect(() => {
-    getRenderedAuthStore();
-  }, []);
-
-  const getRenderedAuthStore = async (): Promise<void> => {
-    setLoader(true);
-    try {
-      const result = await AsyncStorageFacade.getBoolean(
-        AsyncStorageKey.RenderedAuthStore,
-      );
-      setLoader(false);
-      if (result !== null) {
-        return setRenderAuth(result);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const analyticsEvent = async () => {
     setLoader(true);
@@ -151,7 +123,10 @@ export const Confirm: React.FC = observer(({route}: any) => {
 
   const setUserStore = async (user: AuthUser) => {
     setLoader(true);
-    await AsyncStorageFacade.save(AsyncStorageKey.AuthUserStore, user);
+    AsyncStorageFacade.save(
+      AsyncStorageKey.AuthUserStore,
+      JSON.stringify(user),
+    );
     setLoader(false);
   };
   const setRenderedAuthStore = async (code: boolean) => {
@@ -170,17 +145,15 @@ export const Confirm: React.FC = observer(({route}: any) => {
   };
 
   async function onGoogleButtonPress() {
-    
     // Get the users ID token
     setLoader(true);
     const {idToken} = await GoogleSignin.signIn();
     setLoader(false);
-      
+
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential);
-  
   }
 
   const GoogleSignIn = () => {
@@ -193,10 +166,9 @@ export const Confirm: React.FC = observer(({route}: any) => {
         onPress={() =>
           code === COD
             ? onGoogleButtonPress().then(() => {
-                console.log('Signed in with Google!')
-              }
-
-              )
+                console.log('Signed in with Goog/le!');
+                app.navigationService.navigate(Screens.SCREEN_MAIN);
+              })
             : null
         }>
         <Text style={styles.googleButtonText}>Sign in with Google</Text>
@@ -209,11 +181,11 @@ export const Confirm: React.FC = observer(({route}: any) => {
     setUser(user);
     setUserStore(
       new AuthUser(
-        user?.uid,
-        user?.displayName,
-        user?.email,
-        user?.photoURL,
-        user?.isAnonymous,
+        user.uid,
+        user.displayName,
+        user.email,
+        user.photoURL,
+        user.isAnonymous,
       ),
     );
     if (initializing) setInitializing(false);

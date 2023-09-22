@@ -33,6 +33,9 @@ import {ActivityIndicatorScreen} from 'app/ui/screens/common/ActivityIndicatorSc
 import {BecTask} from 'app/services/background-task/background.fetch.task';
 import {TaxCalendar} from 'app/ui/screens/accounts/AccountSetting/TaxCalendar';
 import {EditHomeScreen} from 'app/ui/screens/Home/EditHomeSrcreen';
+import {InitialScreen} from 'app/ui/screens/initial/InitialScreen';
+import {ErrorScreen} from 'app/ui/screens/error/ErrorScreen';
+import {LoginScreen} from 'app/ui/screens/auth/Login/LoginScreen';
 
 export interface ThemeContext {
   theme?: string;
@@ -71,12 +74,11 @@ const forFade = ({current}: any) => ({
   },
 });
 export interface RootNavigatorProps {
-  initialScreen: Screen;
+  initialScreen: {name: string; params: string | undefined};
 }
 const MainStack = createStackNavigator();
 
-
-const AppStack = (props: RootNavigatorProps) => {
+const AppStack = (props: any) => {
   const [renderAuth, setRenderAuth] = useState(false);
   useEffect(() => {
     getRenderedAuthStore();
@@ -84,7 +86,7 @@ const AppStack = (props: RootNavigatorProps) => {
 
   const getRenderedAuthStore = async (): Promise<void> => {
     try {
-      const result = await AsyncStorageFacade.getBoolean(
+      const result = AsyncStorageFacade.getBoolean(
         AsyncStorageKey.RenderedAuthStore,
       );
       if (result !== null) {
@@ -97,7 +99,7 @@ const AppStack = (props: RootNavigatorProps) => {
 
   return (
     <MainStack.Navigator
-      initialRouteName={renderAuth ? Screens.SCREEN_MAIN : Screens._CONFIRM}
+      initialRouteName={Screens._INITIAL}
       screenOptions={{
         headerShown: false,
       }}>
@@ -112,8 +114,27 @@ const AppStack = (props: RootNavigatorProps) => {
         options={{title: 'Main_SingUp'}}
       />
       <MainStack.Screen
+        name={Screens._LOGIN}
+        component={LoginScreen}
+        options={{title: 'Main_SingUp'}}
+      />
+      <MainStack.Screen
         name={Screens.SCREEN_MAIN}
         component={MainScreen}
+        options={{
+          gestureEnabled: false,
+        }}
+      />
+      <MainStack.Screen
+        name={Screens._INITIAL}
+        component={InitialScreen}
+        options={{
+          gestureEnabled: false,
+        }}
+      />
+      <MainStack.Screen
+        name={Screens._ERROR}
+        component={ErrorScreen}
         options={{
           gestureEnabled: false,
         }}
@@ -232,7 +253,7 @@ export const RootNavigator: React.FC<any> = observer(
       }
     };
 
-    if (props.initialScreen) {
+    if (props.initialScreen.name) {
       return (
         <ThemeContext.Provider value={themeData}>
           <NavigationContainer
@@ -251,7 +272,11 @@ export const RootNavigator: React.FC<any> = observer(
                 },
                 headerShown: false,
               }}>
-              <MainStack.Screen name={Screens.STACK_APP} component={AppStack} />
+              <MainStack.Screen
+                name={Screens.STACK_APP}
+                component={AppStack}
+                initialRouteName={props.initialScreen.name}
+              />
             </MainStack.Navigator>
           </NavigationContainer>
         </ThemeContext.Provider>

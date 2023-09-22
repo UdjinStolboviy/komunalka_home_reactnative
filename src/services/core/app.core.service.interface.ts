@@ -13,7 +13,7 @@ import { IPushNotificationService } from "../push-notification/push.notification
 import { INotificationsService } from "../notification/notifications.service.interface";
 import { IDeepLinkService } from "../deep-link/deep.link.service.interface";
 
-import { IDBService } from "../data-base/db.service.interface";
+
 import { INotificationsState, NotificationsState } from "app/data/storage/notifications/notifications.state";
 
 
@@ -30,6 +30,4 @@ export interface IAppCoreService {
     asyncStorage: IAsyncStorage;
     authService: AuthService;
     utilsService: IUtilsService;
-    dbService: IDBService;
-
 }

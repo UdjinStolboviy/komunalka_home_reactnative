@@ -1950,13 +1950,6 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
-"@react-native-async-storage/async-storage@^1.17.6":
-  version "1.19.3"
-  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.19.3.tgz#ad5fe3ed0a82d4624aa4500321c1e09c02daeb46"
-  integrity sha512-CwGfoHCWdPOTPS+2fW6YRE1fFBpT9++ahLEroX5hkgwyoQ+TkmjOaUxixdEIoVua9Pz5EF2pGOIJzqOTMWfBlA==
-  dependencies:
-    merge-options "^3.0.4"
-
 "@react-native-clipboard/clipboard@^1.10.0":
   version "1.11.2"
   resolved "https://registry.yarnpkg.com/@react-native-clipboard/clipboard/-/clipboard-1.11.2.tgz#e826d0336b34e67294aaffa6878308900bc7d197"
@@ -2857,11 +2850,6 @@
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
-
-"@types/react-native-sqlite-storage@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@types/react-native-sqlite-storage/-/react-native-sqlite-storage-5.0.2.tgz#eefcc9ea6ff73043bb2945023fa8ee721683b61b"
-  integrity sha512-L3dbsBnvk5OmsaMFSJZHQaAJzCJ6oav3Muvs6e7FBTaj3zPIO0ju+ftfZEh3Kh7YtIl+nfiZKF+BIo9VufjL9A==
 
 "@types/react-native-version-check@^3.4.4":
   version "3.4.5"
@@ -6897,11 +6885,6 @@ is-path-inside@^3.0.3:
   resolved "https://registry.yarnpkg.com/is-path-inside/-/is-path-inside-3.0.3.tgz#d231362e53a07ff2b0e0ea7fed049161ffd16283"
   integrity sha512-Fd4gABb+ycGAmKou8eMftCupSir5lRxqf4aD/vd0cD2qc4HL07OjCeuHMr8Ro4CoMaeCKDB0/ECBOVWjTwUvPQ==
 
-is-plain-obj@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/is-plain-obj/-/is-plain-obj-2.1.0.tgz#45e42e37fccf1f40da8e5f76ee21515840c09287"
-  integrity sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==
-
 is-plain-obj@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/is-plain-obj/-/is-plain-obj-3.0.0.tgz#af6f2ea14ac5a646183a5bbdb5baabbc156ad9d7"
@@ -8438,13 +8421,6 @@ merge-descriptors@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
   integrity sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==
-
-merge-options@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/merge-options/-/merge-options-3.0.4.tgz#84709c2aa2a4b24c1981f66c179fe5565cc6dbb7"
-  integrity sha512-2Sug1+knBjkaMsMgf1ctR1Ujx+Ayku4EdJN4Z+C2+JzoeF7A3OZ9KM2GY0CpQS51NR61LTurMJrRKPhSs3ZRTQ==
-  dependencies:
-    is-plain-obj "^2.1.0"
 
 merge-stream@^2.0.0:
   version "2.0.0"
@@ -10586,6 +10562,11 @@ react-native-localize@^2.2.2:
   resolved "https://registry.yarnpkg.com/react-native-localize/-/react-native-localize-2.2.6.tgz#484f8c700bc629f230066e819265f80f6dd3ef58"
   integrity sha512-EZETlC1ZlW/4g6xfsNCwAkAw5BDL2A6zk/08JjFR/GRGxYuKRD7iP1hHn1+h6DEu+xROjPpoNeXfMER2vkTVIQ==
 
+react-native-mmkv@^2.10.1:
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/react-native-mmkv/-/react-native-mmkv-2.10.2.tgz#73f06bb710388f67bade031e7b8e42a6d2358e40"
+  integrity sha512-hNrZzwvIFyogJkqf//rVSw7EwceYqkx/jl3hb5tzct6qqwEmS1L9ybvnDjzDkaMyDeouQIqAnsdnb6AuDSrgQQ==
+
 react-native-modal-datetime-picker@^13.1.2:
   version "13.1.2"
   resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-13.1.2.tgz#7c8bd3402acb4dcfbca49c926a7f18dd108c69c4"
@@ -10658,15 +10639,10 @@ react-native-splash-screen@^3.3.0:
   resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.3.0.tgz#3af71ed17afe50fee69590a45aec399d071ead02"
   integrity sha512-rGjt6HkoSXxMqH4SQUJ1gnPQlPJV8+J47+4yhgTIan4bVvAwJhEeJH7wWt9hXSdH4+VfwTS0GTaflj1Tw83IhA==
 
-react-native-sqlite-storage@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-sqlite-storage/-/react-native-sqlite-storage-6.0.1.tgz#ce6a6b852f07abbea68658d5363818c8bef45dfb"
-  integrity sha512-1tDFjrint6X6qSYKf3gDyz+XB+X79jfiL6xTugKHPRtF0WvqMtVgdLuNqZunIXjNEvNtNVEbXaeZ6MsguFu00A==
-
-react-native-svg@^12.3.0:
-  version "12.5.1"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.5.1.tgz#7dfd9daf2f8ed7843c0f3e7a16af193bd5f9b287"
-  integrity sha512-c374ENsq2MWCfr+7jC7TGwSeOAuC1Dp0osh2pw8PjpYFxmmB/toFIwcnCLz+SgBd6iLJClRhbATealqM05HOGg==
+react-native-svg@^13.13.0:
+  version "13.14.0"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-13.14.0.tgz#879930cfe10e877e51ebb77dfcc2cd65fc6b0d21"
+  integrity sha512-27ZnxUkHgWICimhuj6MuqBkISN53lVvgWJB7pIypjXysAyM+nqgQBPh4vXg+7MbqLBoYvR4PiBgKfwwGAqVxHg==
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"

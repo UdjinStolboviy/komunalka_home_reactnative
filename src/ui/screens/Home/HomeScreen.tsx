@@ -11,9 +11,7 @@ import {ContentProgressScrollView} from 'app/ui/components/Common/Scroll/Content
 import {HomePageCharts} from 'app/ui/screens/Home/HomePageCharts';
 import {ElementItem} from 'app/ui/components/Main/ScreenView/ElemetItemHome';
 import {Type} from 'app/assets/constants/codes/Type';
-import {Colors} from 'app/assets/constants/colors/Colors';
 import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
-import {firebase} from '@react-native-firebase/database';
 import {HomeItem} from './HomeItem';
 import {Home, IHome} from 'app/data/storage/home/home.model';
 import NetInfo from '@react-native-community/netinfo';
@@ -21,12 +19,9 @@ import {databaseFirebase} from 'app/services/firebase/firebase.database';
 import {checkNotificationCanter} from 'app/utils/check-notification';
 import {observer} from 'mobx-react';
 import {checkDateNextNotification} from 'app/services/utils/check.date.next.notification';
-import BackgroundFetch from 'react-native-background-fetch';
 import {showsNotification} from 'app/services/notification/showe.notification';
 import {BecTask} from 'app/services/background-task/background.fetch.task';
-import {AuthUser} from 'app/data/storage/auth/auth.user.model';
 import {UserDescription} from '../auth/userShowe/UserDescriptions';
-import auth from '@react-native-firebase/auth';
 import {BottomNavigatorBar} from 'app/ui/components/Common/BottomNavigatorBar';
 import {IUser} from '../auth/Login/Confirm';
 import {Dada} from 'app/utils/dade.const';
@@ -34,7 +29,6 @@ import {AddHome} from './AddHome';
 import {DeleteModal} from '../modal/delete-modal/DeleteModal';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {UniversalButton} from 'app/ui/components/button/AppButton/UniversalButton';
-import AnimatedAcordion from 'app/ui/components/Common/AnimeteAcordion';
 
 export const MainScreen = observer((props: any) => {
   const app: IAppCoreService = useAppInjection();
@@ -56,8 +50,7 @@ export const MainScreen = observer((props: any) => {
 
   useEffect(() => {
     saveHomeStore();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    console.log('--------', userUid);
   }, [connectionNet, userUid]);
 
   useEffect(() => {}, [reference, userUid]);
@@ -112,13 +105,13 @@ export const MainScreen = observer((props: any) => {
 
   const getUserStore = async (): Promise<any> => {
     try {
-      const result: any | null = await AsyncStorageFacade.get(
+      const result: any | null = AsyncStorageFacade.get(
         AsyncStorageKey.AuthUserStore,
       );
       if (result !== null) {
-        app.storage.setAuthUser(result);
+        app.storage.setAuthUser(JSON.parse(result));
 
-        return setUserStage(result);
+        return setUserStage(JSON.parse(result));
       }
     } catch (error) {
       console.log(error);
@@ -127,16 +120,17 @@ export const MainScreen = observer((props: any) => {
 
   const getHomeStore = async (): Promise<void> => {
     try {
-      const result: IHome[] | null = await AsyncStorageFacade.get(
+      const result: string | null = AsyncStorageFacade.get(
         AsyncStorageKey.HomeStore,
       );
       if (result !== null) {
-        app.storage.getHomesState().setHomes(result);
-        const canterResult = checkNotificationCanter(result);
-        unreadNotificationsCount.setUnreadNotificationsCount(canterResult);
+        const data = await JSON.parse(result);
+        app.storage.getHomesState().setHomes(data);
+        const canterResult = checkNotificationCanter(data);
+        unreadNotificationsCount.setUnreadNotificationsCount(data);
         setCountNotification(canterResult);
         showsNotification(dataNotification, homeStage, canterResult);
-        return setHomeStage(result);
+        return setHomeStage(data);
       }
     } catch (error) {
       console.log(error);
@@ -148,13 +142,13 @@ export const MainScreen = observer((props: any) => {
     unreadNotificationsCount.setUnreadNotificationsCount(canterResult);
     setCountNotification(canterResult);
     showsNotification(dataNotification, homeStage, canterResult);
-    await AsyncStorageFacade.save(AsyncStorageKey.HomeStore, home);
+    AsyncStorageFacade.save(AsyncStorageKey.HomeStore, JSON.stringify(home));
     app.navigationService.goBack();
   };
 
   const setNextDateStore = async (home: IHome[]) => {
     const checkDateResult = checkDateNextNotification(home);
-    await AsyncStorageFacade.saveString(
+    AsyncStorageFacade.saveString(
       AsyncStorageKey.CheckDateNextStore,
       checkDateResult,
     );
@@ -162,7 +156,7 @@ export const MainScreen = observer((props: any) => {
 
   const cleanStore = async () => {
     app.navigationService.navigate(Screens._ACTIVITY_INDICATOR);
-    await AsyncStorageFacade.remove(AsyncStorageKey.HomeStore);
+    AsyncStorageFacade.remove(AsyncStorageKey.HomeStore);
     app.navigationService.goBack();
   };
 

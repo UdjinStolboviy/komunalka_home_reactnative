@@ -26,7 +26,7 @@ import { IAsyncStorage } from "../async-storage/async.storage.interface";
 import { INotificationsService } from "../notification/notifications.service.interface";
 import { IPushNotificationService } from "../push-notification/push.notification.service.interface";
 import { TYPES } from "app/data/ioc/types";
-import { IDBService } from "../data-base/db.service.interface";
+
 import { GlobalStorage } from "app/data/storage/global.storage";
 import { ILoggerService } from "../logger/main/logger.service.interface";
 import { AuthUser } from "app/data/storage/auth/auth.user.model";
@@ -41,7 +41,6 @@ import { Errors } from "app/assets/constants/codes/Errors";
 
 @injectable()
 export class AuthService implements IAuthService {
-  @inject(TYPES.DBService) dbService!: IDBService;
   @inject(TYPES.NavigationService) navigationService!: INavigationService;
   @inject(TYPES.Storage) storage!: GlobalStorage;
   @inject(TYPES.Logger) logger!: ILoggerService;

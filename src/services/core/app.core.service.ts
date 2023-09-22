@@ -11,7 +11,6 @@ import { ISettingAccountTariffState } from "app/data/storage/setting-account/set
 import { AuthService } from "../auth/auth.service";
 import { IUtilsService } from "../utils/utils.service.interface";
 import { IRESTService } from "../http/rest.service.interface";
-import { IDBService } from "../data-base/db.service.interface";
 import { IAuthService } from "../auth/auth.service.interface";
 import { IPushNotificationService } from "../push-notification/push.notification.service.interface";
 import { INotificationsService } from "../notification/notifications.service.interface";
@@ -36,7 +35,6 @@ export class AppCoreService implements IAppCoreService {
     @inject(TYPES.UtilsService)
     public utilsService!: IUtilsService;
     @inject(TYPES.RESTService) public restService!: IRESTService;
-    @inject(TYPES.DBService) public dbService!: IDBService;
     @inject(TYPES.PushNotificationService) public pushNotificationService!: IPushNotificationService;
     @inject(TYPES.DeepLinkService) public deepLinkService!: IDeepLinkService;
     @inject(TYPES.NotificationsService) public notificationsService!: INotificationsService;

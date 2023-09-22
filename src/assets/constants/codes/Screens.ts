@@ -9,6 +9,8 @@ export class Screens {
 
   public static readonly SCREEN_MAIN: string = 'MainScreen';
   public static readonly _CALCULATOR: string = 'CalculatorScreen';
+  public static readonly _INITIAL: string = 'InitialScreen';
+  public static readonly _ERROR: string = 'ErrorScreen';
   public static readonly _PERSONAL_INFO: string = 'PersonalInfoScreen';
   public static readonly _ACCOUNT_SETTING: string = 'AccountSettingScreen';
   public static readonly _CALCULATOR_TARIFF_SETTING: string = 'CalculatorTariffSetting';
@@ -17,6 +19,7 @@ export class Screens {
   public static readonly _POLICY: string = 'PolicyScreen';
   public static readonly _TERMS: string = 'TermsScreen';
   public static readonly _CONFIRM: string = 'ConfirmScreen';
+  public static readonly _LOGIN: string = 'LoginScreen';
   public static readonly _FLATS: string = 'FlatsScreen';
   public static readonly _FLAT_INFO: string = 'FlatInfoScreen';
   public static readonly _FLAT_LIST_UTILITY_BILLS: string = 'FlatListUtilityBillsScreen';

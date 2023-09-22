@@ -28,16 +28,25 @@ import {IAppCoreService} from './services/core/app.core.service.interface';
 
 const MainComponent: React.FC = observer(() => {
   const [initialScreen, setInitialScreen] = useState<any>();
-  const app: IAppCoreService = useAppInjection();
 
   useEffect(() => {
-    SplashScreen.hide();
+    createClientDate();
   }, []);
 
-  useEffect(() => {
-    appCoreService.listenerService.setupListeners();
-    setInitialScreen(new Screen(Screens._CONFIRM));
-  }, [app.storage.getLoginUser()]);
+  const createClientDate = async (): Promise<boolean> => {
+    try {
+      appCoreService.listenerService.setupListeners();
+      setInitialScreen(new Screen(Screens._INITIAL));
+      setTimeout(() => {
+        SplashScreen.hide();
+      }, 100);
+      return true;
+    } catch (e) {
+      setInitialScreen(new Screen(Screens._ERROR));
+      SplashScreen.hide();
+      return false;
+    }
+  };
 
   const defineAppContainer = () => {
     return (
@@ -47,6 +56,9 @@ const MainComponent: React.FC = observer(() => {
     );
   };
 
+  if (!initialScreen) {
+    return null;
+  }
   return (
     <LocalizationContextWrapper>
       <Provider container={appContainer}>{defineAppContainer()}</Provider>

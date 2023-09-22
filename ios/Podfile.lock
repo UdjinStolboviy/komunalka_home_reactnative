@@ -173,6 +173,9 @@ PODS:
   - hermes-engine/Pre-built (0.72.4)
   - leveldb-library (1.22.2)
   - libevent (2.1.12)
+  - MMKV (1.3.1):
+    - MMKVCore (~> 1.3.1)
+  - MMKVCore (1.3.1)
   - nanopb (2.30909.0):
     - nanopb/decode (= 2.30909.0)
     - nanopb/encode (= 2.30909.0)
@@ -485,6 +488,9 @@ PODS:
     - react-native-config/App (= 1.5.1)
   - react-native-config/App (1.5.1):
     - React-Core
+  - react-native-mmkv (2.10.2):
+    - MMKV (>= 1.2.13)
+    - React-Core
   - react-native-netinfo (9.4.1):
     - React-Core
   - react-native-restart (0.0.24):
@@ -496,8 +502,6 @@ PODS:
     - React-Core
     - ReactCommon/turbomodule/core
   - react-native-splash-screen (3.3.0):
-    - React-Core
-  - react-native-sqlite-storage (6.0.1):
     - React-Core
   - react-native-version-check (3.4.7):
     - React-Core
@@ -614,8 +618,6 @@ PODS:
   - RecaptchaInterop (100.0.0)
   - RNBackgroundFetch (4.2.1):
     - React-Core
-  - RNCAsyncStorage (1.19.3):
-    - React-Core
   - RNCClipboard (1.11.2):
     - React-Core
   - RNCPushNotificationIOS (1.11.0):
@@ -704,7 +706,7 @@ PODS:
     - React-RCTImage
   - RNShare (7.9.1):
     - React-Core
-  - RNSVG (12.5.1):
+  - RNSVG (13.14.0):
     - React-Core
   - SocketRocket (0.6.1)
   - TOCropViewController (2.6.1)
@@ -744,11 +746,11 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-background-actions (from `../node_modules/react-native-background-actions`)
   - react-native-config (from `../node_modules/react-native-config`)
+  - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
-  - react-native-sqlite-storage (from `../node_modules/react-native-sqlite-storage`)
   - react-native-version-check (from `../node_modules/react-native-version-check`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -768,7 +770,6 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
-  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
@@ -814,6 +815,8 @@ SPEC REPOS:
     - GTMSessionFetcher
     - leveldb-library
     - libevent
+    - MMKV
+    - MMKVCore
     - nanopb
     - PromisesObjC
     - RecaptchaInterop
@@ -868,6 +871,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-background-actions"
   react-native-config:
     :path: "../node_modules/react-native-config"
+  react-native-mmkv:
+    :path: "../node_modules/react-native-mmkv"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-restart:
@@ -876,8 +881,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
-  react-native-sqlite-storage:
-    :path: "../node_modules/react-native-sqlite-storage"
   react-native-version-check:
     :path: "../node_modules/react-native-version-check"
   React-NativeModulesApple:
@@ -916,8 +919,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNBackgroundFetch:
     :path: "../node_modules/react-native-background-fetch"
-  RNCAsyncStorage:
-    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
     :path: "../node_modules/@react-native-clipboard/clipboard"
   RNCPushNotificationIOS:
@@ -987,6 +988,8 @@ SPEC CHECKSUMS:
   hermes-engine: 81191603c4eaa01f5e4ae5737a9efcf64756c7b2
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
+  MMKV: 5a07930c70c70b86cd87761a42c8f3836fb681d7
+  MMKVCore: e50135dbd33235b6ab390635991bab437ab873c0
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
@@ -1006,11 +1009,11 @@ SPEC CHECKSUMS:
   React-logger: da1ebe05ae06eb6db4b162202faeafac4b435e77
   react-native-background-actions: bfb2b818ae96e752b42fb335b3427ab6b050d0f6
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
+  react-native-mmkv: 9ae7ca3977e8ef48dbf7f066974eb844c20b5fd7
   react-native-netinfo: fefd4e98d75cbdd6e85fc530f7111a8afdf2b0c5
   react-native-restart: 45c8dca02491980f2958595333cbccd6877cb57e
   react-native-safe-area-context: dfe5aa13bee37a0c7e8059d14f72ffc076d120e9
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-sqlite-storage: f6d515e1c446d1e6d026aa5352908a25d4de3261
   react-native-version-check: 6cd36aad4e30b8e3216747e3b4ddeb09e0647af8
   React-NativeModulesApple: 31bebf83f3779b17253e860a7c19b3e59646c519
   React-perflogger: 496a1a3dc6737f964107cb3ddae7f9e265ddda58
@@ -1031,7 +1034,6 @@ SPEC CHECKSUMS:
   ReactCommon: d0ef3c186adf4335a5832f0499aabed9cf2275b2
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RNBackgroundFetch: 501c34ad6e880818ba17e7840b23f20a2d112923
-  RNCAsyncStorage: c913ede1fa163a71cea118ed4670bbaaa4b511bb
   RNCClipboard: 3f0451a8100393908bea5c5c5b16f96d45f30bfc
   RNCPushNotificationIOS: 64218f3c776c03d7408284a819b2abfda1834bc8
   RNFBAnalytics: 603cfb43a7dd52053f1682cd9454927f526111da
@@ -1049,7 +1051,7 @@ SPEC CHECKSUMS:
   RNReanimated: ab2e96c6d5591c3dfbb38a464f54c8d17fb34a87
   RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa
   RNShare: a5dc3b9c53ddc73e155b8cd9a94c70c91913c43c
-  RNSVG: d7d7bc8229af3842c9cfc3a723c815a52cdd1105
+  RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: 3efc43e0d48686ce2e8c60f99d4e6bd349aff981

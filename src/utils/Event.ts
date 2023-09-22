@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default class Event {
     taskId: string;
@@ -7,35 +7,35 @@ export default class Event {
     key: string;
 
     static destroyAll() {
-        AsyncStorage.setItem('events', JSON.stringify([]));
+        // AsyncStorage.setItem('events', JSON.stringify([]));
     }
 
-    static async create(taskId: string, isHeadless: boolean) {
-        const event = new Event(taskId, isHeadless);
+    // static async create(taskId: string, isHeadless: boolean) {
+    //     const event = new Event(taskId, isHeadless);
 
-        // Persist event into AsyncStorage.
-        AsyncStorage.getItem('events').then((json) => {
-            const data = (json === null) ? [] : JSON.parse(json);
-            data.push(event.toJson());
-            AsyncStorage.setItem('events', JSON.stringify(data));
-        }).catch((error) => {
-            console.error('Event.create error: ', error);
-        });
-        return event;
-    }
+    //     // Persist event into AsyncStorage.
+    //     AsyncStorage.getItem('events').then((json) => {
+    //         const data = (json === null) ? [] : JSON.parse(json);
+    //         data.push(event.toJson());
+    //         AsyncStorage.setItem('events', JSON.stringify(data));
+    //     }).catch((error) => {
+    //         console.error('Event.create error: ', error);
+    //     });
+    //     return event;
+    // }
 
     static async all() {
-        return new Promise((resolve, reject) => {
-            AsyncStorage.getItem('events').then((json) => {
-                const data = (json === null) ? [] : JSON.parse(json);
-                resolve(data.map((record: any) => {
-                    return new Event(record.taskId, record.isHeadless, record.timestamp);
-                }));
-            }).catch((error) => {
-                console.error('Event.create error: ', error);
-                reject(error);
-            });
-        });
+        // return new Promise((resolve, reject) => {
+        //     AsyncStorage.getItem('events').then((json) => {
+        //         const data = (json === null) ? [] : JSON.parse(json);
+        //         resolve(data.map((record: any) => {
+        //             return new Event(record.taskId, record.isHeadless, record.timestamp);
+        //         }));
+        //     }).catch((error) => {
+        //         console.error('Event.create error: ', error);
+        //         reject(error);
+        //     });
+        // });
     }
 
     constructor(taskId: string, isHeadless: boolean, timestamp?: string) {

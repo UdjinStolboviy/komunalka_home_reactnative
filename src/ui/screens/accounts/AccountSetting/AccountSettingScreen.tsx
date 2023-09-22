@@ -22,6 +22,8 @@ import {SwitchUniversal} from 'app/ui/components/Common/SwitchUniversal';
 import {Texts} from 'app/assets/constants/codes/Texts';
 import {ThemeContext} from 'app/navigation/RootNavigator';
 import {useTheme} from '@react-navigation/native';
+import {AsyncStorageFacade, AsyncStorageKey} from 'app/data/async-storege';
+import auth from '@react-native-firebase/auth';
 
 interface IProps {
   text: string;
@@ -45,6 +47,12 @@ export const AccountSettingScreen: React.FC = observer(() => {
   const navigationService = app.navigationService;
   const {setTheme} = useContext(ThemeContext);
   const {colors} = useTheme();
+
+  const logout = () => {
+    AsyncStorageFacade.clearStorage();
+    auth().signOut();
+    app.navigationService.navigate(Screens._LOGIN);
+  };
 
   const authStore = app.storage.getAuthUser();
 
@@ -171,7 +179,7 @@ export const AccountSettingScreen: React.FC = observer(() => {
             }}
           />
           <TouchableOpacity
-            onPress={() => console.log('logout')}
+            onPress={logout}
             style={AccountStyle.logoutContainer}>
             <LogoutIcon style={AccountStyle.iconWrapper} />
             <Text style={AccountStyle.logout}>{'Вихід'}</Text>

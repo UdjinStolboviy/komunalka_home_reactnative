@@ -1,45 +1,56 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthUser } from '../storage/auth/auth.user.model';
 import { AsyncStorageKey } from './AsyncStorageKey';
+import {MMKV} from 'react-native-mmkv';
+const storage = new MMKV();
 
 
 
 export class AsyncStorageFacade {
-  static async saveBoolean(key: AsyncStorageKey, value: boolean): Promise<void> {
-    return this.saveString(key, JSON.stringify(value));
+  
+  static saveBoolean(key: AsyncStorageKey, value: boolean): void {
+    storage.set(key, value);
   }
 
-  static async getBoolean(key: AsyncStorageKey): Promise<boolean | null> {
-    const value: string | null = await this.getString(key);
-    return value ? JSON.parse(value) : null;
+  static getBoolean(key: AsyncStorageKey): boolean | null {
+    const value: boolean | undefined = storage.getBoolean(key);
+    return value ?? null;
   }
 
-  static async getString(key: AsyncStorageKey): Promise<string | null> {
-    return AsyncStorage.getItem(key);
+  static getString(key: AsyncStorageKey): string | null {
+    const value: string | undefined = storage.getString(key)
+    return value ?? null;
   }
 
-  static async saveString(key: AsyncStorageKey, value: string): Promise<void> {
-    return AsyncStorage.setItem(key, value);
+  static saveString(key: AsyncStorageKey, value: string): void {
+    storage.set(key, value);
   }
 
-  static async get<T>(key: AsyncStorageKey): Promise<T | null> {
-    const value: string | null = await this.getString(key);
-    return value ? JSON.parse(value) : null;
+ 
+  static  get (key: AsyncStorageKey): string | null{
+    const value: string | undefined = storage.getString(key)
+    return value ?? null;
   }
 
-  static async save<T>(key: AsyncStorageKey, value: T): Promise<void> {
-    return this.saveString(key, JSON.stringify(value));
+  static remove(key: AsyncStorageKey): void {
+    storage.delete(key)
+  }
+  
+  static  clearStorage(): void {
+    storage.clearAll();
+    
   }
 
-  static async remove(key: AsyncStorageKey): Promise<void> {
-    return AsyncStorage.removeItem(key);
+  //------------------------
+
+  static  getNumber(key: AsyncStorageKey): number | null {
+    const value: number | undefined = storage.getNumber(key);
+    return value ?? null;
   }
 
-  static async clearStorage(): Promise<void> {
-    return AsyncStorage.clear();
+
+  static  save (key: AsyncStorageKey, value: string | number | boolean | Uint8Array): void {
+    storage.set(key, value);
   }
 
-  static async doOnLogout(): Promise<void> {
-    const allKeys = await AsyncStorage.getAllKeys();
-    return AsyncStorage.multiRemove(allKeys);
-  }
+  
 }
